@@ -13,7 +13,6 @@ export default function Home() {
       >
         <source src="/videos/landing_with.mp4" type="video/mp4" />
       </video>
-      <audio src="/audio/landing.mp3" autoPlay loop />
 
       <div className=" z-20 relative">
         <div className="text-center flex flex-col justify-center xl:pt-20 xl:text-left h-full container  mx-auto">
