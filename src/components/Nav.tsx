@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   HiHome,
   HiUser,
@@ -29,7 +29,6 @@ export const navData = [
 ];
 
 const Nav = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   return (

@@ -1,5 +1,4 @@
 import ProjectsBtn from "@/components/ProjectsBtn";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
 export default function Home() {
   return (

@@ -1,8 +1,7 @@
 "use client";
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
-import TopLeftImg from "@/components/TopLeftImg";
-import Transition from "@/components/Transition";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
