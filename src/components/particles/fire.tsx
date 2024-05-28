@@ -7,6 +7,8 @@ import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSl
 import { cn } from "@/lib/utils";
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
+import { isMobile } from "react-device-detect";
+
 export const FlameFlake = () => {
   const [init, setInit] = useState(false);
 
@@ -35,7 +37,7 @@ export const FlameFlake = () => {
     <Particles
       id="tsparticles"
       particlesLoaded={particlesLoaded}
-      className={cn("transition-opacity max-sm:hidden ease-in-out z-50", init ? "opacity-100" : "opacity-0")}
+      className={cn("transition-opacity ease-in-out z-50", init ? "opacity-100" : "opacity-0")}
       options={{
         autoPlay: true,
         background: {
@@ -235,7 +237,7 @@ export const FlameFlake = () => {
             },
             random: false,
             size: false,
-            speed: 5,
+            speed: isMobile ? 2 : 3,
             spin: {
               acceleration: 0,
               enable: false,
@@ -294,7 +296,7 @@ export const FlameFlake = () => {
             type: "circle",
           },
           size: {
-            value: 3,
+            value: isMobile ? 2 : 3,
             animation: {
               count: 0,
               enable: false,
