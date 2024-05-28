@@ -34,7 +34,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <main className="page bg-site text-white bg-cover bg-no-repeat font-sora relative">
+    <main className="page  text-white font-sora relative">
       <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop />
       <Nav />
       <Header />
