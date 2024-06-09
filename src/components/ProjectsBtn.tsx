@@ -9,7 +9,7 @@ const ProjectsBtn = () => {
         className="relative max-sm:w-[120px] max-sm:h-[120px] w-[200px] h-[200px] flex justify-center items-center animate-spin-slow bg-circleStar bg-cover bg-center bg-no-repeat "
       >
         <Image
-          src="/logo_red.png"
+          src="/logo2.png"
           width={141}
           height={170}
           alt=""
