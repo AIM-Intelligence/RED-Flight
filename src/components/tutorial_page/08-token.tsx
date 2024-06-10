@@ -25,7 +25,7 @@ const GetToken = () => {
     const transaction = await prepareContractCall({
       contract,
       method: resolveMethod("transfer"),
-      params: ["0xfE079EeC384A93457233720C76961EAC523897A0", "10000000000000000000"], // 10 ETH in wei
+      params: [activeAccount?.address, "10000000000000000000"], // 10 ETH in wei
     });
     await sendTransaction(transaction);
   };
