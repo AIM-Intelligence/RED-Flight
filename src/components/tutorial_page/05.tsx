@@ -57,7 +57,7 @@ const ThirdImage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">(이거 왜이래...??)</div>
+        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">(What&apos;s up with this...??)</div>
 
         <div
           className="absolute z-20 bottom-10 right-[100px] text-white text-xl w-[60px] cursor-pointer"

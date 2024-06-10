@@ -5,6 +5,8 @@ import { FlameFlake } from "@/components/particles/fire";
 import ProjectsBtn from "@/components/ProjectsBtn";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/lib/client";
 
 export default function Home() {
   const router = useRouter();
@@ -36,12 +38,22 @@ export default function Home() {
               LLM Jailbreaking NFT Game
               <ArrowAnimation />
             </Button>
+
+            <div className="mt-4">
+              <ConnectButton
+                appMetadata={{
+                  name: "RED Flight",
+                  url: "https://red-flight.vercel.app",
+                }}
+                client={client}
+              />
+            </div>
           </div>
           <div className="flex justify-center relative xl:hidden mt-60">
             <ProjectsBtn />
           </div>
 
-          <div className="mt-80">
+          <div className="mt-72">
             <ProjectsBtn />
           </div>
         </div>

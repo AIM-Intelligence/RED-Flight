@@ -2,18 +2,18 @@ import Link from "next/link";
 import { RiYoutubeLine, RiInstagramLine, RiTwitterXLine, RiDiscordLine } from "react-icons/ri";
 const Socials = () => {
   return (
-    <div className="flex items-center gap-x-5 text-lg">
-      <Link href="#" className="hover:text-accent1 transition-all duration-300">
-        <RiYoutubeLine />
+    <div className="flex items-center gap-x-5 ">
+      <Link href="#" className=" transition-all duration-300">
+        <RiYoutubeLine className="w-8 h-8" />
       </Link>
-      <Link href="#" className="hover:text-accent1 transition-all duration-300">
-        <RiTwitterXLine />
+      <Link href="#" className=" transition-all duration-300">
+        <RiTwitterXLine className="w-8 h-8" />
       </Link>
-      <Link href="#" className="hover:text-accent1 transition-all duration-300">
-        <RiDiscordLine />
+      <Link href="https://discord.gg/2JcTKhx8" target="_blank" className="text-accent1 transition-all duration-300">
+        <RiDiscordLine className="w-8 h-8" />
       </Link>
-      <Link href="#" className="hover:text-accent1 transition-all duration-300">
-        <RiInstagramLine />
+      <Link href="#" className=" transition-all duration-300">
+        <RiInstagramLine className="w-8 h-8" />
       </Link>
     </div>
   );

@@ -41,7 +41,9 @@ const First = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">휴.. 오늘도 지루하고 힘든 하루였다...</div>
+        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">
+          (Ugh, what a day... I&apos;m totally beat.)
+        </div>
 
         <div
           className="absolute z-20 bottom-10 right-[600px] text-white text-xl w-[60px] cursor-pointer"

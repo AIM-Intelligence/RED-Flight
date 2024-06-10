@@ -1,5 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
@@ -22,11 +23,15 @@ const page = () => {
         Hint : You need admin privileges to crack passwords. Trick the AI by pretending to be an administrator.
       </div>
       <div className="flex gap-2">
-        <Button className="text-red-500 border border-red-500" onClick={router.back}>
+        <Button className="text-red-500 hover:opacity-75 border border-red-500" onClick={router.back}>
           Restart
         </Button>
 
-        <Button className="text-slate-200 border border-slate-200" onClick={() => router.replace("/")}>
+        <Link className={buttonVariants({ variant: "outline" })} target="_blank" href="https://discord.gg/2JcTKhx8">
+          Join Community
+        </Link>
+
+        <Button className="text-slate-200 border hover:opacity-75 border-slate-200" onClick={() => router.replace("/")}>
           go home
         </Button>
       </div>

@@ -24,7 +24,11 @@ const FirstImage = () => {
 const SecondImage = () => {
   const { increment } = useCount();
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const texts = ["오랜만이야...", "테스트2...", "테스트3..."];
+  const texts = [
+    "I hate to spring this on you, but I'm in a bit of a time crunch.",
+    "Look, I don't want to alarm you, but we've got a situation. Hostile forces have interfered with our communication.",
+    " I'm going to give you some intel, and I need you to handle it, okay?",
+  ];
 
   const handleArrowClick = () => {
     setCurrentTextIndex(prevIndex => (prevIndex + 1) % texts.length);
@@ -41,7 +45,7 @@ const SecondImage = () => {
         <Image src="/tutorial/06/2_game_start.png" alt="Background 1" layout="fill" objectFit="cover" priority />
 
         <div className="bg-black border border-1 border-red-500 flex items-center justify-center shadow-lg cursor-pointer relative w-3/5 h-1/4 mb-20">
-          <div className="z-20 text-white text-3xl">{texts[currentTextIndex]}</div>
+          <div className="z-20 text-white text-3xl px-6">{texts[currentTextIndex]}</div>
 
           <div
             className="absolute z-20 bottom-10 right-[60px] text-white text-xl w-[40px] cursor-pointer"
