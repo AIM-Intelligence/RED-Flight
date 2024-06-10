@@ -115,3 +115,29 @@
     @apply w-full h-[180px] p-6 capitalize rounded-lg resize-none;
   }
 }
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 2px;
+  }
+
+  /* Light mode */
+  .custom-scrollbar::-webkit-scrollbar-track {
+    --bg-opacity: 0;
+    background-color: #f7fafc; /* Light mode background color */
+    background-color: rgba(247, 250, 252, var(--bg-opacity));
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    --bg-opacity: 0.7;
+    background-color: rgb(235, 71, 62);
+    background-color: rgba(235, 71, 62, var(--bg-opacity));
+    border-radius: 0.25rem;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgb(235, 71, 62);
+  }
+}

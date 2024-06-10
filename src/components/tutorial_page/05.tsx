@@ -15,22 +15,34 @@ const FirstImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/02/2_porch.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/05/1_red_screen.png" alt="Background 1" layout="fill" objectFit="cover" priority />
       </motion.div>
     </>
   );
 };
 
 const SecondImage = () => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.6;
+      audioRef.current.play().catch(error => console.error("Audio play failed:", error));
+    }
+  }, []);
+
   return (
-    <motion.div
-      className="absolute top-0 left-0 w-full h-full"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      <Image src="/tutorial/02/1_hallway2.png" alt="Background 2" layout="fill" objectFit="cover" priority />
-    </motion.div>
+    <>
+      <audio ref={audioRef} src="/tutorial/05/static_on_the_line.mp3" />
+      <motion.div
+        className="absolute top-0 left-0 w-full h-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <Image src="/tutorial/05/2_woman.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+      </motion.div>
+    </>
   );
 };
 
@@ -40,24 +52,15 @@ const ThirdImage = () => {
   return (
     <>
       <motion.div
-        className="absolute top-0 left-0 w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        <Image src="/tutorial/02/3_indoor.png" alt="Background" layout="fill" objectFit="cover" priority />
-      </motion.div>
-
-      <motion.div
-        className="absolute bottom-0 left-0 w-full h-screen flex items-end justify-start"
-        initial={{ opacity: 0, y: 50 }}
+        className="absolute bottom-0 left-0 w-full h-screen flex items-end justify-start bg-red-700"
+        initial={{ opacity: 0, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">(오늘도 가볍에 롤한판 해야겠다..)</div>
+        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">(이거 왜이래...??)</div>
 
         <div
-          className="absolute z-20 bottom-10 right-[600px] text-white text-xl w-[60px] cursor-pointer"
+          className="absolute z-20 bottom-10 right-[100px] text-white text-xl w-[60px] cursor-pointer"
           onClick={increment}
         >
           <ArrowAnimation />
@@ -65,31 +68,24 @@ const ThirdImage = () => {
         <div className="bg-black opacity-50 w-full flex items-center justify-center shadow-lg cursor-pointer relative h-1/3 p-6" />
 
         <motion.div
-          className="absolute bottom-0 right-0 w-1/3 h-5/6"
+          className="absolute bottom-0 right-0 w-full h-full"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <Image src="/tutorial/02/3_get_off_work.png" alt="Secondary" layout="fill" objectFit="contain" />
+          <Image src="/tutorial/05/3_embarrassment2.png" alt="Secondary" layout="fill" objectFit="contain" />
         </motion.div>
       </motion.div>
     </>
   );
 };
 
-const Second = () => {
+const Fifth = () => {
   const [step, setStep] = useState(1);
-  const audioRef = useRef<HTMLAudioElement>(null);
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.play().catch(error => console.error("Audio play failed:", error));
-    }
-  }, []);
 
   useEffect(() => {
     if (step === 1) {
-      const timer = setTimeout(() => setStep(2), 4000);
+      const timer = setTimeout(() => setStep(2), 2000);
       return () => clearTimeout(timer);
     } else if (step === 2) {
       const timer = setTimeout(() => setStep(3), 4000);
@@ -99,7 +95,6 @@ const Second = () => {
 
   return (
     <div className="relative w-full h-screen">
-      <audio ref={audioRef} src="/tutorial/02/door_lock.mp3" />
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
       {step === 3 && <ThirdImage />}
@@ -107,4 +102,4 @@ const Second = () => {
   );
 };
 
-export default Second;
+export default Fifth;

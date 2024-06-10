@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCount } from "@/store/tutorial_store";
+import ArrowAnimation from "../lottie/arrow";
 
 const First = () => {
   const { count, increment } = useCount();
@@ -41,10 +42,14 @@ const First = () => {
         transition={{ delay: 0.5, duration: 1 }}
       >
         <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">휴.. 오늘도 지루하고 힘든 하루였다...</div>
+
         <div
-          className="bg-black opacity-50 w-full flex items-center justify-center shadow-lg cursor-pointer relative h-1/3 p-6"
+          className="absolute z-20 bottom-10 right-[600px] text-white text-xl w-[60px] cursor-pointer"
           onClick={increment}
-        />
+        >
+          <ArrowAnimation />
+        </div>
+        <div className="bg-black opacity-50 w-full flex items-center justify-center shadow-lg cursor-pointer relative h-1/3 p-6" />
 
         <motion.div
           className="absolute bottom-0 right-0 w-1/3 h-5/6"
