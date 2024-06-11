@@ -6,6 +6,6 @@ type State = {
 };
 
 export const useCount = create<State>(set => ({
-  count: 1,
+  count: 6,
   increment: () => set(state => ({ count: state.count + 1 })),
 }));

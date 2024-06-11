@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 const FirstImage = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(100000);
+  const [timeLeft, setTimeLeft] = useState(150000);
 
   const router = useRouter(); // Next.js의 useRouter 훅 사용
 

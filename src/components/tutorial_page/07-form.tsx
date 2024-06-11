@@ -49,7 +49,7 @@ export function InputPassword() {
               <FormItem>
                 <FormControl>
                   <InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
-                    <p className="text-white text-2xl">Password :</p>
+                    <p className="text-white text-2xl">Code :</p>
                     <InputOTPGroup className="gap-2">
                       {[...Array(6)].map((_, index) => (
                         <InputOTPSlot
