@@ -5,8 +5,6 @@ import { FlameFlake } from "@/components/particles/fire";
 import ProjectsBtn from "@/components/ProjectsBtn";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ConnectButton } from "thirdweb/react";
-import { client } from "@/lib/client";
 
 export default function Home() {
   const router = useRouter();
@@ -39,7 +37,7 @@ export default function Home() {
               <ArrowAnimation />
             </Button>
 
-            <div className="mt-4">
+            {/* <div className="mt-4">
               <ConnectButton
                 appMetadata={{
                   name: "RED Flight",
@@ -47,7 +45,7 @@ export default function Home() {
                 }}
                 client={client}
               />
-            </div>
+            </div> */}
           </div>
           <div className="flex justify-center relative xl:hidden mt-60">
             <ProjectsBtn />

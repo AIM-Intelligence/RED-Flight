@@ -101,9 +101,7 @@ const ThirdImage = () => {
             <div className="bg-gradient-to-r from-transparent via-red-600 to-transparent my-2 h-[2px] w-full" />
 
             <div className="flex flex-col gap-2 ">
-              <p className="text-center text-white max-w-md">
-                Get RED Fuel token and register your wallet address, we value this opportunity.
-              </p>
+              <p className="text-center text-white max-w-md">Leave your wallet address. We value your opportunity.</p>
               <GetToken />
             </div>
 
