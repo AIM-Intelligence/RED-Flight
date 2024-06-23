@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { OpenAI } from "openai";
-
+export const maxDuration = 30;
 export const dynamic = "force-dynamic";
 
 const openai = new OpenAI({
