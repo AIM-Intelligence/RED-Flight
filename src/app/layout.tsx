@@ -3,6 +3,7 @@ import { Sora } from "next/font/google";
 import QueryProvider from "@/lib/providers/QueryProvider";
 import "./globals.css";
 import { ThirdwebProvider } from "thirdweb/react";
+import { ModalProvider } from "@/lib/providers/modal-provider";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -24,7 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={sora.className}>
         <QueryProvider>
-          <ThirdwebProvider>{children}</ThirdwebProvider>
+          <ThirdwebProvider>
+            {children}
+            <ModalProvider />
+          </ThirdwebProvider>
         </QueryProvider>
       </body>
     </html>

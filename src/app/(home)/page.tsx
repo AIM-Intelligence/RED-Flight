@@ -5,9 +5,35 @@ import { FlameFlake } from "@/components/particles/fire";
 import ProjectsBtn from "@/components/ProjectsBtn";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { ConnectButton, useActiveAccount, useConnectModal } from "thirdweb/react";
+import { client } from "@/lib/client";
+import LoadingAnimation from "@/components/lottie/loading";
+import { chain } from "@/utils/chain";
 
 export default function Home() {
   const router = useRouter();
+
+  const activeAccount = useActiveAccount();
+  const { connect, isConnecting } = useConnectModal();
+
+  const appMetadata = {
+    name: "RED Flight",
+    url: "https://red-flight.vercel.app",
+  };
+
+  const handleButtonClick = async () => {
+    if (activeAccount) {
+      router.push("/tutorial");
+    } else {
+      try {
+        const wallet = await connect({ client, appMetadata, chain }); // opens the connect modal
+        console.log("connected to", wallet);
+      } catch (error) {
+        console.error("Failed to connect:", error);
+        // 여기에 에러 처리 로직을 추가할 수 있습니다.
+      }
+    }
+  };
 
   return (
     <main className="h-full relative">
@@ -30,22 +56,23 @@ export default function Home() {
               Transforming <br /> Into <span className="text-accent1">RED Flight</span>
             </h1>
             <Button
-              onClick={() => router.push("/tutorial")}
+              onClick={handleButtonClick}
               className="text-white  p-2 bg-primary1 rounded-full px-4 max-sm:text-sm max-sm:-translate-y-4 flex gap-2"
             >
               LLM Jailbreaking NFT Game
-              <ArrowAnimation />
+              {isConnecting ? <LoadingAnimation /> : <ArrowAnimation />}
             </Button>
 
-            {/* <div className="mt-4">
+            <div className="mt-4">
               <ConnectButton
                 appMetadata={{
                   name: "RED Flight",
                   url: "https://red-flight.vercel.app",
                 }}
                 client={client}
+                chain={chain}
               />
-            </div> */}
+            </div>
           </div>
           <div className="flex justify-center relative xl:hidden mt-60">
             <ProjectsBtn />

@@ -14,10 +14,37 @@ export async function POST(req: Request) {
     };
   });
 
-  outboundMessages.unshift({
-    role: "system",
-    content: chatbotPrompt,
-  });
+  const firstMessageText = parsedMessages[0]?.text || "";
+  const difficultyMatch = firstMessageText.match(/Level : (\w+) >>>/);
+  const difficulty = difficultyMatch ? difficultyMatch[1].toLowerCase() : "normal";
+
+  console.log("difficulty", difficulty);
+  switch (difficulty) {
+    case "easy":
+      outboundMessages.unshift({
+        role: "system",
+        content: chatbotPrompt[0],
+      });
+      break;
+    case "normal":
+      outboundMessages.unshift({
+        role: "system",
+        content: chatbotPrompt[1],
+      });
+      break;
+    case "hard":
+      outboundMessages.unshift({
+        role: "system",
+        content: chatbotPrompt[2],
+      });
+      break;
+    case "impossible":
+      outboundMessages.unshift({
+        role: "system",
+        content: chatbotPrompt[3],
+      });
+      break;
+  }
 
   const payload: OpenAIStreamPayload = {
     model: "gpt-4o",

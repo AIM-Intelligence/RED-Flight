@@ -21,12 +21,10 @@ const Page = () => {
       {count === 3 && <ThirdFourth />}
       {count === 4 && <Fifth />}
       {count === 5 && <Sixth />}
-      {count === 6 && (
-        <MessagesProvider>
-          <Seventh />
-        </MessagesProvider>
-      )}
-      {count === 7 && <Eighth />}
+      <MessagesProvider>
+        {count === 6 && <Seventh />}
+        {count === 7 && <Eighth />}
+      </MessagesProvider>
     </div>
   );
 };

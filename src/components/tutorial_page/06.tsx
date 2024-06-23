@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -24,14 +24,35 @@ const FirstImage = () => {
 const SecondImage = () => {
   const { increment } = useCount();
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [showNextButton, setShowNextButton] = useState(false);
+  const audioRefs = useRef([
+    new Audio("/tutorial/06/first_dial.mp3"),
+    new Audio("/tutorial/06/second_dial.mp3"),
+    new Audio("/tutorial/06/third_dial.mp3"),
+  ]);
   const texts = [
     "I hate to spring this on you, but I'm in a bit of a time crunch.",
     "Look, I don't want to alarm you, but we've got a situation. Hostile forces have interfered with our communication.",
-    " I'm going to give you some intel, and I need you to handle it, okay?",
+    "I'm going to give you some intel, and I need you to handle it, okay?",
   ];
 
+  useEffect(() => {
+    // Play the first audio when the component mounts
+    audioRefs.current[0].play();
+  }, []);
+
   const handleArrowClick = () => {
-    setCurrentTextIndex(prevIndex => (prevIndex + 1) % texts.length);
+    if (currentTextIndex < texts.length - 1) {
+      const nextIndex = currentTextIndex + 1;
+      setCurrentTextIndex(nextIndex);
+      audioRefs.current[nextIndex].play();
+
+      if (nextIndex === texts.length - 1) {
+        setShowNextButton(true);
+      }
+    } else if (showNextButton) {
+      increment();
+    }
   };
 
   return (
@@ -49,9 +70,9 @@ const SecondImage = () => {
 
           <div
             className="absolute z-20 bottom-10 right-[60px] text-white text-xl w-[40px] cursor-pointer"
-            onClick={currentTextIndex === 2 ? increment : handleArrowClick}
+            onClick={handleArrowClick}
           >
-            <ArrowAnimation />
+            {showNextButton ? "O..Okay.." : <ArrowAnimation />}
           </div>
         </div>
       </motion.div>

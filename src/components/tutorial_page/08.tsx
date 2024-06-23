@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -12,6 +12,20 @@ import GetToken from "./08-token";
 const FirstImage = ({ onComplete }: any) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const texts = ["I knew you could do it.", "But we're just getting started...", "It's time to get out the door"];
+  const audioFiles = ["/tutorial/08/first.mp3", "/tutorial/08/second.mp3", "/tutorial/08/third.mp3"];
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio(audioFiles[currentTextIndex]);
+    audioRef.current.play();
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [currentTextIndex]);
 
   const handleArrowClick = () => {
     if (currentTextIndex === texts.length - 1) {

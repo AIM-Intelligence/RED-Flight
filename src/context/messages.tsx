@@ -5,7 +5,7 @@ import { Message } from "@/lib/validation/message";
 const defaultValue = [
   {
     id: nanoid(),
-    text: "Heartbeat synchronization complete //: Hello my Heart..",
+    text: "Heartbeat synchronization complete... Hello my Heart..",
     isUserMessage: false,
   },
 ];

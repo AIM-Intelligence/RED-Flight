@@ -13,9 +13,9 @@ import {
 // nav data
 export const navData = [
   { name: "home", path: "/", icon: <HiHome /> },
-  { name: "about", path: "#", icon: <HiUser /> },
-  { name: "services", path: "#", icon: <HiRectangleGroup /> },
-  { name: "work", path: "#", icon: <HiViewColumns /> },
+  { name: "My Page", path: "/my-page", icon: <HiUser /> },
+  { name: "NFT Market", path: "/nft-market", icon: <HiRectangleGroup /> },
+  { name: "Leaderboard", path: "/leaderboard", icon: <HiViewColumns /> },
   {
     name: "testimonials",
     path: "#",
