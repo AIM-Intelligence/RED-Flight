@@ -10,7 +10,7 @@ const HeaderPage = () => {
         <ConnectButton
           appMetadata={{
             name: "RED Flight",
-            url: "https://red-flight.vercel.app",
+            url: "https://www.redflight.io",
           }}
           client={client}
           chain={chain}

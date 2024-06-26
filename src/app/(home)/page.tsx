@@ -18,7 +18,7 @@ export default function Home() {
 
   const appMetadata = {
     name: "RED Flight",
-    url: "https://red-flight.vercel.app",
+    url: "https://www.redflight.io",
   };
 
   const handleButtonClick = async () => {
@@ -67,7 +67,7 @@ export default function Home() {
               <ConnectButton
                 appMetadata={{
                   name: "RED Flight",
-                  url: "https://red-flight.vercel.app",
+                  url: "https://www.redflight.io",
                 }}
                 client={client}
                 chain={chain}
