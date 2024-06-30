@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import ArrowAnimation from "../lottie/arrow";
 import { useCount } from "@/store/tutorial_store";
+import { Button } from "../ui/button";
 
 const FirstImage = () => {
   return (
@@ -15,7 +16,7 @@ const FirstImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/02/2_porch.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/02/2_porch.png" alt="Background 1" fill className="object-cover" priority />
       </motion.div>
     </>
   );
@@ -29,13 +30,25 @@ const SecondImage = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Image src="/tutorial/02/1_hallway2.png" alt="Background 2" layout="fill" objectFit="cover" priority />
+      <Image src="/tutorial/02/1_hallway2.png" alt="Background 2" fill className="object-cover" priority />
     </motion.div>
   );
 };
 
 const ThirdImage = () => {
   const { increment } = useCount();
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        increment();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [increment]);
 
   return (
     <>
@@ -45,7 +58,7 @@ const ThirdImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/02/3_indoor.png" alt="Background" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/02/3_indoor.png" alt="Background" fill className="object-cover" priority />
       </motion.div>
 
       <motion.div
@@ -72,7 +85,7 @@ const ThirdImage = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <Image src="/tutorial/02/3_get_off_work.png" alt="Secondary" layout="fill" objectFit="contain" />
+          <Image src="/tutorial/02/3_get_off_work.png" alt="Secondary" fill className="object-contain" />
         </motion.div>
       </motion.div>
     </>
@@ -105,6 +118,9 @@ const Second = () => {
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
       {step === 3 && <ThirdImage />}
+      <Button className="absolute bottom-10 left-10" onClick={() => useCount.setState({ count: 6 })}>
+        Skip
+      </Button>
     </div>
   );
 };

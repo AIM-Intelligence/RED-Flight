@@ -5,9 +5,11 @@ import Image from "next/image";
 
 import ArrowAnimation from "../lottie/arrow";
 import Link from "next/link";
-import { buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
 import GetToken from "./08-token";
+import { FaDiscord } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const FirstImage = ({ onComplete }: any) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -34,6 +36,20 @@ const FirstImage = ({ onComplete }: any) => {
       setCurrentTextIndex(prevIndex => (prevIndex + 1) % texts.length);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleArrowClick();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleArrowClick]);
 
   return (
     <>
@@ -99,23 +115,39 @@ const ThirdImage = () => {
 
             <div className="bg-gradient-to-r from-transparent via-red-600 to-transparent my-2 h-[2px] w-full" />
 
-            <div className="flex flex-col gap-2 ">
+            <div className="flex flex-col gap-4 ">
               <p className="text-center text-white max-w-md">
                 Join us on Red Flight&apos;s journey toward a humanity coexisting with AI.{" "}
               </p>
-              <Link
-                className={cn(buttonVariants({ variant: "outline" }), "text-black")}
-                // className="text-blue-500 border hover:opacity-75 border-blue-400"
-                target="_blank"
-                href="https://discord.gg/2JcTKhx8"
+
+              <Button
+                asChild
+                className="inline-flex cursor-pointer h-10 animate-shimmer items-center justify-center rounded-md border border-red-600 bg-[linear-gradient(110deg,#c81919,45%,#a90909,55%,#c81919)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-red-50 "
               >
-                Join Discord Community
-              </Link>
+                <div className="flex gap-2">
+                  <Link target="_blank" href="https://discord.gg/HyuhgvGBu9">
+                    Join RED Flight Community
+                  </Link>
+                  <FaDiscord className="w-6 h-6" />
+                </div>
+              </Button>
+
+              <Button
+                asChild
+                className="inline-flex h-10 cursor-pointer animate-shimmer items-center justify-center rounded-md border border-red-600 bg-[linear-gradient(110deg,#c81919,45%,#a90909,55%,#c81919)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-red-50 "
+              >
+                <div className="flex gap-2">
+                  <Link target="_blank" href="https://x.com/redflightAI">
+                    Follow RED Flight News
+                  </Link>
+                  <FaXTwitter className="w-6 h-6" />
+                </div>
+              </Button>
             </div>
             <div className="bg-gradient-to-r from-transparent via-red-600 to-transparent my-2 h-[2px] w-full" />
 
             <div className="flex flex-col gap-2 ">
-              <p className="text-center text-white max-w-md">Leave your wallet address. We value your opportunity.</p>
+              <p className="text-center text-white max-w-md">Create your Prompt NFT and leave mark on RED Flight.</p>
               <GetToken />
             </div>
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 
 import ArrowAnimation from "../lottie/arrow";
 import { useCount } from "@/store/tutorial_store";
+import { Button } from "../ui/button";
 
 const FirstImage = () => {
   return (
@@ -15,7 +16,7 @@ const FirstImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/05/1_red_screen.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/05/1_red_screen.png" alt="Background 1" fill className="object-cover" priority />
       </motion.div>
     </>
   );
@@ -40,7 +41,7 @@ const SecondImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/05/2_woman.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/05/2_woman.png" alt="Background 1" fill className="object-cover" priority />
       </motion.div>
     </>
   );
@@ -48,6 +49,17 @@ const SecondImage = () => {
 
 const ThirdImage = () => {
   const { increment } = useCount();
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        increment();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [increment]);
 
   return (
     <>
@@ -73,7 +85,7 @@ const ThirdImage = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <Image src="/tutorial/05/3_embarrassment2.png" alt="Secondary" layout="fill" objectFit="contain" />
+          <Image src="/tutorial/05/3_embarrassment2.png" alt="Secondary" fill className="object-contain" />
         </motion.div>
       </motion.div>
     </>
@@ -98,6 +110,9 @@ const Fifth = () => {
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
       {step === 3 && <ThirdImage />}
+      <Button className="absolute bottom-10 left-10" onClick={() => useCount.setState({ count: 6 })}>
+        Skip
+      </Button>
     </div>
   );
 };

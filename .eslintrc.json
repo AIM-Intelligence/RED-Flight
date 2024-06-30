@@ -12,6 +12,7 @@
       }
     ],
     "react-hooks/rules-of-hooks": "off",
-    "react/jsx-pascal-case": "off"
+    "react/jsx-pascal-case": "off",
+    "prefer-const": "off"
   }
 }

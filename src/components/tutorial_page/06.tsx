@@ -15,7 +15,7 @@ const FirstImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/06/1_game_loading.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/06/1_game_loading.png" alt="Background 1" fill className="object-cover" priority />
       </motion.div>
     </>
   );
@@ -39,9 +39,18 @@ const SecondImage = () => {
   useEffect(() => {
     // Play the first audio when the component mounts
     audioRefs.current[0].play();
+
+    // Cleanup function to pause all audios when component unmounts
+    return () => {
+      audioRefs.current.forEach(audio => audio.pause());
+    };
   }, []);
 
   const handleArrowClick = () => {
+    // Pause the current audio
+    audioRefs.current[currentTextIndex].pause();
+    audioRefs.current[currentTextIndex].currentTime = 0;
+
     if (currentTextIndex < texts.length - 1) {
       const nextIndex = currentTextIndex + 1;
       setCurrentTextIndex(nextIndex);
@@ -55,6 +64,20 @@ const SecondImage = () => {
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleArrowClick();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleArrowClick]);
+
   return (
     <>
       <motion.div
@@ -63,7 +86,7 @@ const SecondImage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/06/2_game_start.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/06/2_game_start.png" alt="Background 1" fill className="object-cover" priority />
 
         <div className="bg-black border border-1 border-red-500 flex items-center justify-center shadow-lg cursor-pointer relative w-3/5 h-1/4 mb-20">
           <div className="z-20 text-white text-3xl px-6">{texts[currentTextIndex]}</div>

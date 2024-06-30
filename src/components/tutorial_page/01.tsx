@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useCount } from "@/store/tutorial_store";
 import ArrowAnimation from "../lottie/arrow";
+import { Button } from "../ui/button";
 
 const First = () => {
   const { count, increment } = useCount();
@@ -11,16 +12,23 @@ const First = () => {
 
   useEffect(() => {
     if (count === 1 && audioRef.current) {
-      // Try playing the audio when the component mounts if count is 1
       audioRef.current.play().catch(error => console.error("Audio play failed:", error));
     }
-  }, [count]);
 
-  // const handleAnimationComplete = () => {
-  //   if (audioRef.current) {
-  //     audioRef.current.play().catch(error => console.error("Audio play failed:", error));
-  //   }
-  // };
+    // Add event listener for keydown
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        increment();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [count, increment]);
 
   return (
     <>
@@ -32,7 +40,7 @@ const First = () => {
         transition={{ duration: 1 }}
         // onAnimationComplete={handleAnimationComplete}
       >
-        <Image src="/tutorial/01/1_hallway1.png" alt="Background" layout="fill" objectFit="cover" priority />
+        <Image src="/tutorial/01/1_hallway1.png" alt="Background" fill className="object-cover" priority />
       </motion.div>
 
       <motion.div
@@ -53,13 +61,17 @@ const First = () => {
         </div>
         <div className="bg-black opacity-50 w-full flex items-center justify-center shadow-lg cursor-pointer relative h-1/3 p-6" />
 
+        <Button className="absolute bottom-10 left-10" onClick={() => useCount.setState({ count: 6 })}>
+          Skip
+        </Button>
+
         <motion.div
           className="absolute bottom-0 right-0 w-1/3 h-5/6"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <Image src="/tutorial/01/1_get_off_work.png" alt="Secondary" layout="fill" objectFit="contain" />
+          <Image src="/tutorial/01/1_get_off_work.png" alt="Secondary" fill className="object-contain" />
         </motion.div>
       </motion.div>
     </>
