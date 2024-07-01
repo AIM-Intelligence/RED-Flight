@@ -56,25 +56,17 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
 
         if (insertError) throw insertError;
       } else {
-        // 기존 사용자 업데이트
-        const { error: updateError } = await supabase
-          .from("User")
-          .update({ tutorial: true })
-          .eq("address", activeAccount.address);
+        // 점수 업데이트
+        const scoreMap = { easy: 10, normal: 30, hard: 50, impossible: 100 };
+        const scoreToAdd = scoreMap[difficulty];
 
-        if (updateError) throw updateError;
+        const { error: scoreError } = await supabase.rpc("increment_score", {
+          address_arg: activeAccount.address,
+          score_increment: scoreToAdd,
+        });
+
+        if (scoreError) throw scoreError;
       }
-
-      // 점수 업데이트
-      const scoreMap = { easy: 10, normal: 30, hard: 50, impossible: 100 };
-      const scoreToAdd = scoreMap[difficulty];
-
-      const { error: scoreError } = await supabase.rpc("increment_score", {
-        address_arg: activeAccount.address,
-        score_increment: scoreToAdd,
-      });
-
-      if (scoreError) throw scoreError;
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -82,10 +74,10 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const passwords = {
-      easy: "zaion9",
-      normal: "1Ethan",
-      hard: "REDSKY",
-      impossible: "1CARU5",
+      easy: process.env.NEXT_PUBLIC_DEMO_EASY,
+      normal: process.env.NEXT_PUBLIC_DEMO_NORMAL,
+      hard: process.env.NEXT_PUBLIC_DEMO_HARD,
+      impossible: process.env.NEXT_PUBLIC_DEMO_IMPOSSIBLE,
     };
 
     if (data.pin !== passwords[difficulty]) {

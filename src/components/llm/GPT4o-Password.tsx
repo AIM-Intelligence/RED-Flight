@@ -10,6 +10,7 @@ import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
 
 export function GPT4oPasswordAccordion({ onToggle }: any) {
   const [close, setClose] = useState(0);
+  const [hasBeenOpened, setHasBeenOpened] = useState(false); // State to track if the accordion has been opened
   const firstTouch = true;
 
   const { isPending } = useAIChatServer(firstTouch);
@@ -18,6 +19,13 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
     onToggle(close === 1);
   }, [close, onToggle]);
 
+  const handleAccordionClick = () => {
+    if (!hasBeenOpened) {
+      setClose(prevClose => (prevClose ? 0 : 1));
+      setHasBeenOpened(true); // Set the state to true after the first click
+    }
+  };
+
   return (
     <Accordion type="single" collapsible className="min-w-[660px] shadow-sm shadow-red-500">
       <AccordionItem value="item-1">
@@ -25,13 +33,7 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
           <div className="flex flex-col ">
             <AccordionTrigger
               disabled={isPending}
-              onClick={() => {
-                if (close) {
-                  setClose(0);
-                } else {
-                  setClose(1);
-                }
-              }}
+              onClick={handleAccordionClick}
               className="px-6 border-b border-red-500"
             >
               <ChatHeader comment="Click here & Chat with Nanobytes AI" />

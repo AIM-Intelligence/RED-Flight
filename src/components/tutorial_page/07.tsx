@@ -51,6 +51,7 @@ const FirstImage = () => {
       if (audioRef.current) {
         audioRef.current.play();
       }
+
       timer = setInterval(() => {
         setTimeLeft(prevTime => {
           if (prevTime <= 0) {
@@ -62,7 +63,9 @@ const FirstImage = () => {
         });
       }, 10);
     }
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+    };
   }, [isAccordionOpen, router]);
 
   const formatTime = (time: any) => {
