@@ -8,24 +8,48 @@ import { upload } from "thirdweb/storage";
 
 import { MessagesContext } from "@/context/messages";
 import { convertMessages } from "@/hooks/useConvertMessages";
-import { useRouter } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
+import useNFTStore from "@/store/tutorial_nft";
+
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "../ui/button";
+import { Input } from "../ui/animate-button";
+import { cn } from "@/lib/utils";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
-export const AIGenerate = () => {
+const formSchema = z.object({
+  title: z.string().min(1, {
+    message: "Title must be at least 1 character.",
+  }),
+  description: z.string().min(1, {
+    message: "Description must be at least 1 character.",
+  }),
+});
+
+export const AIGenerate = ({ onClose }: { onClose: () => void }) => {
   const { messages } = useContext(MessagesContext);
   const imagePrompt = convertMessages(messages);
   const account = useActiveAccount();
+  const { resetNFT, nft } = useNFTStore.getState();
 
   const [generatedImage, setGeneratedImage] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
 
-  const router = useRouter();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
+  });
 
-  const handleGenerateAndMint = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleGenerateAndMint = async (values: z.infer<typeof formSchema>) => {
     // setPrompt(convertedString);
     setIsGenerating(true);
     try {
@@ -63,6 +87,16 @@ export const AIGenerate = () => {
         files: [file],
       });
 
+      const traits = {
+        difficulty: nft.difficulty,
+        title: values.title,
+        desc: values.description,
+        converation: nft.conversation,
+        story: nft.story,
+        length: nft.length,
+        target: nft.target,
+      };
+
       if (!imageUri) {
         throw new Error("Error uploading image to IPFS");
       }
@@ -77,6 +111,7 @@ export const AIGenerate = () => {
         body: JSON.stringify({
           nftImage: imageUri,
           address: account?.address || "",
+          traits,
         }),
       });
 
@@ -86,9 +121,15 @@ export const AIGenerate = () => {
 
       const { data: nftData, error } = await supabase.from("NFT_Prompt").insert({
         image_url: imageUri,
-        creator: account?.address || "",
-        difficulty: 1,
+        creator: account?.address,
+        difficulty: nft.difficulty,
         prompt: messages,
+        title: values.title,
+        desc: values.description,
+        conversation: nft.conversation,
+        story: nft.story,
+        length: nft.length,
+        target: nft.target,
       });
 
       if (error) {
@@ -98,12 +139,12 @@ export const AIGenerate = () => {
       }
 
       alert("NFT minted successfully");
-
-      router.push("/my-page");
     } catch (error) {
       console.error(error);
     } finally {
       setIsMinting(false);
+      resetNFT();
+      onClose();
     }
   };
 
@@ -122,21 +163,45 @@ export const AIGenerate = () => {
             )}
           </div>
           <div>
-            <form onSubmit={handleGenerateAndMint}>
-              {messages.length < 1 || !generatedImage || isMinting ? (
-                <div className="flex flex-col items-center">
-                  <button
-                    type="submit"
-                    disabled={isGenerating || isMinting}
-                    className="w-72 h-10 bg-gray-800 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isGenerating ? "Generating..." : isMinting ? "Minting..." : "Generate and Mint"}
-                  </button>
-                </div>
-              ) : (
-                <></>
-              )}
-            </form>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleGenerateAndMint)} className="space-y-4 ">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Enter title" {...field} className="bg-slate-200" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Enter description" {...field} className="bg-slate-200" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className={cn(
+                    "relative  flex space-x-2 items-center justify-center px-4 w-full rounded-md h-10 font-medium shadow-input hover:cursor-pointer",
+                    "focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-500 transition duration-100 ease-in-out",
+                  )}
+                  disabled={isGenerating || isMinting || messages.length < 1}
+                >
+                  {isGenerating ? "Generating..." : isMinting ? "Minting..." : "Generate and Mint"}
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>

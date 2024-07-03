@@ -1,6 +1,8 @@
 "use client";
 
 import NFTDetail from "@/components/dialog/nft_detail";
+import UserInfoEdit from "@/components/dialog/user_info_edit";
+import UserInfoEditImage from "@/components/dialog/user_info_edit_image";
 import { useEffect, useState } from "react";
 
 export const ModalProvider = () => {
@@ -17,6 +19,8 @@ export const ModalProvider = () => {
   return (
     <>
       <NFTDetail />
+      <UserInfoEdit />
+      <UserInfoEditImage />
     </>
   );
 };

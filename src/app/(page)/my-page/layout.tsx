@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="page bg-black text-white font-sora flex items-center justify-center">
-      <Image src="/asset/3.png" alt="Background" layout="fill" objectFit="cover" quality={100} priority />
+      <Image src="/background/05.png" alt="Background" layout="fill" objectFit="cover" quality={100} priority />
       {children}
     </main>
   );

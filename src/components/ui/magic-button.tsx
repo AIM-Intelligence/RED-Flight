@@ -14,17 +14,20 @@ const MagicButton = ({
   position,
   handleClick,
   otherClasses,
+  disabled,
 }: {
   title: string;
   icon: React.ReactNode | null;
   position: string;
   handleClick?: () => void;
   otherClasses?: string;
+  disabled?: any;
 }) => {
   return (
     <button
-      className="relative inline-flex h-12 w-full   overflow-hidden rounded-lg cursor-pointer p-[1px] focus:outline-none "
+      className={`relative inline-flex h-12 w-full overflow-hidden rounded-lg ${disabled ? "cursor-not-allowed" : "cursor-pointer"} p-[1px] focus:outline-none `}
       onClick={handleClick}
+      disabled={disabled}
     >
       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#b23939_50%,#E2CBFF_100%)]" />
 

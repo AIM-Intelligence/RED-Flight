@@ -1,25 +1,18 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  HiHome,
-  HiUser,
-  HiViewColumns,
-  HiRectangleGroup,
-  HiChatBubbleBottomCenterText,
-  HiEnvelope,
-} from "react-icons/hi2";
+import { HiHome, HiUser, HiViewColumns, HiRectangleGroup, HiEnvelope, HiInbox } from "react-icons/hi2";
 
 // nav data
 export const navData = [
   { name: "home", path: "/", icon: <HiHome /> },
   { name: "My Page", path: "/my-page", icon: <HiUser /> },
-  { name: "NFT Market", path: "/nft-market", icon: <HiRectangleGroup /> },
-  { name: "Leaderboard", path: "/leaderboard", icon: <HiViewColumns /> },
+  { name: "NFT Leaderboard", path: "/nft-leaderboard", icon: <HiRectangleGroup /> },
+  { name: "User Leaderboard", path: "/user-leaderboard", icon: <HiViewColumns /> },
   {
-    name: "testimonials",
-    path: "#",
-    icon: <HiChatBubbleBottomCenterText />,
+    name: "nft-gallery",
+    path: "/nft-gallery",
+    icon: <HiInbox />,
   },
   {
     name: "contact",

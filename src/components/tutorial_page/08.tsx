@@ -90,8 +90,6 @@ const SecondImage = () => {
 };
 
 const ThirdImage = () => {
-  // const { increment } = useCount();
-
   return (
     <>
       <motion.div
@@ -150,10 +148,20 @@ const ThirdImage = () => {
               <p className="text-center text-white max-w-md">Create your Prompt NFT and leave mark on RED Flight.</p>
               <GetToken />
             </div>
+            <div className="grid grid-cols-2 w-full gap-4 items-center">
+              <Link href="/" className={cn(buttonVariants({ variant: "outline" }), "bg-transparent w-full")}>
+                Go Home
+              </Link>
 
-            <Link href="/" className={cn(buttonVariants({ variant: "outline" }), "bg-transparent mt-2")}>
-              Go Home
-            </Link>
+              <Button
+                onClick={() => {
+                  window.location.reload();
+                }}
+                className="w-full"
+              >
+                Replay
+              </Button>
+            </div>
 
             {/* <div className="text-white text-xl w-[60px] cursor-pointer">
             <ArrowAnimation />
@@ -185,3 +193,4 @@ const Eighth = () => {
 };
 
 export default Eighth;
+//<FirstImage onComplete={() => setStep(2)} />

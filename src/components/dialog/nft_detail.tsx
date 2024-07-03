@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import MarkdownLite from "../llm/components/MarkdownLite";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { useModal } from "@/hooks/stores/use-modal-store";
+import { useModal } from "@/store/use-modal-store";
 
 const NFTDetail = () => {
   const { isOpen, onClose, type, data } = useModal();

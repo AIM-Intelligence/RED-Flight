@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +11,8 @@ import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
 import { client } from "@/lib/client";
 import { chain } from "@/utils/chain";
+import useNFTStore from "@/store/tutorial_nft";
+import { MessagesContext } from "@/context/messages";
 
 // Supabase 클라이언트 초기화
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
@@ -21,10 +23,18 @@ const FormSchema = z.object({
   }),
 });
 
+function calculateUserMessageLength(conversation: any[]) {
+  return conversation
+    .filter(message => message.isUserMessage)
+    .reduce((total, message) => total + message.text.length, 0);
+}
+
 export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | "hard" | "impossible" }) {
   const activeAccount = useActiveAccount();
   const { increment } = useCount();
   const [isInvalid, setIsInvalid] = useState(false);
+  const { updateNFT } = useNFTStore.getState();
+  const { messages } = useContext(MessagesContext);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -33,11 +43,19 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
     },
   });
 
+  const difficultyMap = {
+    easy: 1,
+    normal: 2,
+    hard: 3,
+    impossible: 4,
+  };
+
   const updateUserData = async () => {
     if (!activeAccount?.address) return;
+    const difficultyLevel = difficultyMap[difficulty];
 
     try {
-      // 사용자 확인 또는 생성
+      // Check User in DB
       const { data: existingUser, error: fetchError } = await supabase
         .from("User")
         .select("*")
@@ -48,31 +66,77 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
         throw fetchError;
       }
 
+      let updateColumn;
+
+      switch (difficultyLevel) {
+        case 1:
+          updateColumn = "easy";
+          break;
+        case 2:
+          updateColumn = "normal";
+          break;
+        case 3:
+          updateColumn = "hard";
+          break;
+        case 4:
+          updateColumn = "impossible";
+          break;
+        default:
+          console.error("Invalid difficulty level");
+          return;
+      }
+
       if (!existingUser) {
-        // 새 사용자 생성
+        // Create new User
         const { error: insertError } = await supabase
           .from("User")
           .insert({ address: activeAccount.address, tutorial: true });
 
         if (insertError) throw insertError;
-      } else {
-        // 점수 업데이트
-        const scoreMap = { easy: 10, normal: 30, hard: 50, impossible: 100 };
-        const scoreToAdd = scoreMap[difficulty];
 
-        const { error: scoreError } = await supabase.rpc("increment_score", {
+        const { error: updateError } = await supabase.rpc("increment_difficulty", {
           address_arg: activeAccount.address,
-          score_increment: scoreToAdd,
+          column_name: updateColumn,
         });
 
-        if (scoreError) throw scoreError;
+        if (updateError) throw updateError;
       }
+
+      const { error: updateError } = await supabase.rpc("increment_difficulty", {
+        address_arg: activeAccount.address,
+        column_name: updateColumn,
+      });
+
+      if (updateError) throw updateError;
+
+      // Score Update
+      const scoreMap = { easy: 10, normal: 200, hard: 500, impossible: 1000 };
+      const scoreToAdd = scoreMap[difficulty];
+
+      const { error: scoreError } = await supabase.rpc("increment_score", {
+        address_arg: activeAccount.address,
+        score_increment: scoreToAdd,
+      });
+
+      if (scoreError) throw scoreError;
     } catch (error) {
       console.error("Error updating user data:", error);
     }
   };
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("messages", messages);
+
+    updateNFT({
+      story: "Demo",
+      difficulty: difficultyMap[difficulty],
+      conversation: messages.length,
+      length: calculateUserMessageLength(messages),
+      target: "Nanobytes",
+    });
+
+    //! DB 에 저장하기 => 그리고 Mint에 적용하기
+
     const passwords = {
       easy: process.env.NEXT_PUBLIC_DEMO_EASY,
       normal: process.env.NEXT_PUBLIC_DEMO_NORMAL,
@@ -85,6 +149,7 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
       setTimeout(() => setIsInvalid(false), 1000);
     } else {
       await updateUserData();
+
       increment();
     }
   }

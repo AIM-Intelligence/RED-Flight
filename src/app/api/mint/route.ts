@@ -9,7 +9,9 @@ export async function POST(req: NextRequest) {
     return new NextResponse(JSON.stringify({ error: "Missing required environment variables" }), { status: 500 });
   }
 
-  const { nftImage, address } = await req.json();
+  const { nftImage, address, traits } = await req.json();
+
+  console.log("traits", traits);
 
   try {
     const mintResponse = await fetch(
@@ -24,9 +26,31 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           receiver: address,
           metadata: {
-            name: "RED Flight",
-            description: `"AI Jailbreaking Data NFT"`,
+            name: traits.title,
+            description: traits.desc,
             image: nftImage,
+            attributes: [
+              {
+                trait_type: "Difficulty",
+                value: traits.difficulty,
+              },
+              {
+                trait_type: "Conversation",
+                value: traits.converation,
+              },
+              {
+                trait_type: "Story",
+                value: traits.story,
+              },
+              {
+                trait_type: "Length",
+                value: traits.length,
+              },
+              {
+                trait_type: "Target",
+                value: traits.target,
+              },
+            ],
           },
         }),
       },
