@@ -24,8 +24,8 @@ const page = () => {
         <div className="flex flex-row flex-wrap items-center justify-center max-w-6xl gap-2">
           {nfts ? (
             nfts.map((nft, index) => (
-              <GlareCardGallery>
-                <div key={index} className="w-[120px]">
+              <GlareCardGallery key={index}>
+                <div className="w-[120px]">
                   <MediaRenderer client={client} src={nft.metadata.image} className=" max-h-[120px]" />
                 </div>
               </GlareCardGallery>
