@@ -84,11 +84,11 @@ const Page = () => {
 
   const getTierName = (score: number) => {
     if (score > 0) {
-      return "Bronze";
-    } else if (score > 2000) {
-      return "Silver";
-    } else if (score > 5000) {
-      return "Gold";
+      return "bronze";
+    } else if (score > 3000) {
+      return "silver";
+    } else if (score > 10000) {
+      return "gold";
     }
   };
 

@@ -52,14 +52,17 @@ const DifficultyNFTs = ({ title, nfts }: { title: string; nfts: NFT[] }) => {
               <div className="col-span-1">
                 <div className="w-full flex flex-between gap-2">
                   <p className="text-5xl font-bold">#{index + 1}</p>
+                </div>
+
+                <div>
                   <div>
                     <p className="text-sm">
                       {nft.creator.slice(0, 5)}...{nft.creator.slice(-4)}
                     </p>
                     <p className="text-sm font-bold">Length: {nft.length ?? "N/A"}</p>
                   </div>
+                  <h3 className="text-lg font-bold text-white">{nft.title || `NFT`}</h3>
                 </div>
-                <h3 className="text-lg font-bold text-white">{nft.title || `NFT`}</h3>
               </div>
             </div>
           ))
@@ -118,7 +121,7 @@ const Page = () => {
       ) : nfts.length === 0 ? (
         <p className="text-center">No NFTs found</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[calc(80vh-120px)] w-[calc(140vh)]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 h-[calc(80vh-120px)] w-[calc(150vh)]">
           <DifficultyNFTs title="Easy" nfts={getFilteredAndSortedNFTs("1")} />
           <DifficultyNFTs title="Normal" nfts={getFilteredAndSortedNFTs("2")} />
           <DifficultyNFTs title="Hard" nfts={getFilteredAndSortedNFTs("3")} />

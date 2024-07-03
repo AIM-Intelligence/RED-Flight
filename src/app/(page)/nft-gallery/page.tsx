@@ -1,5 +1,6 @@
 "use client";
 
+import { GlareCardGallery } from "@/components/animation/glare-card-gallery";
 import { client } from "@/lib/client";
 import { contract } from "@/utils/contract";
 import { getNFTs } from "thirdweb/extensions/erc721";
@@ -20,12 +21,14 @@ const page = () => {
         <p>NFT Prompt Data Market Coming Soon....</p>
       </div>
       <div className="flex flex-col items-center m-5">
-        <div className="flex flex-row flex-wrap items-center justify-center max-w-6xl">
+        <div className="flex flex-row flex-wrap items-center justify-center max-w-6xl gap-2">
           {nfts ? (
             nfts.map((nft, index) => (
-              <div key={index} className="p-1 w-[120px]">
-                <MediaRenderer client={client} src={nft.metadata.image} className=" max-h-[120px]" />
-              </div>
+              <GlareCardGallery>
+                <div key={index} className="w-[120px]">
+                  <MediaRenderer client={client} src={nft.metadata.image} className=" max-h-[120px]" />
+                </div>
+              </GlareCardGallery>
             ))
           ) : (
             <p>loading...</p>
