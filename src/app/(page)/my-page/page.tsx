@@ -1,8 +1,7 @@
 "use client";
 import { useEffect, useState, useTransition } from "react";
 
-import { contract } from "@/utils/contract";
-import { getNFTs } from "thirdweb/extensions/erc721";
+import { contract, STAKING_CONTRACT } from "@/utils/contract";
 import { MediaRenderer, useActiveAccount, useReadContract } from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
@@ -11,6 +10,8 @@ import { client } from "@/lib/client";
 import { useModal } from "@/store/use-modal-store";
 import { GlareCard } from "@/components/animation/glare-card";
 import { Button } from "@/components/ui/button";
+
+import { getNFTs } from "thirdweb/extensions/erc721";
 
 // Supabase client initialization
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
@@ -92,16 +93,24 @@ const Page = () => {
     }
   };
 
-  const fetchNFTPrompt = async (imageUri: any) => {
+  const { data: stakedInfo, refetch: refetchStakedInfo } = useReadContract({
+    contract: STAKING_CONTRACT,
+    method: "getStakeInfo",
+    params: [(activeAccount?.address as `0x${string}`) || ""],
+  });
+
+  console.log("stakedInfo", stakedInfo);
+  const fetchNFTPrompt = async (imageUri: any, id: any) => {
     try {
       const { data, error } = await supabase.from("NFT_Prompt").select("*").eq("image_url", imageUri).single();
 
       if (error) throw error;
 
       const nftDetail = data?.prompt;
+      await new Promise(resolve => setTimeout(resolve, 50));
 
-      console.log(nftDetail);
-      onOpen("showPromptData", { nftDetail });
+      // console.log(nftDetail);
+      onOpen("showPromptData", { nftDetail, id, stakedInfo, refetchStakedInfo });
     } catch (error) {
       console.error("Error fetching NFT prompt:", error);
     }
@@ -204,7 +213,11 @@ const Page = () => {
               <div className="max-h-[500px] overflow-y-auto custom-scrollbar flex flex-row flex-wrap items-center gap-4 ">
                 {reversedUserNFTs &&
                   reversedUserNFTs?.map((nft, index) => (
-                    <div key={index} onClick={() => fetchNFTPrompt(nft.metadata.image)} className="cursor-pointer">
+                    <div
+                      key={index}
+                      onClick={() => fetchNFTPrompt(nft.metadata.image, nft.id)}
+                      className="cursor-pointer"
+                    >
                       <GlareCard>
                         <div key={index} className="w-[150px]">
                           <MediaRenderer client={client} src={nft.metadata.image} className=" max-h-[150px] " />

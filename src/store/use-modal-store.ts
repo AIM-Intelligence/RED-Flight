@@ -5,6 +5,9 @@ export type ModalType = "showPromptData" | "showUserInfoEdit" | "showUserInfoEdi
 interface ModalData {
   nftDetail?: any;
   userInfo?: any;
+  id?: any;
+  stakedInfo?: any;
+  refetchStakedInfo?: any;
 }
 
 interface ModalStore {

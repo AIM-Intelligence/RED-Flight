@@ -15,7 +15,7 @@ export const contract = getContract({
 
 export const nftContractAddress = "0x4de63A0079d1f9B30Fc4e9F913b5C6Fb81556adD";
 export const rewardTokenContractAddress = "0x266dda99408e839446E2b9B4d3D872A6B5FA0d8d";
-export const stakingContractAddress = "0xCa41f7DE6488c7e73aF6a51aBF11d6f05C75Ee8a";
+export const stakingContractAddress = "0xa170aac4BE1406dA6f070F0F0E1143f432dbB0B9";
 
 export const NFT_CONTRACT = getContract({
   client: client,

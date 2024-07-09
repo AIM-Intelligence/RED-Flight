@@ -3,12 +3,19 @@ import MarkdownLite from "../llm/components/MarkdownLite";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useModal } from "@/store/use-modal-store";
 
+import { prepareContractCall } from "thirdweb";
+import { TransactionButton } from "thirdweb/react";
+import { contract, STAKING_CONTRACT } from "@/utils/contract";
+import { useState } from "react";
+import { approve } from "thirdweb/extensions/erc721";
+
 const NFTDetail = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const { nftDetail } = data;
+  const [isApproved, setIsApproved] = useState(false);
+  const { nftDetail, id, stakedInfo, refetchStakedInfo } = data;
   const isModalOpen = isOpen && type === "showPromptData";
 
-  console.log("nftPromptData", nftDetail);
+  //console.log("nftPromptData", nftDetail);
 
   if (!nftDetail) {
     return <div>Loading NFT data...</div>;
@@ -18,6 +25,13 @@ const NFTDetail = () => {
   const parsedMessages = nftDetail.map((message: string) => JSON.parse(message)).reverse();
 
   console.log("parsedMessages", parsedMessages);
+
+  const handleStakeConfirmation = () => {
+    alert("Staked!");
+    // Use optional chaining to safely call these functions
+    stakedInfo?.();
+    refetchStakedInfo?.();
+  };
 
   return (
     <>
@@ -57,6 +71,40 @@ const NFTDetail = () => {
               </div>
             ))}
           </div>
+
+          {!isApproved ? (
+            <TransactionButton
+              transaction={() =>
+                approve({
+                  contract: contract,
+                  to: STAKING_CONTRACT.address as `0x${string}`,
+                  tokenId: id,
+                })
+              }
+              style={{
+                width: "100%",
+              }}
+              onTransactionConfirmed={() => setIsApproved(true)}
+            >
+              Approve
+            </TransactionButton>
+          ) : (
+            <TransactionButton
+              transaction={() =>
+                prepareContractCall({
+                  contract: STAKING_CONTRACT,
+                  method: "stake",
+                  params: [[id]],
+                })
+              }
+              onTransactionConfirmed={handleStakeConfirmation}
+              style={{
+                width: "100%",
+              }}
+            >
+              Stake
+            </TransactionButton>
+          )}
         </DialogContent>
       </Dialog>
     </>

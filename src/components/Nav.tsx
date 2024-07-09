@@ -16,7 +16,7 @@ export const navData = [
   },
   {
     name: "contact",
-    path: "#",
+    path: "/my-staking-nft",
     icon: <HiEnvelope />,
   },
 ];
