@@ -26,11 +26,14 @@ const NFTDetail = () => {
 
   console.log("parsedMessages", parsedMessages);
 
-  const handleStakeConfirmation = () => {
+  const handleStakeConfirmation = async () => {
     alert("Staked!");
     // Use optional chaining to safely call these functions
-    stakedInfo?.();
+    //stakedInfo?.();
     refetchStakedInfo?.();
+
+    // router.push("/my-staking-nft");
+    onClose();
   };
 
   return (
