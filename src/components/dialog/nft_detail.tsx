@@ -12,7 +12,7 @@ import { approve } from "thirdweb/extensions/erc721";
 const NFTDetail = () => {
   const { isOpen, onClose, type, data } = useModal();
   const [isApproved, setIsApproved] = useState(false);
-  const { nftDetail, id, stakedInfo, refetchStakedInfo } = data;
+  const { nftDetail, id, refetchStakedInfo } = data;
   const isModalOpen = isOpen && type === "showPromptData";
 
   //console.log("nftPromptData", nftDetail);
