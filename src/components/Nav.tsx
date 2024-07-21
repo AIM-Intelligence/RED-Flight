@@ -1,26 +1,31 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HiHome, HiUser, HiViewColumns, HiRectangleGroup, HiEnvelope, HiInbox } from "react-icons/hi2";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Award, GalleryHorizontal, Gem, Trophy, User, Home } from "lucide-react";
 
 // nav data
 export const navData = [
-  { name: "Home", path: "/", icon: <HiHome /> },
-  { name: "My Page", path: "/my-page", icon: <HiUser /> },
-  { name: "NFT Leaderboard", path: "/nft-leaderboard", icon: <HiRectangleGroup /> },
-  { name: "User Leaderboard", path: "/user-leaderboard", icon: <HiViewColumns /> },
+  { name: "Home", path: "/", icon: <Home /> },
+  { name: "My Page", path: "/my-page", icon: <User /> },
+  { name: "NFT Leaderboard", path: "/nft-leaderboard", icon: <Award /> },
+  { name: "User Leaderboard", path: "/user-leaderboard", icon: <Trophy /> },
   {
     name: "NFT Gallery",
     path: "/nft-gallery",
-    icon: <HiInbox />,
+    icon: <GalleryHorizontal />,
   },
   {
     name: "Staking NFT",
     path: "/my-staking-nft",
-    icon: <HiEnvelope />,
+    icon: <Gem />,
   },
+  // {
+  //   name: "Unity Demo",
+  //   path: "/my-staking-nft",
+  //   icon: <Box />,
+  // },
 ];
 
 const Nav = () => {

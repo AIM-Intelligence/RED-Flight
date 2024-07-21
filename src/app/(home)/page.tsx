@@ -36,15 +36,6 @@ export default function Home() {
   };
 
   return (
-    // <iframe
-    //   // frameborder="0"
-    //   src="https://itch.io/embed-upload/10955566?color=333333"
-    //   //allowfullscreen=""
-    //   width="1920"
-    //   height="1100"
-    // >
-    //   <a href="https://reusahn.itch.io/redflight">Play RedFlight on itch.io</a>
-    // </iframe>
     <main className="h-full relative">
       <FlameFlake />
       <video
