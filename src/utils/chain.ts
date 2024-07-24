@@ -1,4 +1,4 @@
 import { defineChain } from "thirdweb";
 
-export const chain = defineChain(300);
+export const chain = defineChain(3441006);
 // manta = 3441006
