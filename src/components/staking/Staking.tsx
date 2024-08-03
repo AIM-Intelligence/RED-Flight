@@ -1,10 +1,16 @@
 "use client";
 
-import { chain } from "@/utils/chain";
+import chainList from "@/utils/chain";
 import { client } from "@/lib/client";
-import { ConnectButton, TransactionButton, useActiveAccount, useReadContract } from "thirdweb/react";
+import {
+  ConnectButton,
+  TransactionButton,
+  useActiveAccount,
+  useConnectedWallets,
+  useReadContract,
+} from "thirdweb/react";
 import { StakeRewards } from "./StakeRewards";
-import { NFT_CONTRACT, STAKING_CONTRACT } from "@/utils/contract";
+import { getAllContracts } from "@/utils/contract";
 import { NFT } from "thirdweb";
 import { useEffect, useState } from "react";
 import { claimTo, getNFTs, ownerOf, totalSupply } from "thirdweb/extensions/erc721";
@@ -13,6 +19,10 @@ import { StakedNFTCard } from "./StakedNFTCard";
 
 export const Staking = () => {
   const account = useActiveAccount();
+  const wallet = useConnectedWallets();
+
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { NFT_CONTRACT, STAKING_CONTRACT } = getAllContracts(chainId);
 
   const [ownedNFTs, setOwnedNFTs] = useState<NFT[]>([]);
 
@@ -65,7 +75,7 @@ export const Staking = () => {
           padding: "20px",
         }}
       >
-        <ConnectButton client={client} chain={chain} />
+        <ConnectButton client={client} chains={chainList} />
         <div
           style={{
             display: "flex",

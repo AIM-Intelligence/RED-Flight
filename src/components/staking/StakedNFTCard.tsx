@@ -1,5 +1,5 @@
-import { MediaRenderer, TransactionButton, useReadContract } from "thirdweb/react";
-import { contract, STAKING_CONTRACT } from "@/utils/contract";
+import { MediaRenderer, TransactionButton, useConnectedWallets, useReadContract } from "thirdweb/react";
+import { getAllContracts } from "@/utils/contract";
 import { getNFT } from "thirdweb/extensions/erc721";
 import { client } from "@/lib/client";
 import { prepareContractCall } from "thirdweb";
@@ -11,6 +11,10 @@ type StakedNFTCardProps = {
 };
 
 export const StakedNFTCard: React.FC<StakedNFTCardProps> = ({ tokenId, refetchStakedInfo, refetchOwnedNFTs }) => {
+  const wallet = useConnectedWallets();
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
+
   const { data: nft } = useReadContract(getNFT, {
     contract: contract,
     tokenId: tokenId,

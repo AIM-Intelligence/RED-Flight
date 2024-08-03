@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { ConnectButton, useActiveAccount, useConnectModal } from "thirdweb/react";
 import { client } from "@/lib/client";
 import LoadingAnimation from "@/components/lottie/Loading";
-import { chain } from "@/utils/chain";
+import chainList from "@/utils/chain";
 
 export default function Home() {
   const router = useRouter();
@@ -26,7 +26,7 @@ export default function Home() {
       router.push("/tutorial");
     } else {
       try {
-        const wallet = await connect({ client, appMetadata, chain }); // opens the connect modal
+        const wallet = await connect({ client, appMetadata }); // opens the connect modal
         console.log("connected to", wallet);
       } catch (error) {
         console.error("Failed to connect:", error);
@@ -52,8 +52,11 @@ export default function Home() {
       <div className=" z-20 relative">
         <div className="text-center flex flex-col justify-center xl:pt-20 xl:text-left h-full container  mx-auto">
           <div className="max-sm:mt-8">
-            <h1 className="h1  bg-clip-text text-transparent bg-gradient-to-b from-sky-500 to-slate-300">
-              Transforming <br /> Into <span className="text-accent1">RED Flight</span>
+            <h1 className="h1  bg-clip-text text-transparent bg-gradient-to-b from-sky-500 to-slate-300 font-black">
+              <span className="text-shadow-inner">
+                Transforming <br /> Into{" "}
+              </span>
+              <span className="text-accent1 text-red-600 text-shadow-inner">RED Flight</span>
             </h1>
             <Button
               onClick={handleButtonClick}
@@ -70,7 +73,7 @@ export default function Home() {
                   url: "https://www.redflight.io",
                 }}
                 client={client}
-                chain={chain}
+                chains={chainList}
               />
             </div>
           </div>

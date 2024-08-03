@@ -101,6 +101,12 @@ const config = {
         poppins: [`var(--font-poppins)`, "sans-serif"],
         sora: [`var(--font-sora)`, "sans-serif"],
       },
+      textShadow: {
+        inner: "1px 1px rgba(255, 255, 255, 0.1), -1px -1px rgba(0, 0, 0, 0.2)",
+        sm: "0 1px 2px var(--tw-shadow-color)",
+        DEFAULT: "0 2px 4px var(--tw-shadow-color)",
+        lg: "0 8px 12px var(--tw-shadow-color)",
+      },
     },
   },
   container: {
@@ -108,7 +114,7 @@ const config = {
       DEFAULT: "15px",
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors],
+  plugins: [require("tailwindcss-animate"), addVariablesForColors, addTextShadow],
 } satisfies Config;
 
 export default config;
@@ -120,4 +126,15 @@ function addVariablesForColors({ addBase, theme }: any) {
   addBase({
     ":root": newVars,
   });
+}
+
+function addTextShadow({ matchUtilities, theme }: any) {
+  matchUtilities(
+    {
+      "text-shadow": (value: any) => ({
+        textShadow: value,
+      }),
+    },
+    { values: theme("textShadow") },
+  );
 }

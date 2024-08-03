@@ -1,11 +1,15 @@
-import { TransactionButton, useActiveAccount, useReadContract } from "thirdweb/react";
-import { REWARD_TOKEN_CONTRACT, STAKING_CONTRACT } from "@/utils/contract";
+import { TransactionButton, useActiveAccount, useConnectedWallets, useReadContract } from "thirdweb/react";
+import { getAllContracts } from "@/utils/contract";
 import { prepareContractCall, toEther } from "thirdweb";
 import { useEffect } from "react";
 import { balanceOf } from "thirdweb/extensions/erc721";
 
 export const StakeRewards = () => {
   const account = useActiveAccount();
+  const wallet = useConnectedWallets();
+
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { REWARD_TOKEN_CONTRACT, STAKING_CONTRACT } = getAllContracts(chainId);
 
   const {
     data: tokenBalance,
