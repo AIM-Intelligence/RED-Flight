@@ -6,18 +6,18 @@ import { useContext, useState } from "react";
 import { ConnectButton, MediaRenderer, useActiveAccount } from "thirdweb/react";
 import { upload } from "thirdweb/storage";
 
-import { MessagesContext } from "@/context/messages";
+import { MessagesContext } from "@/context/Messages";
 import { convertMessages } from "@/hooks/useConvertMessages";
 import { createClient } from "@supabase/supabase-js";
-import useNFTStore from "@/store/tutorial_nft";
+import useNFTStore from "@/store/tutorial-nft-store";
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/Form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "../ui/button";
-import { Input } from "../ui/animate-button";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/AnimateButton";
 import { cn } from "@/lib/utils";
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);

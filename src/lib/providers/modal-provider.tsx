@@ -1,8 +1,8 @@
 "use client";
 
-import NFTDetail from "@/components/dialog/nft_detail";
-import UserInfoEdit from "@/components/dialog/user_info_edit";
-import UserInfoEditImage from "@/components/dialog/user_info_edit_image";
+import NFTDetail from "@/components/dialog/NftDetail";
+import UserInfoEdit from "@/components/dialog/UserInfoEdit";
+import UserInfoEditImage from "@/components/dialog/UserInfoEditImage";
 import { useEffect, useState } from "react";
 
 export const ModalProvider = () => {

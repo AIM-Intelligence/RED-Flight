@@ -3,13 +3,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-import { GPT4oPasswordAccordion } from "../llm/GPT4o-Password";
+import { GPT4oPasswordAccordion } from "../llm/GPT4oPassword";
 import { InputPassword } from "./07-form";
 import Info07 from "./07-info";
 import { useRouter } from "next/navigation";
-import ArrowAnimation from "../lottie/arrow";
-import { Button } from "../ui/button";
-import { MessagesContext } from "@/context/messages";
+import ArrowAnimation from "../lottie/Arrow";
+import { Button } from "../ui/Button";
+import { MessagesContext } from "@/context/Messages";
 
 const DifficultySelector = ({ onSelect }: any) => {
   const difficulties = ["easy", "normal", "hard", "impossible"];

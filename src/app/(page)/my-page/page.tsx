@@ -8,8 +8,8 @@ import Image from "next/image";
 import { client } from "@/lib/client";
 
 import { useModal } from "@/store/use-modal-store";
-import { GlareCard } from "@/components/animation/glare-card";
-import { Button } from "@/components/ui/button";
+import { GlareCard } from "@/components/animation/GlareCard";
+import { Button } from "@/components/ui/Button";
 
 import { getNFTs } from "thirdweb/extensions/erc721";
 

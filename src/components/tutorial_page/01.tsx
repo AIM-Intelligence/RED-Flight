@@ -2,9 +2,9 @@
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useCount } from "@/store/tutorial_store";
-import ArrowAnimation from "../lottie/arrow";
-import { Button } from "../ui/button";
+import { useCount } from "@/store/tutorial-store";
+import ArrowAnimation from "../lottie/Arrow";
+import { Button } from "../ui/Button";
 
 const First = () => {
   const { count, increment } = useCount();

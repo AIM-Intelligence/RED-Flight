@@ -1,4 +1,4 @@
-import TutorialAnimation from "@/components/lottie/tutorial_loading";
+import TutorialAnimation from "@/components/lottie/TutorialLoading";
 
 const loading = () => {
   return <TutorialAnimation />;

@@ -3,9 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-import ArrowAnimation from "../lottie/arrow";
+import ArrowAnimation from "../lottie/Arrow";
 import Link from "next/link";
-import { Button, buttonVariants } from "../ui/button";
+import { Button, buttonVariants } from "../ui/Button";
 import { cn } from "@/lib/utils";
 import GetToken from "./08-token";
 import { FaDiscord } from "react-icons/fa";

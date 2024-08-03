@@ -3,8 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-import ArrowAnimation from "../lottie/arrow";
-import { useCount } from "@/store/tutorial_store";
+import ArrowAnimation from "../lottie/Arrow";
+import { useCount } from "@/store/tutorial-store";
 
 const FirstImage = () => {
   return (

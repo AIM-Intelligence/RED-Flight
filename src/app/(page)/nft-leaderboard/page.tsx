@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { client } from "@/lib/client";
 import { MediaRenderer } from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { GlareCard } from "@/components/animation/glare-card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
+import { GlareCard } from "@/components/animation/GlareCard";
 
 // Supabase 클라이언트 설정
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);

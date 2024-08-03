@@ -3,8 +3,8 @@ import { client } from "@/lib/client";
 
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import MagicButton from "../ui/magic-button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+import MagicButton from "../ui/MagicButton";
 import { Bot } from "lucide-react";
 import { AIGenerate } from "../NFT/ImageGenerator";
 import { useState } from "react";

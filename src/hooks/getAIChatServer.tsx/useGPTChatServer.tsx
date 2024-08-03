@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
-import { MessagesContext } from "@/context/messages";
+import { MessagesContext } from "@/context/Messages";
 import { Message } from "@/lib/validation/message";
 
 const useAIChatServer = (

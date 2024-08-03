@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import MarkdownLite from "../llm/components/MarkdownLite";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
 import { useModal } from "@/store/use-modal-store";
 
 import { prepareContractCall } from "thirdweb";

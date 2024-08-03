@@ -1,18 +1,18 @@
 "use client";
 import { useContext, useState } from "react";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/InputOtp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { useCount } from "@/store/tutorial_store";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
+import { useCount } from "@/store/tutorial-store";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
 import { client } from "@/lib/client";
 import { chain } from "@/utils/chain";
-import useNFTStore from "@/store/tutorial_nft";
-import { MessagesContext } from "@/context/messages";
+import useNFTStore from "@/store/tutorial-nft-store";
+import { MessagesContext } from "@/context/Messages";
 
 // Supabase 클라이언트 초기화
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);

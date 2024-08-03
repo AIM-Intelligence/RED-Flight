@@ -1,13 +1,13 @@
 "use client";
-import ArrowAnimation from "@/components/lottie/arrow";
-import { FlameFlake } from "@/components/particles/fire";
+import ArrowAnimation from "@/components/lottie/Arrow";
+import { FlameFlake } from "@/components/particles/Fire";
 
 import ProjectsBtn from "@/components/ProjectsBtn";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { ConnectButton, useActiveAccount, useConnectModal } from "thirdweb/react";
 import { client } from "@/lib/client";
-import LoadingAnimation from "@/components/lottie/loading";
+import LoadingAnimation from "@/components/lottie/Loading";
 import { chain } from "@/utils/chain";
 
 export default function Home() {

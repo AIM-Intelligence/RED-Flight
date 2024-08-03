@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { CornerDownLeft, Loader2 } from "lucide-react";
 import { nanoid } from "nanoid";
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from "@/components/ui/Textarea";
 
 import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
 import { cn } from "@/lib/utils";

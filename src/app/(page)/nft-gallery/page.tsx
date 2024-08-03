@@ -1,6 +1,6 @@
 "use client";
 
-import { GlareCardGallery } from "@/components/animation/glare-card-gallery";
+import { GlareCardGallery } from "@/components/animation/GlareCardGallery";
 import { client } from "@/lib/client";
 import { contract } from "@/utils/contract";
 import { getNFTs } from "thirdweb/extensions/erc721";

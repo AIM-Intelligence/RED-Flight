@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useModal } from "@/store/use-modal-store";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/Form";
 import { client } from "@/lib/client";
-import { Button } from "../ui/button";
-import { Input } from "../ui/animate-button";
+import { Button } from "../ui/Button";
+import { Input } from "../ui/AnimateButton";
 import * as z from "zod";
 import { MediaRenderer, useActiveAccount } from "thirdweb/react";
 

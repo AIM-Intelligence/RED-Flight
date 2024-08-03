@@ -2,7 +2,7 @@
 
 import { HTMLAttributes, useContext } from "react";
 import MarkdownLite from "./MarkdownLite";
-import { MessagesContext } from "@/context/messages";
+import { MessagesContext } from "@/context/Messages";
 import { cn } from "@/lib/utils";
 
 interface ChatMessageProps extends HTMLAttributes<HTMLDivElement> {}

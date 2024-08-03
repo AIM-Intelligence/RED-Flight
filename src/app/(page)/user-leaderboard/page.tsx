@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
+import { Button } from "@/components/ui/Button";
 import { MediaRenderer } from "thirdweb/react";
 import { client } from "@/lib/client";
 

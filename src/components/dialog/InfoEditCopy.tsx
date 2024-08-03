@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useModal } from "@/store/use-modal-store";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { useDropzone } from "react-dropzone";
 import { createClient } from "@supabase/supabase-js";
 import { ImagePlus, Upload } from "lucide-react";
