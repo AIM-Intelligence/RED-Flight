@@ -1,10 +1,13 @@
 "use client";
-import Header from "@/components/Header";
-import Nav from "@/components/Nav";
+
+import { useEffect, useRef, useState } from "react";
+
+import { usePathname } from "next/navigation";
 
 import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+
+import Header from "@/components/Header";
+import Nav from "@/components/Nav";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   const audioPlayer = useRef<HTMLAudioElement>(null);
@@ -50,17 +53,23 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   }, [videoEnded]);
 
   return (
-    <main className="page text-white font-sora relative">
+    <main className="page relative font-sora text-white">
       {!showPage && (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="flex h-full w-full items-center justify-center">
           {/* <video ref={videoPlayer} src="/videos/logo_main.mp4" autoPlay className="w-full h-full object-cover" /> */}
 
-          <video ref={videoPlayer} autoPlay muted playsInline className="w-full h-full object-cover">
+          <video
+            ref={videoPlayer}
+            autoPlay
+            muted
+            playsInline
+            className="h-full w-full object-cover"
+          >
             <source src="/videos/logo_main.mp4" type="video/mp4" />
           </video>
 
           {videoEnded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-xl cursor-pointer">
+            <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black bg-opacity-50 text-xl text-white">
               Click to start
             </div>
           )}

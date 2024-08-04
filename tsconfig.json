@@ -13,6 +13,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "allowUnusedLabels": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "plugins": [
       {
         "name": "next"
@@ -23,6 +26,12 @@
     },
     "target": "ES2021"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/hooks/getDatasetResult"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/hooks/getDatasetResult"
+  ],
   "exclude": ["node_modules"]
 }

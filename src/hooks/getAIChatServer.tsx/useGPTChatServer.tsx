@@ -1,15 +1,23 @@
 import { useContext } from "react";
+
 import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
+
 import { MessagesContext } from "@/context/Messages";
-import { Message } from "@/lib/validation/message";
+import { Message } from "@/validation/message";
 
 const useAIChatServer = (
   firstTouch: boolean,
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined,
   setInput?: (input: string) => void | undefined,
 ): { mutate: any; isPending: any } => {
-  const { addMessage, removeMessage, updateMessage, setIsMessageUpdating, messages } = useContext(MessagesContext);
+  const {
+    addMessage,
+    removeMessage,
+    updateMessage,
+    setIsMessageUpdating,
+    messages,
+  } = useContext(MessagesContext);
 
   return useMutation({
     mutationFn: async (_messages: Message) => {

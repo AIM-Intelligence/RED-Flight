@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
+
 import { nanoid } from "nanoid";
-import { Message } from "@/lib/validation/message";
+
+import { Message } from "@/validation/message";
 
 const defaultValue = [
   {
@@ -37,7 +39,10 @@ export function MessagesProvider({ children }: { children: React.ReactNode }) {
     setMessages(prev => prev.filter(message => message.id !== id));
   };
 
-  const updateMessage = (id: string, updateFn: (prevText: string) => string) => {
+  const updateMessage = (
+    id: string,
+    updateFn: (prevText: string) => string,
+  ) => {
     setMessages(prev =>
       prev.map(message => {
         if (message.id === id) {

@@ -1,8 +1,14 @@
-import { MediaRenderer, TransactionButton, useConnectedWallets, useReadContract } from "thirdweb/react";
-import { getAllContracts } from "@/utils/contract";
-import { getNFT } from "thirdweb/extensions/erc721";
-import { client } from "@/lib/client";
 import { prepareContractCall } from "thirdweb";
+import { getNFT } from "thirdweb/extensions/erc721";
+import {
+  MediaRenderer,
+  TransactionButton,
+  useConnectedWallets,
+  useReadContract,
+} from "thirdweb/react";
+
+import { client } from "@/lib/client";
+import { getAllContracts } from "@/utils/contract";
 
 type StakedNFTCardProps = {
   tokenId: bigint;
@@ -10,7 +16,11 @@ type StakedNFTCardProps = {
   refetchOwnedNFTs: () => void;
 };
 
-export const StakedNFTCard: React.FC<StakedNFTCardProps> = ({ tokenId, refetchStakedInfo, refetchOwnedNFTs }) => {
+export const StakedNFTCard: React.FC<StakedNFTCardProps> = ({
+  tokenId,
+  refetchStakedInfo,
+  refetchOwnedNFTs,
+}) => {
   const wallet = useConnectedWallets();
   const chainId = wallet[0]?.getChain()?.id ?? 7001;
   const { contract, STAKING_CONTRACT } = getAllContracts(chainId);

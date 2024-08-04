@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
 import { Sora } from "next/font/google";
-import QueryProvider from "@/lib/providers/query-provider";
-import "./globals.css";
+
+import "../styles/globals.css";
+import type { Metadata } from "next";
 import { ThirdwebProvider } from "thirdweb/react";
+
 import { ModalProvider } from "@/lib/providers/modal-provider";
+import QueryProvider from "@/lib/providers/query-provider";
 
 const sora = Sora({
   subsets: ["latin"],

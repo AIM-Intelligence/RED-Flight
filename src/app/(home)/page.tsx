@@ -1,13 +1,19 @@
 "use client";
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { FlameFlake } from "@/components/particles/Fire";
+
+import { useRouter } from "next/navigation";
+
+import {
+  ConnectButton,
+  useActiveAccount,
+  useConnectModal,
+} from "thirdweb/react";
 
 import ProjectsBtn from "@/components/ProjectsBtn";
-import { Button } from "@/components/ui/Button";
-import { useRouter } from "next/navigation";
-import { ConnectButton, useActiveAccount, useConnectModal } from "thirdweb/react";
-import { client } from "@/lib/client";
+import ArrowAnimation from "@/components/lottie/Arrow";
 import LoadingAnimation from "@/components/lottie/Loading";
+import { FlameFlake } from "@/components/particles/Fire";
+import { Button } from "@/components/ui/Button";
+import { client } from "@/lib/client";
 import chainList from "@/utils/chain";
 
 export default function Home() {
@@ -30,13 +36,13 @@ export default function Home() {
         console.log("connected to", wallet);
       } catch (error) {
         console.error("Failed to connect:", error);
-        // 여기에 에러 처리 로직을 추가할 수 있습니다.
+        alert("Failed to connect");
       }
     }
   };
 
   return (
-    <main className="h-full relative">
+    <main className="relative h-full">
       <FlameFlake />
       <video
         autoPlay
@@ -44,23 +50,23 @@ export default function Home() {
         playsInline
         loop
         poster="/landing.png"
-        className="fixed top-0 left-0 min-w-full min-h-full object-cover -z-10"
+        className="fixed left-0 top-0 -z-10 min-h-full min-w-full object-cover"
       >
         <source src="/videos/landing_with.mp4" type="video/mp4" />
       </video>
 
-      <div className=" z-20 relative">
-        <div className="text-center flex flex-col justify-center xl:pt-20 xl:text-left h-full container  mx-auto">
+      <div className="relative z-20">
+        <div className="container mx-auto flex h-full flex-col justify-center text-center xl:pt-20 xl:text-left">
           <div className="max-sm:mt-8">
-            <h1 className="h1  bg-clip-text text-transparent bg-gradient-to-b from-sky-500 to-slate-300 font-black">
+            <h1 className="h1 bg-gradient-to-b from-sky-500 to-slate-300 bg-clip-text font-black text-transparent">
               <span className="text-shadow-inner">
                 Transforming <br /> Into{" "}
               </span>
-              <span className="text-accent1 text-red-600 text-shadow-inner">RED Flight</span>
+              <span className="text-red-600 text-shadow-inner">RED Flight</span>
             </h1>
             <Button
               onClick={handleButtonClick}
-              className="text-white  p-2 bg-primary1 rounded-full px-4 max-sm:text-sm max-sm:-translate-y-4 flex gap-2"
+              className="flex gap-2 rounded-full bg-primary1 p-2 px-4 text-white max-sm:-translate-y-4 max-sm:text-sm"
             >
               LLM Jailbreaking NFT Game
               {isConnecting ? <LoadingAnimation /> : <ArrowAnimation />}
@@ -68,16 +74,13 @@ export default function Home() {
 
             <div className="mt-4">
               <ConnectButton
-                appMetadata={{
-                  name: "RED Flight",
-                  url: "https://www.redflight.io",
-                }}
+                appMetadata={appMetadata}
                 client={client}
                 chains={chainList}
               />
             </div>
           </div>
-          <div className="flex justify-center relative xl:hidden mt-60">
+          <div className="relative mt-60 flex justify-center xl:hidden">
             <ProjectsBtn />
           </div>
 

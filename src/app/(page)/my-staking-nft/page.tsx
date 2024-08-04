@@ -1,27 +1,25 @@
 "use client";
+
 import { useEffect } from "react";
 
-import { getAllContracts } from "@/utils/contract";
-import { useActiveAccount, useConnectedWallets, useReadContract } from "thirdweb/react";
-
-import { StakedNFTCard } from "@/components/staking/StakedNFTCard";
-import { StakeRewards } from "@/components/staking/StakeRewards";
 import { NFT } from "thirdweb";
 import { getNFTs, ownerOf, totalSupply } from "thirdweb/extensions/erc721";
-import { useRouter } from "next/router";
+import {
+  useActiveAccount,
+  useActiveWalletChain,
+  useReadContract,
+} from "thirdweb/react";
+
+import { StakeRewards } from "@/components/staking/StakeRewards";
+import { StakedNFTCard } from "@/components/staking/StakedNFTCard";
+import { getAllContracts } from "@/utils/contract";
 
 const Page = () => {
   const activeAccount = useActiveAccount();
-  const wallet = useConnectedWallets();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!wallet || wallet.length < 1) {
-      router.push("/");
-    }
-  }, [wallet]);
+  const chain = useActiveWalletChain();
 
-  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const chainId = chain ? chain.id : 1115;
   const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
 
   //const [ownedNFTs, setOwnedNFTs] = useState<NFT[]>([]);
@@ -63,11 +61,18 @@ const Page = () => {
   });
 
   return (
-    <div className="max-w-7xl mx-auto z-10">
-      <div className="bg-gray-800/70 shadow-2xl rounded-lg overflow-hidden md:grid md:grid-cols-2 md:gap-8 border border-red-600 p-8">
+    <div className="z-10 mx-auto max-w-7xl">
+      <div className="overflow-hidden rounded-lg border border-red-600 bg-gray-800/70 p-8 shadow-2xl md:grid md:grid-cols-2 md:gap-8">
         <div style={{ width: "100%", margin: "20px 0" }}>
           <h2>Staked NFTs</h2>
-          <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", width: "500px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              width: "500px",
+            }}
+          >
             {stakedInfo && stakedInfo[0].length > 0 ? (
               stakedInfo[0].map((nft: any, index: number) => (
                 <StakedNFTCard

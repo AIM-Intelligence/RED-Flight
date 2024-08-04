@@ -1,5 +1,7 @@
 import { NextRequest } from "next/server";
+
 import { OpenAI } from "openai";
+
 export const maxDuration = 30;
 export const dynamic = "force-dynamic";
 
@@ -45,15 +47,21 @@ export async function POST(req: NextRequest) {
     const base64Image = Buffer.from(imageBuffer).toString("base64");
 
     // Return the base64 encoded image data
-    return new Response(JSON.stringify({ imageData: `data:image/png;base64,${base64Image}` }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ imageData: `data:image/png;base64,${base64Image}` }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: "Failed to generate or fetch image" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: "Failed to generate or fetch image" }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
   }
 }

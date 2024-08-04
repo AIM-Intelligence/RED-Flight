@@ -1,11 +1,13 @@
 "use client";
+
+import { motion } from "framer-motion";
+
 import HeaderPage from "@/components/HeaderPage";
 import Nav from "@/components/Nav";
-import { motion } from "framer-motion";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="page bg-black text-white font-sora relative">
+    <main className="page relative bg-black font-sora text-white">
       <motion.div
         key="main"
         initial={{ opacity: 0 }}

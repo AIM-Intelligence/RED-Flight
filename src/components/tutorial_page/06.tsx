@@ -1,21 +1,30 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+
+import React, { useEffect, useRef, useState } from "react";
+
 import Image from "next/image";
 
 import ArrowAnimation from "../lottie/Arrow";
+import { motion } from "framer-motion";
+
 import { useCount } from "@/store/tutorial-store";
 
 const FirstImage = () => {
   return (
     <>
       <motion.div
-        className="absolute top-0 left-0 w-full h-full"
+        className="absolute left-0 top-0 h-full w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/06/1_game_loading.png" alt="Background 1" fill className="object-cover" priority />
+        <Image
+          src="/tutorial/06/1_game_loading.png"
+          alt="Background 1"
+          fill
+          className="object-cover"
+          priority
+        />
       </motion.div>
     </>
   );
@@ -81,18 +90,26 @@ const SecondImage = () => {
   return (
     <>
       <motion.div
-        className="absolute top-0 left-0 w-full h-full flex items-end justify-center"
+        className="absolute left-0 top-0 flex h-full w-full items-end justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/06/2_game_start.png" alt="Background 1" fill className="object-cover" priority />
+        <Image
+          src="/tutorial/06/2_game_start.png"
+          alt="Background 1"
+          fill
+          className="object-cover"
+          priority
+        />
 
-        <div className="bg-black border border-1 border-red-500 flex items-center justify-center shadow-lg cursor-pointer relative w-3/5 h-1/4 mb-20">
-          <div className="z-20 text-white text-3xl px-6">{texts[currentTextIndex]}</div>
+        <div className="border-1 relative mb-20 flex h-1/4 w-3/5 cursor-pointer items-center justify-center border border-red-500 bg-black shadow-lg">
+          <div className="z-20 px-6 text-3xl text-white">
+            {texts[currentTextIndex]}
+          </div>
 
           <div
-            className="absolute z-20 bottom-10 right-[60px] text-white text-xl w-[40px] cursor-pointer"
+            className="absolute bottom-10 right-[60px] z-20 w-[40px] cursor-pointer text-xl text-white"
             onClick={handleArrowClick}
           >
             {showNextButton ? "O..Okay.." : <ArrowAnimation />}
@@ -114,7 +131,7 @@ const Sixth = () => {
   }, [step]);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative h-screen w-full">
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
     </div>

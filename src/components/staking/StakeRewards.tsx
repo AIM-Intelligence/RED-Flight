@@ -1,8 +1,15 @@
-import { TransactionButton, useActiveAccount, useConnectedWallets, useReadContract } from "thirdweb/react";
-import { getAllContracts } from "@/utils/contract";
-import { prepareContractCall, toEther } from "thirdweb";
 import { useEffect } from "react";
+
+import { prepareContractCall, toEther } from "thirdweb";
 import { balanceOf } from "thirdweb/extensions/erc721";
+import {
+  TransactionButton,
+  useActiveAccount,
+  useConnectedWallets,
+  useReadContract,
+} from "thirdweb/react";
+
+import { getAllContracts } from "@/utils/contract";
 
 export const StakeRewards = () => {
   const account = useActiveAccount();
@@ -35,9 +42,20 @@ export const StakeRewards = () => {
   }, []);
 
   return (
-    <div style={{ width: "100%", margin: "20px 0", display: "flex", flexDirection: "column" }}>
-      {!isTokenBalanceLoading && <p>Wallet Balance: {toEther(BigInt(tokenBalance!.toString()))}</p>}
-      <h2 style={{ marginBottom: "20px" }}>Stake Rewards: {stakedInfo && toEther(BigInt(stakedInfo[1].toString()))}</h2>
+    <div
+      style={{
+        width: "100%",
+        margin: "20px 0",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {!isTokenBalanceLoading && (
+        <p>Wallet Balance: {toEther(BigInt(tokenBalance!.toString()))}</p>
+      )}
+      <h2 style={{ marginBottom: "20px" }}>
+        Stake Rewards: {stakedInfo && toEther(BigInt(stakedInfo[1].toString()))}
+      </h2>
       <TransactionButton
         transaction={() =>
           prepareContractCall({

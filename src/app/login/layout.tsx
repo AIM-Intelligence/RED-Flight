@@ -6,7 +6,11 @@ export const metadata: Metadata = {
 };
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  return <main className="page bg-black text-white font-sora relative">{children}</main>;
+  return (
+    <main className="page relative bg-black font-sora text-white">
+      {children}
+    </main>
+  );
 };
 
 export default layout;

@@ -1,21 +1,31 @@
 "use client";
+
 import { useContext, useState } from "react";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/InputOtp";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
-import { useCount } from "@/store/tutorial-store";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
-import { client } from "@/lib/client";
-import { chain } from "@/utils/chain";
-import useNFTStore from "@/store/tutorial-nft-store";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import { useForm } from "react-hook-form";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
+import { z } from "zod";
+
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/InputOtp";
 import { MessagesContext } from "@/context/Messages";
+import { client } from "@/lib/client";
+import useNFTStore from "@/store/tutorial-nft-store";
+import { useCount } from "@/store/tutorial-store";
+import { chain } from "@/utils/chain";
 
 // Supabase 클라이언트 초기화
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
@@ -29,7 +39,11 @@ function calculateUserMessageLength(conversation: any[]) {
     .reduce((total, message) => total + message.text.length, 0);
 }
 
-export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | "hard" | "impossible" }) {
+export function InputPassword({
+  difficulty,
+}: {
+  difficulty: "easy" | "normal" | "hard" | "impossible";
+}) {
   const activeAccount = useActiveAccount();
   const { increment } = useCount();
   const [isInvalid, setIsInvalid] = useState(false);
@@ -94,18 +108,24 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
 
         if (insertError) throw insertError;
 
-        const { error: updateError } = await supabase.rpc("increment_difficulty", {
-          address_arg: activeAccount.address,
-          column_name: updateColumn,
-        });
+        const { error: updateError } = await supabase.rpc(
+          "increment_difficulty",
+          {
+            address_arg: activeAccount.address,
+            column_name: updateColumn,
+          },
+        );
 
         if (updateError) throw updateError;
       }
 
-      const { error: updateError } = await supabase.rpc("increment_difficulty", {
-        address_arg: activeAccount.address,
-        column_name: updateColumn,
-      });
+      const { error: updateError } = await supabase.rpc(
+        "increment_difficulty",
+        {
+          address_arg: activeAccount.address,
+          column_name: updateColumn,
+        },
+      );
 
       if (updateError) throw updateError;
 
@@ -158,7 +178,10 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
     <>
       {activeAccount?.address ? (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex items-center">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex w-full items-center"
+          >
             <FormField
               control={form.control}
               name="pin"
@@ -166,17 +189,21 @@ export function InputPassword({ difficulty }: { difficulty: "easy" | "normal" | 
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <InputOTP maxLength={6} {...field} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
-                      <p className="text-white text-2xl">Code :</p>
+                    <InputOTP
+                      maxLength={6}
+                      {...field}
+                      pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                    >
+                      <p className="text-2xl text-white">Code :</p>
                       <InputOTPGroup className="gap-2">
                         {[...Array(6)].map((_, index) => (
                           <InputOTPSlot
                             key={index}
                             index={index}
-                            className={`border-2 rounded-lg text-center text-xl focus:outline-none transition duration-200 ${
+                            className={`rounded-lg border-2 text-center text-xl transition duration-200 focus:outline-none ${
                               isInvalid
                                 ? "border-red-500 bg-red-700"
-                                : "border-red-500 focus:border-red-700 focus:ring-2 focus:ring-red-500 focus:shadow-lg"
+                                : "border-red-500 focus:border-red-700 focus:shadow-lg focus:ring-2 focus:ring-red-500"
                             }`}
                           />
                         ))}

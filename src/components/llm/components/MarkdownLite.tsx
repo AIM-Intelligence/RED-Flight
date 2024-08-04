@@ -1,4 +1,5 @@
 import React from "react";
+
 import Link from "next/link";
 
 const MarkdownLite = ({ text }: { text: string }) => {
@@ -21,7 +22,7 @@ const MarkdownLite = ({ text }: { text: string }) => {
       <Link
         target="_blank"
         rel="noopener noreferrer"
-        className="break-words underline underline-offset-2 text-blue-600"
+        className="break-words text-blue-600 underline underline-offset-2"
         key={linkUrl}
         href={linkUrl}
       >

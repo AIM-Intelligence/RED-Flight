@@ -1,13 +1,19 @@
-import { cn } from "@/lib/utils";
-import MarkdownLite from "../llm/components/MarkdownLite";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/Dialog";
-import { useModal } from "@/store/use-modal-store";
-
-import { prepareContractCall } from "thirdweb";
-import { TransactionButton, useConnectedWallets } from "thirdweb/react";
-import { getAllContracts } from "@/utils/contract";
 import { useState } from "react";
+
+import MarkdownLite from "../llm/components/MarkdownLite";
+import { prepareContractCall } from "thirdweb";
 import { approve } from "thirdweb/extensions/erc721";
+import { TransactionButton, useConnectedWallets } from "thirdweb/react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/Dialog";
+import { cn } from "@/lib/utils";
+import { useModal } from "@/store/use-modal-store";
+import { getAllContracts } from "@/utils/contract";
 
 const NFTDetail = () => {
   const wallet = useConnectedWallets();
@@ -26,7 +32,9 @@ const NFTDetail = () => {
   }
 
   // Parse the JSON strings and reverse the order
-  const parsedMessages = nftDetail.map((message: string) => JSON.parse(message)).reverse();
+  const parsedMessages = nftDetail
+    .map((message: string) => JSON.parse(message))
+    .reverse();
 
   console.log("parsedMessages", parsedMessages);
 
@@ -43,13 +51,13 @@ const NFTDetail = () => {
   return (
     <>
       <Dialog open={isModalOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-[425px] bg-white dark:bg-black">
+        <DialogContent className="bg-white dark:bg-black sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Attack Prompt</DialogTitle>
           </DialogHeader>
           <div
             className={cn(
-              "flex p-4 flex-col-reverse overflow-y-auto min-h-[400px] max-h-[360px] scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch gap-2 custom-scrollbar",
+              "scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch custom-scrollbar flex max-h-[360px] min-h-[400px] flex-col-reverse gap-2 overflow-y-auto p-4",
             )}
           >
             {parsedMessages.map((message: any) => (
@@ -60,13 +68,16 @@ const NFTDetail = () => {
                   })}
                 >
                   <div
-                    className={cn("flex flex-col space-y-2 text-sm max-w-xs mx-2 overflow-x-hidden", {
-                      "order-1 items-end": message.isUserMessage,
-                      "order-2 items-start": !message.isUserMessage,
-                    })}
+                    className={cn(
+                      "mx-2 flex max-w-xs flex-col space-y-2 overflow-x-hidden text-sm",
+                      {
+                        "order-1 items-end": message.isUserMessage,
+                        "order-2 items-start": !message.isUserMessage,
+                      },
+                    )}
                   >
                     <p
-                      className={cn("px-4 py-2 rounded-lg", {
+                      className={cn("rounded-lg px-4 py-2", {
                         "bg-red-600 text-white": message.isUserMessage,
                         "bg-gray-200 text-gray-900": !message.isUserMessage,
                       })}

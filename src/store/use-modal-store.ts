@@ -1,6 +1,10 @@
 import { create } from "zustand";
 
-export type ModalType = "showPromptData" | "showUserInfoEdit" | "showUserInfoEditcopy" | "showUserInfoEditImage";
+export type ModalType =
+  | "showPromptData"
+  | "showUserInfoEdit"
+  | "showUserInfoEditcopy"
+  | "showUserInfoEditImage";
 
 interface ModalData {
   nftDetail?: any;

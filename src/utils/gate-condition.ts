@@ -1,7 +1,9 @@
 import { getContract } from "thirdweb";
 import { avalancheFuji } from "thirdweb/chains";
-import { client } from "@/lib/client";
 import { balanceOf as balanceOfERC721 } from "thirdweb/extensions/erc721";
+
+import { client } from "@/lib/client";
+
 // import { balanceOf as balanceOfERC20 } from "thirdweb/extensions/erc20";
 
 export async function hasAccess(address: string): Promise<boolean> {

@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { useModal } from "@/store/use-modal-store";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/Form";
-import { client } from "@/lib/client";
-import { Button } from "../ui/Button";
-import { Input } from "../ui/AnimateButton";
-import * as z from "zod";
-import { MediaRenderer, useActiveAccount } from "thirdweb/react";
 
+import { Input } from "../ui/AnimateButton";
+import { Button } from "../ui/Button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { MediaRenderer, useActiveAccount } from "thirdweb/react";
 import { upload } from "thirdweb/storage";
+import * as z from "zod";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/Form";
+import { client } from "@/lib/client";
 import { cn } from "@/lib/utils";
+import { useModal } from "@/store/use-modal-store";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -136,30 +143,43 @@ const UserInfoEditImage = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px] bg-white ">
+      <DialogContent className="bg-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Generate New Profile Image</DialogTitle>
         </DialogHeader>
-        <div className="mt-5 flex flex-col w-full items-center justify-center">
+        <div className="mt-5 flex w-full flex-col items-center justify-center">
           <div className="mb-5">
             {generatedImage ? (
-              <MediaRenderer client={client} src={generatedImage} className="w-72 h-72 rounded-lg" />
+              <MediaRenderer
+                client={client}
+                src={generatedImage}
+                className="h-72 w-72 rounded-lg"
+              />
             ) : (
-              <div className="w-72 h-72 border border-dashed border-gray-400 rounded-lg flex justify-center items-center">
-                <p className="text-gray-400">{isGenerating ? "Generating image..." : "No image generated"}</p>
+              <div className="flex h-72 w-72 items-center justify-center rounded-lg border border-dashed border-gray-400">
+                <p className="text-gray-400">
+                  {isGenerating ? "Generating image..." : "No image generated"}
+                </p>
               </div>
             )}
           </div>
           <div className="w-max-[200px] w-full">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleGenerateAndMint)} className="space-y-2">
+              <form
+                onSubmit={form.handleSubmit(handleGenerateAndMint)}
+                className="space-y-2"
+              >
                 <FormField
                   control={form.control}
                   name="prompt"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Enter Prompt" {...field} className="bg-slate-200" />
+                        <Input
+                          placeholder="Enter Prompt"
+                          {...field}
+                          className="bg-slate-200"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -171,7 +191,11 @@ const UserInfoEditImage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Enter title" {...field} className="bg-slate-200" />
+                        <Input
+                          placeholder="Enter title"
+                          {...field}
+                          className="bg-slate-200"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -184,7 +208,11 @@ const UserInfoEditImage = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Enter description" {...field} className="bg-slate-200" />
+                        <Input
+                          placeholder="Enter description"
+                          {...field}
+                          className="bg-slate-200"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -193,12 +221,16 @@ const UserInfoEditImage = () => {
                 <Button
                   type="submit"
                   className={cn(
-                    "relative  flex space-x-2 items-center justify-center px-4 w-full rounded-md h-10 font-medium shadow-input hover:cursor-pointer",
-                    "focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-500 transition duration-100 ease-in-out",
+                    "relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium shadow-input hover:cursor-pointer",
+                    "transition duration-100 ease-in-out focus:outline-none focus:ring-1 focus:ring-red-500 focus:ring-offset-1",
                   )}
                   disabled={isGenerating || isMinting}
                 >
-                  {isGenerating ? "Generating..." : isMinting ? "Minting..." : "Generate and Mint"}
+                  {isGenerating
+                    ? "Generating..."
+                    : isMinting
+                      ? "Minting..."
+                      : "Generate and Mint"}
                 </Button>
               </form>
             </Form>

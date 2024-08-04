@@ -1,13 +1,14 @@
 "use client";
-import { client } from "@/lib/client";
 
+import { useState } from "react";
+
+import { AIGenerate } from "../NFT/ImageGenerator";
+import MagicButton from "../ui/MagicButton";
+import { Bot } from "lucide-react";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import MagicButton from "../ui/MagicButton";
-import { Bot } from "lucide-react";
-import { AIGenerate } from "../NFT/ImageGenerator";
-import { useState } from "react";
+import { client } from "@/lib/client";
 
 const GetToken = () => {
   const activeAccount = useActiveAccount();

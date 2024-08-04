@@ -1,27 +1,29 @@
 "use client";
+
 import { useEffect, useState, useTransition } from "react";
 
-import { getAllContracts } from "@/utils/contract";
+import Image from "next/image";
+
+import { createClient } from "@supabase/supabase-js";
+import { getNFTs } from "thirdweb/extensions/erc721";
 import {
   MediaRenderer,
   useActiveAccount,
   useActiveWalletChain,
-  useConnectedWallets,
   useReadContract,
 } from "thirdweb/react";
-import { createClient } from "@supabase/supabase-js";
-import Image from "next/image";
-import { client } from "@/lib/client";
 
-import { useModal } from "@/store/use-modal-store";
 import { GlareCard } from "@/components/animation/GlareCard";
 import { Button } from "@/components/ui/Button";
-
-import { getNFTs } from "thirdweb/extensions/erc721";
-import { useRouter } from "next/navigation";
+import { client } from "@/lib/client";
+import { useModal } from "@/store/use-modal-store";
+import { getAllContracts } from "@/utils/contract";
 
 // Supabase client initialization
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 // User info type definition
 type UserInfo = {
@@ -39,17 +41,20 @@ type UserInfo = {
 
 const Page = () => {
   const activeAccount = useActiveAccount();
-  const wallet = useConnectedWallets();
-  const router = useRouter();
 
-  useEffect(() => {
-    if (!wallet || wallet.length < 1) {
-      router.push("/");
-    }
-  }, [wallet]);
+  const chain = useActiveWalletChain();
 
-  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  //! Build할 때 mount error 발생 => middleware로 해결하자
+  // useEffect(() => {
+  //   if (!chain) {
+  //     router.push("/login");
+  //   }
+  // }, [chain]);
+  const chainId = chain ? chain.id : 1115;
+
   const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
+
+  console.log("contract", contract);
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -65,7 +70,8 @@ const Page = () => {
     includeOwners: true,
   });
 
-  const userNFTs = nfts?.filter(nft => nft.owner === activeAccount?.address) || [];
+  const userNFTs =
+    nfts?.filter(nft => nft.owner === activeAccount?.address) || [];
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -78,7 +84,11 @@ const Page = () => {
               .eq("address", activeAccount.address)
               .single();
             if (error) throw error;
-            setUserInfo({ ...data, nftCount: userNFTs.length, generatedImage: "" });
+            setUserInfo({
+              ...data,
+              nftCount: userNFTs.length,
+              generatedImage: "",
+            });
           } catch (error) {
             console.error("Error fetching user info:", error);
             setUserInfo(null);
@@ -121,7 +131,11 @@ const Page = () => {
   console.log("stakedInfo", stakedInfo);
   const fetchNFTPrompt = async (imageUri: any, id: any) => {
     try {
-      const { data, error } = await supabase.from("NFT_Prompt").select("*").eq("image_url", imageUri).single();
+      const { data, error } = await supabase
+        .from("NFT_Prompt")
+        .select("*")
+        .eq("image_url", imageUri)
+        .single();
 
       if (error) throw error;
 
@@ -129,7 +143,12 @@ const Page = () => {
       await new Promise(resolve => setTimeout(resolve, 50));
 
       // console.log(nftDetail);
-      onOpen("showPromptData", { nftDetail, id, stakedInfo, refetchStakedInfo });
+      onOpen("showPromptData", {
+        nftDetail,
+        id,
+        stakedInfo,
+        refetchStakedInfo,
+      });
     } catch (error) {
       console.error("Error fetching NFT prompt:", error);
     }
@@ -138,19 +157,23 @@ const Page = () => {
   const reversedUserNFTs = [...userNFTs].reverse();
 
   return (
-    <div className="max-w-7xl mx-auto z-10">
-      <div className="bg-gray-800/70 shadow-2xl rounded-lg overflow-hidden md:grid md:grid-cols-2 md:gap-8 border border-red-600">
-        <div className="p-8 border-b border-red-600 md:border-b-0 md:border-r">
-          <div className="w-full flex justify-between">
-            <h2 className="text-3xl font-extrabold text-red-500 mb-6">User Profile</h2>
+    <div className="z-10 mx-auto max-w-7xl">
+      <div className="overflow-hidden rounded-lg border border-red-600 bg-gray-800/70 shadow-2xl md:grid md:grid-cols-2 md:gap-8">
+        <div className="border-b border-red-600 p-8 md:border-b-0 md:border-r">
+          <div className="flex w-full justify-between">
+            <h2 className="mb-6 text-3xl font-extrabold text-red-500">
+              User Profile
+            </h2>
 
-            <Button onClick={() => onOpen("showUserInfoEdit", { userInfo })}>Edit</Button>
+            <Button onClick={() => onOpen("showUserInfoEdit", { userInfo })}>
+              Edit
+            </Button>
           </div>
           {isPending ? (
             <div className="animate-pulse">
-              <div className="rounded-full bg-gray-700 h-32 w-32 mb-4"></div>
-              <div className="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
-              <div className="h-4 bg-gray-700 rounded w-1/2"></div>
+              <div className="mb-4 h-32 w-32 rounded-full bg-gray-700"></div>
+              <div className="mb-2 h-4 w-3/4 rounded bg-gray-700"></div>
+              <div className="h-4 w-1/2 rounded bg-gray-700"></div>
             </div>
           ) : userInfo ? (
             <div className="space-y-6">
@@ -165,71 +188,90 @@ const Page = () => {
                 <MediaRenderer
                   client={client}
                   src={userInfo.image_url}
-                  className="rounded-full border-2 border-red-500 max-w-[140px] max-h-[140px]"
+                  className="max-h-[140px] max-w-[140px] rounded-full border-2 border-red-500"
                 />
                 <div>
-                  <p className="text-xl font-semibold text-white">{userInfo.name}</p>
+                  <p className="text-xl font-semibold text-white">
+                    {userInfo.name}
+                  </p>
                   <p>{userInfo.email}</p>
                   {/* <p className={`text-lg font-medium ${getTierColor(userInfo.tier)}`}>{getTierName(userInfo.score)}</p> */}
                 </div>
               </div>
-              <div className="bg-gray-700 rounded-lg p-6 space-y-4 border border-red-500">
+              <div className="space-y-4 rounded-lg border border-red-500 bg-gray-700 p-6">
                 <div>
-                  <p className="text-sm font-medium text-gray-400">Wallet Address</p>
+                  <p className="text-sm font-medium text-gray-400">
+                    Wallet Address
+                  </p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {/* {userInfo.address.slice(0, 5)}...{userInfo.address.slice(-4)} */}
                     {userInfo.address}
                   </p>
 
-                  <p className="text-sm font-medium text-gray-400">Description</p>
+                  <p className="text-sm font-medium text-gray-400">
+                    Description
+                  </p>
                   <p className="mt-1 text-lg font-semibold text-white">
                     {userInfo.description ? userInfo.description : "empty"}
                   </p>
                 </div>
-                <div className="bg-gradient-to-r from-transparent via-red-500 to-transparent my-6 h-[2px] w-full" />
+                <div className="my-6 h-[2px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent" />
 
                 <div className="grid grid-cols-3">
                   <div className="col-span-1">
                     <p className="text-sm font-medium text-gray-400">Score</p>
-                    <p className="mt-1 text-lg font-semibold text-white">{userInfo.score}</p>
-                    <p className="text-sm font-medium text-gray-400">Demo Status</p>
+                    <p className="mt-1 text-lg font-semibold text-white">
+                      {userInfo.score}
+                    </p>
+                    <p className="text-sm font-medium text-gray-400">
+                      Demo Status
+                    </p>
                     <p className="mt-1 text-lg font-semibold text-white">
                       {userInfo.tutorial ? "Completed" : "Not Completed"}
                     </p>
                   </div>
 
-                  <div className="bg-gradient-to-r from-transparent via-red-500 to-transparent my-6 h-[2px] w-full rotate-90" />
+                  <div className="my-6 h-[2px] w-full rotate-90 bg-gradient-to-r from-transparent via-red-500 to-transparent" />
 
                   <div className="col-span-1">
-                    <Image src={`/rank/${getTierName(userInfo.score)}.png`} width={150} height={150} alt="rank" />
+                    <Image
+                      src={`/rank/${getTierName(userInfo.score)}.png`}
+                      width={150}
+                      height={150}
+                      alt="rank"
+                    />
                   </div>
                 </div>
               </div>
             </div>
           ) : (
-            <p className="text-center text-3xl">We can&apos;t verify your user information, please play the demo.</p>
+            <p className="text-center text-3xl">
+              We can&apos;t verify your user information, please play the demo.
+            </p>
           )}
         </div>
         <div className="p-8">
-          <div className="flex justify-between items-center mb-6 gap-4">
-            <h2 className="text-3xl font-extrabold text-red-500">NFT Collection</h2>
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <h2 className="text-3xl font-extrabold text-red-500">
+              NFT Collection
+            </h2>
             <button
               onClick={() => refetchNFTs()}
-              className="px-4 py-2 border border-red-500 text-sm font-medium rounded-md text-red-500 bg-transparent hover:bg-red-500 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              className="rounded-md border border-red-500 bg-transparent px-4 py-2 text-sm font-medium text-red-500 transition-colors duration-300 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
               Refresh NFTs
             </button>
           </div>
-          <div className="flex flex-wrap max-w-2xl overflow-y-auto items-center">
+          <div className="flex max-w-2xl flex-wrap items-center overflow-y-auto">
             {isLoading ? (
-              <div className="animate-pulse flex flex-wrap gap-2">
-                <div className="h-28 w-28 bg-gray-700 rounded "></div>
-                <div className="h-28 w-28 bg-gray-700 rounded "></div>
-                <div className="h-28 w-28 bg-gray-700 rounded "></div>
-                <div className="h-28 w-28 bg-gray-700 rounded "></div>
+              <div className="flex animate-pulse flex-wrap gap-2">
+                <div className="h-28 w-28 rounded bg-gray-700"></div>
+                <div className="h-28 w-28 rounded bg-gray-700"></div>
+                <div className="h-28 w-28 rounded bg-gray-700"></div>
+                <div className="h-28 w-28 rounded bg-gray-700"></div>
               </div>
             ) : (
-              <div className="max-h-[500px] overflow-y-auto custom-scrollbar flex flex-row flex-wrap items-center gap-4 ">
+              <div className="custom-scrollbar flex max-h-[500px] flex-row flex-wrap items-center gap-4 overflow-y-auto">
                 {reversedUserNFTs &&
                   reversedUserNFTs?.map((nft, index) => (
                     <div
@@ -239,7 +281,11 @@ const Page = () => {
                     >
                       <GlareCard>
                         <div key={index} className="w-[150px]">
-                          <MediaRenderer client={client} src={nft.metadata.image} className=" max-h-[150px] " />
+                          <MediaRenderer
+                            client={client}
+                            src={nft.metadata.image}
+                            className="max-h-[150px]"
+                          />
                         </div>
                       </GlareCard>
                     </div>

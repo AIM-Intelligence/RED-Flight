@@ -25,7 +25,7 @@ const MagicButton = ({
 }) => {
   return (
     <button
-      className={`relative inline-flex h-12 w-full overflow-hidden rounded-lg ${disabled ? "cursor-not-allowed" : "cursor-pointer"} p-[1px] focus:outline-none `}
+      className={`relative inline-flex h-12 w-full overflow-hidden rounded-lg ${disabled ? "cursor-not-allowed" : "cursor-pointer"} p-[1px] focus:outline-none`}
       onClick={handleClick}
       disabled={disabled}
     >
@@ -33,8 +33,7 @@ const MagicButton = ({
 
       {/* remove px-3 py-1, add px-5 gap-2 */}
       <span
-        className={`inline-flex h-full w-full  items-center justify-center rounded-lg
-             bg-slate-950 px-7 text-sm font-medium text-white backdrop-blur-3xl gap-2 ${otherClasses}`}
+        className={`inline-flex h-full w-full items-center justify-center gap-2 rounded-lg bg-slate-950 px-7 text-sm font-medium text-white backdrop-blur-3xl ${otherClasses}`}
       >
         {position === "left" && icon}
         {title}

@@ -1,4 +1,4 @@
-import { Message } from "@/lib/validation/message";
+import { Message } from "@/validation/message";
 
 export function convertMessages(messages: Message[]): string {
   return messages.reduce((result, message) => {

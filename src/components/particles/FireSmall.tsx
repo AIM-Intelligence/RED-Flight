@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
+
 import type { Container } from "@tsparticles/engine";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
-import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+import { loadSlim } from "@tsparticles/slim";
+
+// if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 import { cn } from "@/lib/utils";
+
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
 export const FlameFlakeSmall = () => {
@@ -35,7 +39,10 @@ export const FlameFlakeSmall = () => {
     <Particles
       id="tsparticles"
       particlesLoaded={particlesLoaded}
-      className={cn("transition-opacity sm:hidden ease-in-out z-50", init ? "opacity-100" : "opacity-0")}
+      className={cn(
+        "z-50 transition-opacity ease-in-out sm:hidden",
+        init ? "opacity-100" : "opacity-0",
+      )}
       options={{
         autoPlay: true,
         background: {

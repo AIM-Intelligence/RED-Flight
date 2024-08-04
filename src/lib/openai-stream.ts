@@ -1,4 +1,8 @@
-import { createParser, ParsedEvent, ReconnectInterval } from "eventsource-parser";
+import {
+  ParsedEvent,
+  ReconnectInterval,
+  createParser,
+} from "eventsource-parser";
 
 export type ChatGPTAgent = "user" | "system";
 

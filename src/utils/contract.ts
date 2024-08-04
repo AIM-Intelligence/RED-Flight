@@ -1,34 +1,37 @@
-import { client } from "@/lib/client";
-import { defineChain, getContract } from "thirdweb";
-import { stakingContractABI } from "./stakingContractABI";
+import { stakingContractABI } from "../constants/stakingContractABI";
 import { getContractAddress } from "./contractAddress";
+import { defineChain, getContract } from "thirdweb";
+
+import { client } from "@/lib/client";
 
 export const getAllContracts = (chainId: number) => {
   const ca = getContractAddress(chainId);
   const chain = defineChain(chainId ? chainId : 7001);
 
+  // if (!ca) return null;
+
   const contract = getContract({
     client: client,
     chain: chain,
-    address: ca.nftCollectionContractAddress,
+    address: ca?.nftCollectionContractAddress,
   });
 
   const NFT_CONTRACT = getContract({
     client: client,
     chain: chain,
-    address: ca.nftDropContractAddress,
+    address: ca?.nftDropContractAddress,
   });
 
   const REWARD_TOKEN_CONTRACT = getContract({
     client: client,
     chain: chain,
-    address: ca.rewardTokenContractAddress,
+    address: ca?.rewardTokenContractAddress,
   });
 
   const STAKING_CONTRACT = getContract({
     client: client,
     chain: chain,
-    address: ca.stakingContractAddress,
+    address: ca?.stakingContractAddress,
     abi: stakingContractABI,
   });
 

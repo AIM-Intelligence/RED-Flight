@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
+
 import Image from "next/image";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/Table";
-import { Button } from "@/components/ui/Button";
+
+import { createClient } from "@supabase/supabase-js";
 import { MediaRenderer } from "thirdweb/react";
+
+import { Button } from "@/components/ui/Button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/Table";
 import { client } from "@/lib/client";
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+);
 
 type User = {
   id: string;
@@ -36,13 +49,18 @@ const Page = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { count } = await supabase.from("User").select("*", { count: "exact", head: true });
+        const { count } = await supabase
+          .from("User")
+          .select("*", { count: "exact", head: true });
         setTotalPages(Math.ceil((count || 0) / USERS_PER_PAGE));
         const { data, error } = await supabase
           .from("User")
           .select("id, image_url, name, address, score")
           .order("score", { ascending: false })
-          .range((currentPage - 1) * USERS_PER_PAGE, currentPage * USERS_PER_PAGE - 1);
+          .range(
+            (currentPage - 1) * USERS_PER_PAGE,
+            currentPage * USERS_PER_PAGE - 1,
+          );
 
         if (error) throw error;
         if (data) {
@@ -66,16 +84,18 @@ const Page = () => {
   };
 
   return (
-    <div className="z-10 container mx-auto p-4">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold">🦋 RED Flights User Leaderboard 🏆</h1>
+    <div className="container z-10 mx-auto p-4">
+      <div className="mb-6 text-center">
+        <h1 className="text-4xl font-bold">
+          🦋 RED Flights User Leaderboard 🏆
+        </h1>
       </div>
       {loading ? (
         <p className="text-center">Loading...</p>
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
-        <div className="bg-black/50 p-4 rounded-lg">
+        <div className="rounded-lg bg-black/50 p-4">
           <Table className="border-collapse">
             <TableHeader>
               <TableRow className="border-b border-red-500">
@@ -94,28 +114,45 @@ const Page = () => {
                     {(currentPage - 1) * USERS_PER_PAGE + index + 1}
                   </TableCell>
                   <TableCell>
-                    <Image src={getRankImage(user.score)} alt="Rank" width={30} height={30} />
+                    <Image
+                      src={getRankImage(user.score)}
+                      alt="Rank"
+                      width={30}
+                      height={30}
+                    />
                   </TableCell>
-                  <TableCell className="p-1 flex items-center justify-center ">
-                    <div className="w-[50px] h-[50px] rounded-full overflow-clip">
-                      <MediaRenderer client={client} src={user.image_url} className=" max-h-[50px]" />
+                  <TableCell className="flex items-center justify-center p-1">
+                    <div className="h-[50px] w-[50px] overflow-clip rounded-full">
+                      <MediaRenderer
+                        client={client}
+                        src={user.image_url}
+                        className="max-h-[50px]"
+                      />
                     </div>
                   </TableCell>
                   <TableCell className="text-white">{user.name}</TableCell>
                   <TableCell className="text-white">{user.address}</TableCell>
-                  <TableCell className="text-right text-white">{user.score}</TableCell>
+                  <TableCell className="text-right text-white">
+                    {user.score}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <div className="flex justify-center mt-4 space-x-2">
-            <Button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          <div className="mt-4 flex justify-center space-x-2">
+            <Button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
               Previous
             </Button>
             <span className="py-2 text-white">
               Page {currentPage} of {totalPages}
             </span>
-            <Button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            <Button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
               Next
             </Button>
           </div>

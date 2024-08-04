@@ -5,10 +5,10 @@ import { getContract } from "thirdweb";
 import { client } from "@/lib/client";
 
 export const nftCollectionContractAddress =
-  "0x0B5eC88F7134dFBDA606F7678d06b8F23C3c759f";
+  "0x0265615b0Ea4Ef75d31640D96408033a85C8C584";
 
 export const profileNftCollectionContractAddress =
-  "0x8DF94d5f59d2bA9bf418b0D2e37d12633Bc52a42";
+  "0x2B6CCC8aAA3d1d9718376be9053e85043D26f759";
 
 export const contract = getContract({
   client: client,
@@ -17,11 +17,11 @@ export const contract = getContract({
 });
 
 export const nftDropContractAddress =
-  "0x8DF94d5f59d2bA9bf418b0D2e37d12633Bc52a42";
+  "0x4de63A0079d1f9B30Fc4e9F913b5C6Fb81556adD";
 export const rewardTokenContractAddress =
-  "0x68d3487BEa57bC98D3cA5557edd0ba2ac90B57a1";
+  "0x266dda99408e839446E2b9B4d3D872A6B5FA0d8d";
 export const stakingContractAddress =
-  "0x48df4BfBd00B18E7690F1edeED3BC00bFe2bb3B4";
+  "0xa170aac4BE1406dA6f070F0F0E1143f432dbB0B9";
 
 export const NFT_CONTRACT = getContract({
   client: client,

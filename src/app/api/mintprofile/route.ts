@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { profileNftCollectionContractAddress } from "@/utils/contract";
 
-const { ENGINE_URL, ACCESS_TOKEN, BACKEND_WALLET_ADDRESS, CHAIN_ID } = process.env;
+import { profileNftCollectionContractAddress } from "@/utils/contractZeta";
+
+const { ENGINE_URL, ACCESS_TOKEN, BACKEND_WALLET_ADDRESS, CHAIN_ID } =
+  process.env;
 
 export async function POST(req: NextRequest) {
   console.log("Minting NFT");
   if (!ENGINE_URL || !ACCESS_TOKEN || !BACKEND_WALLET_ADDRESS || !CHAIN_ID) {
-    return new NextResponse(JSON.stringify({ error: "Missing required environment variables" }), { status: 500 });
+    return new NextResponse(
+      JSON.stringify({ error: "Missing required environment variables" }),
+      { status: 500 },
+    );
   }
 
   const { nftImage, address, traits } = await req.json();
@@ -57,9 +62,14 @@ export async function POST(req: NextRequest) {
       throw new Error(`Failed to mint NFT: ${error}`);
     }
 
-    return new NextResponse(JSON.stringify({ message: "NFT minted successfully" }), { status: 200 });
+    return new NextResponse(
+      JSON.stringify({ message: "NFT minted successfully" }),
+      { status: 200 },
+    );
   } catch (error) {
     console.error("Minting error:", error);
-    return new NextResponse(JSON.stringify({ error: "Failed to mint NFT" }), { status: 500 });
+    return new NextResponse(JSON.stringify({ error: "Failed to mint NFT" }), {
+      status: 500,
+    });
   }
 }

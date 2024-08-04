@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import NFTDetail from "@/components/dialog/NftDetail";
 import UserInfoEdit from "@/components/dialog/UserInfoEdit";
 import UserInfoEditImage from "@/components/dialog/UserInfoEditImage";
-import { useEffect, useState } from "react";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);

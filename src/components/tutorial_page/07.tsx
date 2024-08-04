@@ -1,30 +1,33 @@
 "use client";
+
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import { GPT4oPasswordAccordion } from "../llm/GPT4oPassword";
-import { InputPassword } from "./07-form";
-import Info07 from "./07-info";
-import { useRouter } from "next/navigation";
 import ArrowAnimation from "../lottie/Arrow";
 import { Button } from "../ui/Button";
+import { InputPassword } from "./07-form";
+import Info07 from "./07-info";
+import { AnimatePresence, motion } from "framer-motion";
+
 import { MessagesContext } from "@/context/Messages";
 
 const DifficultySelector = ({ onSelect }: any) => {
   const difficulties = ["easy", "normal", "hard", "impossible"];
 
   return (
-    <div className="absolute top-28 left-28 bg-black p-4 border border-red-500">
-      <Button className="text-white p-2 cursor-default bg-transparent text-lg hover:bg-transparent  px-4 flex gap-2">
+    <div className="absolute left-28 top-28 border border-red-500 bg-black p-4">
+      <Button className="flex cursor-default gap-2 bg-transparent p-2 px-4 text-lg text-white hover:bg-transparent">
         <ArrowAnimation />
         Select Difficulty:
       </Button>
-      <div className="flex space-x-2 mt-2">
+      <div className="mt-2 flex space-x-2">
         {difficulties.map(diff => (
           <button
             key={diff}
-            className="px-3 py-1 text-lg bg-gray-700 text-white rounded hover:bg-gray-600"
+            className="rounded bg-gray-700 px-3 py-1 text-lg text-white hover:bg-gray-600"
             onClick={() => onSelect(diff)}
           >
             {diff}
@@ -93,22 +96,29 @@ const FirstImage = () => {
     <>
       <audio ref={audioRef} src="/tutorial/07/siren_ver.mp3" loop />
       <motion.div
-        className="absolute top-0 left-0 w-full h-full flex"
+        className="absolute left-0 top-0 flex h-full w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/07/1_game_start.png" alt="Background 1" layout="fill" objectFit="cover" priority />
+        <Image
+          src="/tutorial/07/1_game_start.png"
+          alt="Background 1"
+          layout="fill"
+          objectFit="cover"
+          priority
+        />
 
-        <div className="absolute bottom-20 border border-red-600 left-28 bg-black flex p-6 shadow-lg cursor-pointer w-2/5 h-2/6 ">
+        <div className="absolute bottom-20 left-28 flex h-2/6 w-2/5 cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
           <Info07 />
         </div>
-        <div className="absolute border border-red-600 top-28 right-28 bg-black flex p-6 shadow-lg cursor-pointer  ">
-          <div className="z-20 text-white text-3xl">
-            Countdown: <span className="text-red-500">{formatTime(timeLeft)}</span>
+        <div className="absolute right-28 top-28 flex cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
+          <div className="z-20 text-3xl text-white">
+            Countdown:{" "}
+            <span className="text-red-500">{formatTime(timeLeft)}</span>
           </div>
         </div>
-        <div className="absolute bottom-60 right-24 bg-transparent flex p-6 shadow-lg cursor-pointer w-2/5 h-3/6 ">
+        <div className="absolute bottom-60 right-24 flex h-3/6 w-2/5 cursor-pointer bg-transparent p-6 shadow-lg">
           <AnimatePresence>
             {difficulty ? (
               <motion.div
@@ -117,14 +127,16 @@ const FirstImage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
               >
-                <GPT4oPasswordAccordion onToggle={(isOpen: any) => setIsAccordionOpen(isOpen)} />
+                <GPT4oPasswordAccordion
+                  onToggle={(isOpen: any) => setIsAccordionOpen(isOpen)}
+                />
               </motion.div>
             ) : (
               <DifficultySelector onSelect={handleDifficultySelect} />
             )}
           </AnimatePresence>
         </div>
-        <div className="absolute bg-black bottom-32 border border-red-600 right-32  flex p-6 shadow-lg cursor-pointer  ">
+        <div className="absolute bottom-32 right-32 flex cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
           <InputPassword difficulty={difficulty} />
         </div>
       </motion.div>
@@ -134,7 +146,7 @@ const FirstImage = () => {
 
 const Seventh = () => {
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative h-screen w-full">
       <FirstImage />
     </div>
   );

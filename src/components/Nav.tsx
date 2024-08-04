@@ -1,10 +1,24 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/Tooltip";
-import { Award, GalleryHorizontal, Gem, Trophy, User, Home } from "lucide-react";
-import { useActiveAccount } from "thirdweb/react";
+import { usePathname, useRouter } from "next/navigation";
+
+import {
+  Award,
+  GalleryHorizontal,
+  Gem,
+  Home,
+  Trophy,
+  User,
+} from "lucide-react";
+import { useActiveAccount, useConnectModal } from "thirdweb/react";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/Tooltip";
+import { client } from "@/lib/client";
 
 // nav data
 export const navData = [
@@ -22,32 +36,54 @@ export const navData = [
     path: "/my-staking-nft",
     icon: <Gem />,
   },
-  // {
-  //   name: "Unity Demo",
-  //   path: "/my-staking-nft",
-  //   icon: <Box />,
-  // },
 ];
+
+const appMetadata = {
+  name: "RED Flight",
+  url: "https://www.redflight.io",
+};
 
 const Nav = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const activeAccount = useActiveAccount();
+
+  const { connect, isConnecting } = useConnectModal();
+
+  const handleButtonClick = async (path: string) => {
+    if (activeAccount) {
+      router.push(path);
+    } else {
+      try {
+        const wallet = await connect({ client, appMetadata }); // opens the connect modal
+        console.log("connected to", wallet);
+        router.push(path);
+      } catch (error) {
+        console.error("Failed to connect:", error);
+        alert("Failed to connect");
+      }
+    }
+  };
 
   return (
-    <nav className="flex flex-col items-center xl:justify-center gap-y-4 fixed h-max bottom-0 mt-auto xl:right-[2%] z-50 top-0 w-full xl:w-16 xl:max-w-md xl:h-screen ">
-      <div className="flex w-full xl:flex-col items-center justify-between xl:justify-center gap-y-10 px-4 md:px-40 xl:px-0 h-[80px]  xl:h-max py-8 bg-white/10 backdrop-blur-sm text-3xl xl:text-xl xl:rounded-full">
+    <nav className="fixed bottom-0 top-0 z-50 mt-auto flex h-max w-full flex-col items-center gap-y-4 xl:right-[2%] xl:h-screen xl:w-16 xl:max-w-md xl:justify-center">
+      <div className="flex h-[80px] w-full items-center justify-between gap-y-10 bg-white/10 px-4 py-8 text-3xl backdrop-blur-sm md:px-40 xl:h-max xl:flex-col xl:justify-center xl:rounded-full xl:px-0 xl:text-xl">
         <TooltipProvider>
           {navData.map((link, index) => {
             return (
               <Tooltip key={index} delayDuration={0}>
                 <TooltipTrigger asChild>
-                  <Link
-                    href={link.path}
-                    className={`${link.path === pathname && "text-accent1"} relative flex items-center group hover:text-accent1 transition-all duration-300`}
+                  <button
+                    onClick={() => handleButtonClick(link.path)}
+                    disabled={isConnecting}
+                    className={`${
+                      link.path === pathname && "text-accent1"
+                    } group relative flex items-center transition-all duration-300 hover:text-accent1`}
                   >
                     <div>{link.icon}</div>
-                  </Link>
+                  </button>
                 </TooltipTrigger>
-                <TooltipContent side="left" className="bg-black border-red-500">
+                <TooltipContent side="left" className="border-red-500 bg-black">
                   <p className="text-red-500">{link.name}</p>
                 </TooltipContent>
               </Tooltip>

@@ -1,7 +1,17 @@
 "use client";
 
-import chainList from "@/utils/chain";
-import { client } from "@/lib/client";
+import { useEffect, useState } from "react";
+
+import { NFTCard } from "./NFTCard";
+import { StakeRewards } from "./StakeRewards";
+import { StakedNFTCard } from "./StakedNFTCard";
+import { NFT } from "thirdweb";
+import {
+  claimTo,
+  getNFTs,
+  ownerOf,
+  totalSupply,
+} from "thirdweb/extensions/erc721";
 import {
   ConnectButton,
   TransactionButton,
@@ -9,13 +19,10 @@ import {
   useConnectedWallets,
   useReadContract,
 } from "thirdweb/react";
-import { StakeRewards } from "./StakeRewards";
+
+import { client } from "@/lib/client";
+import chainList from "@/utils/chain";
 import { getAllContracts } from "@/utils/contract";
-import { NFT } from "thirdweb";
-import { useEffect, useState } from "react";
-import { claimTo, getNFTs, ownerOf, totalSupply } from "thirdweb/extensions/erc721";
-import { NFTCard } from "./NFTCard";
-import { StakedNFTCard } from "./StakedNFTCard";
 
 export const Staking = () => {
   const account = useActiveAccount();
@@ -123,10 +130,22 @@ export const Staking = () => {
           }}
         >
           <h2>Owned NFTs</h2>
-          <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", width: "500px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              width: "500px",
+            }}
+          >
             {ownedNFTs && ownedNFTs.length > 0 ? (
               ownedNFTs.map(nft => (
-                <NFTCard key={nft.id} nft={nft} refetch={getOwnedNFTs} refecthStakedInfo={refetchStakedInfo} />
+                <NFTCard
+                  key={nft.id}
+                  nft={nft}
+                  refetch={getOwnedNFTs}
+                  refecthStakedInfo={refetchStakedInfo}
+                />
               ))
             ) : (
               <p>You own 0 NFTs</p>
@@ -141,7 +160,14 @@ export const Staking = () => {
         />
         <div style={{ width: "100%", margin: "20px 0" }}>
           <h2>Staked NFTs</h2>
-          <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", width: "500px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              width: "500px",
+            }}
+          >
             {stakedInfo && stakedInfo[0].length > 0 ? (
               stakedInfo[0].map((nft: any, index: number) => (
                 <StakedNFTCard

@@ -1,22 +1,31 @@
 "use client";
+
 import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+
 import Image from "next/image";
 
 import ArrowAnimation from "../lottie/Arrow";
-import { useCount } from "@/store/tutorial-store";
 import { Button } from "../ui/Button";
+import { motion } from "framer-motion";
+
+import { useCount } from "@/store/tutorial-store";
 
 const FirstImage = () => {
   return (
     <>
       <motion.div
-        className="absolute top-0 left-0 w-full h-full"
+        className="absolute left-0 top-0 h-full w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/02/2_porch.png" alt="Background 1" fill className="object-cover" priority />
+        <Image
+          src="/tutorial/02/2_porch.png"
+          alt="Background 1"
+          fill
+          className="object-cover"
+          priority
+        />
       </motion.div>
     </>
   );
@@ -25,12 +34,18 @@ const FirstImage = () => {
 const SecondImage = () => {
   return (
     <motion.div
-      className="absolute top-0 left-0 w-full h-full"
+      className="absolute left-0 top-0 h-full w-full"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
     >
-      <Image src="/tutorial/02/1_hallway2.png" alt="Background 2" fill className="object-cover" priority />
+      <Image
+        src="/tutorial/02/1_hallway2.png"
+        alt="Background 2"
+        fill
+        className="object-cover"
+        priority
+      />
     </motion.div>
   );
 };
@@ -53,39 +68,50 @@ const ThirdImage = () => {
   return (
     <>
       <motion.div
-        className="absolute top-0 left-0 w-full h-full"
+        className="absolute left-0 top-0 h-full w-full"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <Image src="/tutorial/02/3_indoor.png" alt="Background" fill className="object-cover" priority />
+        <Image
+          src="/tutorial/02/3_indoor.png"
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+        />
       </motion.div>
 
       <motion.div
-        className="absolute bottom-0 left-0 w-full h-screen flex items-end justify-start"
+        className="absolute bottom-0 left-0 flex h-screen w-full items-end justify-start"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute z-20 bottom-60 left-10 text-white text-3xl">
+        <div className="absolute bottom-60 left-10 z-20 text-3xl text-white">
           (I got nothing going on, so I might as well just game for a while...)
         </div>
 
         <div
-          className="absolute z-20 bottom-10 right-[600px] text-white text-xl w-[60px] cursor-pointer"
+          className="absolute bottom-10 right-[600px] z-20 w-[60px] cursor-pointer text-xl text-white"
           onClick={increment}
         >
           <ArrowAnimation />
         </div>
-        <div className="bg-black opacity-50 w-full flex items-center justify-center shadow-lg cursor-pointer relative h-1/3 p-6" />
+        <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black p-6 opacity-50 shadow-lg" />
 
         <motion.div
-          className="absolute bottom-0 right-0 w-1/3 h-5/6"
+          className="absolute bottom-0 right-0 h-5/6 w-1/3"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          <Image src="/tutorial/02/3_get_off_work.png" alt="Secondary" fill className="object-contain" />
+          <Image
+            src="/tutorial/02/3_get_off_work.png"
+            alt="Secondary"
+            fill
+            className="object-contain"
+          />
         </motion.div>
       </motion.div>
     </>
@@ -98,7 +124,9 @@ const Second = () => {
 
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.play().catch(error => console.error("Audio play failed:", error));
+      audioRef.current
+        .play()
+        .catch(error => console.error("Audio play failed:", error));
     }
   }, []);
 
@@ -113,12 +141,15 @@ const Second = () => {
   }, [step]);
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative h-screen w-full">
       <audio ref={audioRef} src="/tutorial/02/door_lock.mp3" />
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
       {step === 3 && <ThirdImage />}
-      <Button className="absolute bottom-10 left-10" onClick={() => useCount.setState({ count: 6 })}>
+      <Button
+        className="absolute bottom-10 left-10"
+        onClick={() => useCount.setState({ count: 6 })}
+      >
         Skip
       </Button>
     </div>

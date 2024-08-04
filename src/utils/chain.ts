@@ -7,3 +7,5 @@ const coreT = defineChain(1115);
 
 const chainList = [zetaT, mantaT, zkSyncT, coreT];
 export default chainList;
+
+export const chain = defineChain(7001);
