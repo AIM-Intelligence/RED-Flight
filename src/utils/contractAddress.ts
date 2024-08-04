@@ -38,20 +38,23 @@ const addressList = [
   {
     // core
     "1115": {
-      nftCollectionContractAddress: "",
-      profileNftCollectionContractAddress: "",
+      nftCollectionContractAddress:
+        "0x94A42A13B95fF4e48EB9820340128b9DA03E6BBb",
+      profileNftCollectionContractAddress:
+        "0xdbB5046b5a0D994c68eA049CF857B947E7b9A00d",
       nftDropContractAddress: "",
-      rewardTokenContractAddress: "",
-      stakingContractAddress: "",
+      rewardTokenContractAddress: "0x9a2939d4adA6F1067a1e0Bae09489C7D988b33E3",
+      stakingContractAddress: "0x3a9e90061100d6eaa506a066495148E2F6F23D04",
     },
   },
   {
     // theta
-    "1115": {
-      nftCollectionContractAddress: "",
+    "365": {
+      nftCollectionContractAddress:
+        "0x8E9284D2923154b69254b192Cd1475c29651B702",
       profileNftCollectionContractAddress: "",
       nftDropContractAddress: "",
-      rewardTokenContractAddress: "",
+      rewardTokenContractAddress: "0x9826B2717F03AD6De10DB7012804AB328d35F881",
       stakingContractAddress: "",
     },
   },

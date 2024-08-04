@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { nftCollectionContractAddress } from "@/utils/contractZeta";
+import { getContractAddress } from "@/utils/contractAddress";
 
 const { ENGINE_URL, ACCESS_TOKEN, BACKEND_WALLET_ADDRESS, CHAIN_ID } =
   process.env;
@@ -14,13 +14,16 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { nftImage, address, traits } = await req.json();
+  const { nftImage, address, traits, chain } = await req.json();
+
+  const ca = getContractAddress(chain);
 
   console.log("traits", traits);
+  console.log("traits", chain);
 
   try {
     const mintResponse = await fetch(
-      `${ENGINE_URL}/contract/${CHAIN_ID}/${nftCollectionContractAddress}/erc721/mint-to`,
+      `${ENGINE_URL}/contract/${chain}/${ca?.nftCollectionContractAddress}/erc721/mint-to`,
       {
         method: "POST",
         headers: {

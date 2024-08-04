@@ -5,7 +5,11 @@ import { Button } from "../ui/Button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/Dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { MediaRenderer, useActiveAccount } from "thirdweb/react";
+import {
+  MediaRenderer,
+  useActiveAccount,
+  useActiveWalletChain,
+} from "thirdweb/react";
 import { upload } from "thirdweb/storage";
 import * as z from "zod";
 
@@ -42,6 +46,7 @@ const UserInfoEditImage = () => {
   const [generatedImage, setGeneratedImage] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
+  const chain = useActiveWalletChain();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -116,6 +121,7 @@ const UserInfoEditImage = () => {
           nftImage: imageUri,
           address: account?.address || "",
           traits,
+          chain: chain!.id,
         }),
       });
 

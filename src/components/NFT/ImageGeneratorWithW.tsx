@@ -7,7 +7,11 @@ import { Button } from "../ui/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@supabase/supabase-js";
 import { useForm } from "react-hook-form";
-import { MediaRenderer, useActiveAccount } from "thirdweb/react";
+import {
+  MediaRenderer,
+  useActiveAccount,
+  useActiveWalletChain,
+} from "thirdweb/react";
 import { upload } from "thirdweb/storage";
 import * as z from "zod";
 
@@ -43,6 +47,7 @@ export const AIGenerate = ({ onClose }: { onClose: () => void }) => {
   const imagePrompt = convertMessages(messages);
   const account = useActiveAccount();
   const { resetNFT, nft } = useNFTStore.getState();
+  const chain = useActiveWalletChain();
 
   const [generatedImage, setGeneratedImage] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
@@ -119,6 +124,7 @@ export const AIGenerate = ({ onClose }: { onClose: () => void }) => {
           nftImage: imageUri,
           address: account?.address || "",
           traits,
+          chain: chain!.id,
         }),
       });
 
