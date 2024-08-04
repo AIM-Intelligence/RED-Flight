@@ -4,12 +4,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useModal } from "@/store/use-modal-store";
 
 import { prepareContractCall } from "thirdweb";
-import { TransactionButton } from "thirdweb/react";
-import { contract, STAKING_CONTRACT } from "@/utils/contract";
+import { TransactionButton, useConnectedWallets } from "thirdweb/react";
+import { getAllContracts } from "@/utils/contract";
 import { useState } from "react";
 import { approve } from "thirdweb/extensions/erc721";
 
 const NFTDetail = () => {
+  const wallet = useConnectedWallets();
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
+
   const { isOpen, onClose, type, data } = useModal();
   const [isApproved, setIsApproved] = useState(false);
   const { nftDetail, id, refetchStakedInfo } = data;

@@ -1,8 +1,14 @@
 "use client";
 import { useEffect, useState, useTransition } from "react";
 
-import { contract, STAKING_CONTRACT } from "@/utils/contract";
-import { MediaRenderer, useActiveAccount, useReadContract } from "thirdweb/react";
+import { getAllContracts } from "@/utils/contract";
+import {
+  MediaRenderer,
+  useActiveAccount,
+  useActiveWalletChain,
+  useConnectedWallets,
+  useReadContract,
+} from "thirdweb/react";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 import { client } from "@/lib/client";
@@ -12,6 +18,7 @@ import { GlareCard } from "@/components/animation/GlareCard";
 import { Button } from "@/components/ui/Button";
 
 import { getNFTs } from "thirdweb/extensions/erc721";
+import { useRouter } from "next/navigation";
 
 // Supabase client initialization
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
@@ -32,6 +39,18 @@ type UserInfo = {
 
 const Page = () => {
   const activeAccount = useActiveAccount();
+  const wallet = useConnectedWallets();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!wallet || wallet.length < 1) {
+      router.push("/");
+    }
+  }, [wallet]);
+
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
+
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [isPending, startTransition] = useTransition();
 

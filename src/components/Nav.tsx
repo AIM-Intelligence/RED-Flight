@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Award, GalleryHorizontal, Gem, Trophy, User, Home } from "lucide-react";
+import { useActiveAccount } from "thirdweb/react";
 
 // nav data
 export const navData = [

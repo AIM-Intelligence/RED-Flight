@@ -2,11 +2,16 @@
 
 import { GlareCardGallery } from "@/components/animation/GlareCardGallery";
 import { client } from "@/lib/client";
-import { contract } from "@/utils/contract";
+import { getAllContracts } from "@/utils/contract";
 import { getNFTs } from "thirdweb/extensions/erc721";
-import { MediaRenderer, useReadContract } from "thirdweb/react";
+import { MediaRenderer, useConnectedWallets, useReadContract } from "thirdweb/react";
 
 const page = () => {
+  const wallet = useConnectedWallets();
+
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { contract } = getAllContracts(chainId);
+
   const { data: nfts } = useReadContract(getNFTs, {
     contract: contract,
     includeOwners: true,

@@ -1,16 +1,28 @@
 "use client";
 import { useEffect } from "react";
 
-import { contract, STAKING_CONTRACT } from "@/utils/contract";
-import { useActiveAccount, useReadContract } from "thirdweb/react";
+import { getAllContracts } from "@/utils/contract";
+import { useActiveAccount, useConnectedWallets, useReadContract } from "thirdweb/react";
 
 import { StakedNFTCard } from "@/components/staking/StakedNFTCard";
 import { StakeRewards } from "@/components/staking/StakeRewards";
 import { NFT } from "thirdweb";
 import { getNFTs, ownerOf, totalSupply } from "thirdweb/extensions/erc721";
+import { useRouter } from "next/router";
 
 const Page = () => {
   const activeAccount = useActiveAccount();
+  const wallet = useConnectedWallets();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!wallet || wallet.length < 1) {
+      router.push("/");
+    }
+  }, [wallet]);
+
+  const chainId = wallet[0]?.getChain()?.id ?? 7001;
+  const { contract, STAKING_CONTRACT } = getAllContracts(chainId);
 
   //const [ownedNFTs, setOwnedNFTs] = useState<NFT[]>([]);
 

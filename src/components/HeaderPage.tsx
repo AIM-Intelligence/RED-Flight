@@ -1,7 +1,7 @@
 import { ConnectButton } from "thirdweb/react";
 import Socials from "./Socials";
 import { client } from "@/lib/client";
-import { chain } from "@/utils/chain";
+import chainList from "@/utils/chain";
 
 const HeaderPage = () => {
   return (
@@ -13,7 +13,7 @@ const HeaderPage = () => {
             url: "https://www.redflight.io",
           }}
           client={client}
-          chain={chain}
+          chains={chainList}
         />
 
         <Socials />
