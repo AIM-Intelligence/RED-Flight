@@ -1,5 +1,3 @@
-"use server";
-
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="page relative font-sora text-white">

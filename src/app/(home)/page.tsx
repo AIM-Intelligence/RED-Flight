@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
@@ -14,22 +15,26 @@ import {
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import ProjectsBtn from "@/components/ProjectsBtn";
-import Intro from "@/components/intro/Intro";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import LoadingAnimation from "@/components/lottie/Loading";
 import { FlameFlake } from "@/components/particles/Fire";
 import { Button } from "@/components/ui/Button";
 import { client } from "@/lib/client";
+import { useIntroStore } from "@/store/intro-check-store";
 import chainList from "@/utils/chain";
+
+// Dynamically import the Intro component with SSR disabled
+const Intro = dynamic(() => import("@/components/intro/Intro"), {
+  ssr: false,
+});
 
 export default function Home() {
   const audioPlayer = useRef<HTMLAudioElement>(null);
-
   const [showPage, setShowPage] = useState<boolean>(false);
-
   const router = useRouter();
   const pathname = usePathname();
-  const hasSeenIntro = localStorage.getItem("hasSeenIntro") ? true : false;
+
+  const { hasSeenIntro, setHasSeenIntro } = useIntroStore(); // Use the Zustand store
 
   const activeAccount = useActiveAccount();
   const { connect, isConnecting } = useConnectModal();
@@ -42,18 +47,18 @@ export default function Home() {
   useEffect(() => {
     if (!hasSeenIntro) {
       setShowPage(false);
-      localStorage.setItem("hasSeenIntro", "true");
+      setHasSeenIntro(true); // Update the Zustand store instead of localStorage
     } else {
       setShowPage(true);
     }
-  }, [hasSeenIntro]);
+  }, [hasSeenIntro, setHasSeenIntro]);
 
   const handleButtonClick = async () => {
     if (activeAccount) {
       router.push("/tutorial");
     } else {
       try {
-        const wallet = await connect({ client, appMetadata }); // opens the connect modal
+        const wallet = await connect({ client, appMetadata });
         console.log("connected to", wallet);
       } catch (error) {
         console.error("Failed to connect:", error);
@@ -61,7 +66,6 @@ export default function Home() {
       }
     }
   };
-
   return (
     <>
       {!showPage && <Intro setShowPage={setShowPage} />}
