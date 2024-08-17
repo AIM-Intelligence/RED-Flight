@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 import HeaderPage from "@/components/HeaderPage";
 import Nav from "@/components/Nav";
+import { ModalProvider } from "@/lib/providers/modal-provider";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -14,11 +15,11 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
-        className="h-full"
       >
         <Nav />
         <HeaderPage />
-        <motion.div className="h-full">{children}</motion.div>
+        {children}
+        <ModalProvider />
       </motion.div>
     </main>
   );

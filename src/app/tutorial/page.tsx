@@ -2,13 +2,14 @@
 
 import React from "react";
 
-import First from "@/components/tutorial_page/01";
-import Second from "@/components/tutorial_page/02";
-import ThirdFourth from "@/components/tutorial_page/03-04";
-import Fifth from "@/components/tutorial_page/05";
-import Sixth from "@/components/tutorial_page/06";
-import Seventh from "@/components/tutorial_page/07";
-import Eighth from "@/components/tutorial_page/08";
+import First from "./_components/01";
+import Second from "./_components/02";
+import ThirdFourth from "./_components/03-04";
+import Fifth from "./_components/05";
+import Sixth from "./_components/06";
+import Seventh from "./_components/07";
+import Eighth from "./_components/08";
+
 import { MessagesProvider } from "@/context/Messages";
 import { useCount } from "@/store/tutorial-store";
 

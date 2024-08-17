@@ -51,7 +51,10 @@ export const StakeRewards = () => {
       }}
     >
       {!isTokenBalanceLoading && (
-        <p>Wallet Balance: {toEther(BigInt(tokenBalance!.toString()))}</p>
+        <p>
+          Wallet Balance:{" "}
+          {tokenBalance ? toEther(BigInt(tokenBalance!.toString())) : 0}
+        </p>
       )}
       <h2 style={{ marginBottom: "20px" }}>
         Stake Rewards: {stakedInfo && toEther(BigInt(stakedInfo[1].toString()))}

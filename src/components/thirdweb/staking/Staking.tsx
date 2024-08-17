@@ -13,15 +13,12 @@ import {
   totalSupply,
 } from "thirdweb/extensions/erc721";
 import {
-  ConnectButton,
   TransactionButton,
   useActiveAccount,
   useConnectedWallets,
   useReadContract,
 } from "thirdweb/react";
 
-import { client } from "@/lib/client";
-import chainList from "@/utils/chain";
 import { getAllContracts } from "@/utils/contract";
 
 export const Staking = () => {
@@ -82,7 +79,6 @@ export const Staking = () => {
           padding: "20px",
         }}
       >
-        <ConnectButton client={client} chains={chainList} />
         <div
           style={{
             display: "flex",

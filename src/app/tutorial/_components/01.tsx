@@ -4,8 +4,8 @@ import React, { useEffect, useRef } from "react";
 
 import Image from "next/image";
 
-import ArrowAnimation from "../lottie/Arrow";
-import { Button } from "../ui/Button";
+import ArrowAnimation from "../../../components/lottie/Arrow";
+import { Button } from "../../../components/ui/Button";
 import { motion } from "framer-motion";
 
 import { useCount } from "@/store/tutorial-store";

@@ -44,12 +44,7 @@ const Page = () => {
 
   const chain = useActiveWalletChain();
 
-  //! Build할 때 mount error 발생 => middleware로 해결하자
-  // useEffect(() => {
-  //   if (!chain) {
-  //     router.push("/login");
-  //   }
-  // }, [chain]);
+  console.log("chain", chain);
   const chainId = chain ? chain.id : 1115;
 
   const { contract, STAKING_CONTRACT } = getAllContracts(chainId);

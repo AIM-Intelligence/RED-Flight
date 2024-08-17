@@ -10,7 +10,7 @@ import {
   Trophy,
   User,
 } from "lucide-react";
-import { useActiveAccount, useConnectModal } from "thirdweb/react";
+import { useActiveAccount } from "thirdweb/react";
 
 import {
   Tooltip,
@@ -18,7 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
-import { client } from "@/lib/client";
 
 // nav data
 export const navData = [
@@ -38,30 +37,16 @@ export const navData = [
   },
 ];
 
-const appMetadata = {
-  name: "RED Flight",
-  url: "https://www.redflight.io",
-};
-
 const Nav = () => {
   const pathname = usePathname();
   const router = useRouter();
   const activeAccount = useActiveAccount();
 
-  const { connect, isConnecting } = useConnectModal();
-
   const handleButtonClick = async (path: string) => {
     if (activeAccount) {
       router.push(path);
     } else {
-      try {
-        const wallet = await connect({ client, appMetadata }); // opens the connect modal
-        console.log("connected to", wallet);
-        router.push(path);
-      } catch (error) {
-        console.error("Failed to connect:", error);
-        alert("Failed to connect");
-      }
+      alert("Connect Wallet first");
     }
   };
 
@@ -75,7 +60,6 @@ const Nav = () => {
                 <TooltipTrigger asChild>
                   <button
                     onClick={() => handleButtonClick(link.path)}
-                    disabled={isConnecting}
                     className={`${
                       link.path === pathname && "text-accent1"
                     } group relative flex items-center transition-all duration-300 hover:text-accent1`}

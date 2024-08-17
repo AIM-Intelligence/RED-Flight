@@ -10,8 +10,8 @@ import {
   useReadContract,
 } from "thirdweb/react";
 
-import { StakeRewards } from "@/components/staking/StakeRewards";
-import { StakedNFTCard } from "@/components/staking/StakedNFTCard";
+import { StakeRewards } from "@/components/thirdweb/staking/StakeRewards";
+import { StakedNFTCard } from "@/components/thirdweb/staking/StakedNFTCard";
 import { getAllContracts } from "@/utils/contract";
 
 const Page = () => {

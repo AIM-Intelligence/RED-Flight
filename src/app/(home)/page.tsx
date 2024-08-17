@@ -6,24 +6,17 @@ import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
-import {
-  ConnectButton,
-  useActiveAccount,
-  useConnectModal,
-} from "thirdweb/react";
+import { useActiveAccount } from "thirdweb/react";
 
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
 import ProjectsBtn from "@/components/ProjectsBtn";
 import ArrowAnimation from "@/components/lottie/Arrow";
-import LoadingAnimation from "@/components/lottie/Loading";
 import { FlameFlake } from "@/components/particles/Fire";
+import ThirdwebConnectButton from "@/components/thirdweb/ConnectButton";
 import { Button } from "@/components/ui/Button";
-import { client } from "@/lib/client";
 import { useIntroStore } from "@/store/intro-check-store";
-import chainList from "@/utils/chain";
 
-// Dynamically import the Intro component with SSR disabled
 const Intro = dynamic(() => import("@/components/intro/Intro"), {
   ssr: false,
 });
@@ -34,20 +27,14 @@ export default function Home() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { hasSeenIntro, setHasSeenIntro } = useIntroStore(); // Use the Zustand store
+  const { hasSeenIntro, setHasSeenIntro } = useIntroStore();
 
   const activeAccount = useActiveAccount();
-  const { connect, isConnecting } = useConnectModal();
-
-  const appMetadata = {
-    name: "RED Flight",
-    url: "https://www.redflight.io",
-  };
 
   useEffect(() => {
     if (!hasSeenIntro) {
       setShowPage(false);
-      setHasSeenIntro(true); // Update the Zustand store instead of localStorage
+      setHasSeenIntro(true);
     } else {
       setShowPage(true);
     }
@@ -57,15 +44,10 @@ export default function Home() {
     if (activeAccount) {
       router.push("/tutorial");
     } else {
-      try {
-        const wallet = await connect({ client, appMetadata });
-        console.log("connected to", wallet);
-      } catch (error) {
-        console.error("Failed to connect:", error);
-        alert("Failed to connect");
-      }
+      alert("Login First");
     }
   };
+
   return (
     <>
       {!showPage && <Intro setShowPage={setShowPage} />}
@@ -79,7 +61,7 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="h-full"
         >
-          <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop />
+          {/* <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop /> */}
           <Nav />
           <Header />
           <motion.div key={pathname} className="h-full">
@@ -112,19 +94,12 @@ export default function Home() {
                       className="flex gap-2 rounded-full bg-primary1 p-2 px-4 text-white max-sm:-translate-y-4 max-sm:text-sm"
                     >
                       LLM Jailbreaking NFT Game
-                      {isConnecting ? <LoadingAnimation /> : <ArrowAnimation />}
+                      <ArrowAnimation />
                     </Button>
 
                     <div className="mt-4">
-                      <ConnectButton
-                        appMetadata={appMetadata}
-                        client={client}
-                        chains={chainList}
-                      />
+                      <ThirdwebConnectButton />
                     </div>
-                  </div>
-                  <div className="relative mt-60 flex justify-center xl:hidden">
-                    <ProjectsBtn />
                   </div>
 
                   <div className="mt-72">

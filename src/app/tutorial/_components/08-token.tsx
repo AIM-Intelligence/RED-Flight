@@ -2,16 +2,13 @@
 
 import { useState } from "react";
 
-import { AIGenerate } from "../NFT/ImageGenerator";
-import MagicButton from "../ui/MagicButton";
 import { Bot } from "lucide-react";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
 
+import { AIGenerate } from "@/components/NFT/ImageGenerator";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
-import { client } from "@/lib/client";
+import MagicButton from "@/components/ui/MagicButton";
 
 const GetToken = () => {
-  const activeAccount = useActiveAccount();
   const [isOpen, setIsOpen] = useState(false);
   const [isUsed, setIsUsed] = useState(false);
 
@@ -19,18 +16,6 @@ const GetToken = () => {
     setIsOpen(false);
     setIsUsed(true);
   };
-
-  if (!activeAccount?.address) {
-    return (
-      <ConnectButton
-        appMetadata={{
-          name: "RED Flight",
-          url: "https://www.redflight.io",
-        }}
-        client={client}
-      />
-    );
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

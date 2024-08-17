@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createClient } from "@supabase/supabase-js";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { useForm } from "react-hook-form";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
+import { useActiveAccount } from "thirdweb/react";
 import { z } from "zod";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
@@ -16,10 +16,8 @@ import {
   InputOTPSlot,
 } from "@/components/ui/InputOtp";
 import { MessagesContext } from "@/context/Messages";
-import { client } from "@/lib/client";
 import useNFTStore from "@/store/tutorial-nft-store";
 import { useCount } from "@/store/tutorial-store";
-import { chain } from "@/utils/chain";
 
 // Supabase 클라이언트 초기화
 const supabase = createClient(
@@ -176,55 +174,44 @@ export function InputPassword({
 
   return (
     <>
-      {activeAccount?.address ? (
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex w-full items-center"
-          >
-            <FormField
-              control={form.control}
-              name="pin"
-              disabled={!difficulty}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <InputOTP
-                      maxLength={6}
-                      {...field}
-                      pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
-                    >
-                      <p className="text-2xl text-white">Code :</p>
-                      <InputOTPGroup className="gap-2">
-                        {[...Array(6)].map((_, index) => (
-                          <InputOTPSlot
-                            key={index}
-                            index={index}
-                            className={`rounded-lg border-2 text-center text-xl transition duration-200 focus:outline-none ${
-                              isInvalid
-                                ? "border-red-500 bg-red-700"
-                                : "border-red-500 focus:border-red-700 focus:shadow-lg focus:ring-2 focus:ring-red-500"
-                            }`}
-                          />
-                        ))}
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-      ) : (
-        <ConnectButton
-          appMetadata={{
-            name: "RED Flight",
-            url: "https://www.redflight.io",
-          }}
-          client={client}
-          chain={chain}
-        />
-      )}
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex w-full items-center"
+        >
+          <FormField
+            control={form.control}
+            name="pin"
+            disabled={!difficulty}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <InputOTP
+                    maxLength={6}
+                    {...field}
+                    pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                  >
+                    <p className="text-2xl text-white">Code :</p>
+                    <InputOTPGroup className="gap-2">
+                      {[...Array(6)].map((_, index) => (
+                        <InputOTPSlot
+                          key={index}
+                          index={index}
+                          className={`rounded-lg border-2 text-center text-xl transition duration-200 focus:outline-none ${
+                            isInvalid
+                              ? "border-red-500 bg-red-700"
+                              : "border-red-500 focus:border-red-700 focus:shadow-lg focus:ring-2 focus:ring-red-500"
+                          }`}
+                        />
+                      ))}
+                    </InputOTPGroup>
+                  </InputOTP>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
     </>
   );
 }
