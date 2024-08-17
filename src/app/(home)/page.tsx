@@ -1,116 +1,110 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-import dynamic from "next/dynamic";
-import { usePathname, useRouter } from "next/navigation";
-
+import Section from "./_components/Section";
 import { motion } from "framer-motion";
-import { useActiveAccount } from "thirdweb/react";
 
 import Header from "@/components/Header";
-import Nav from "@/components/Nav";
-import ProjectsBtn from "@/components/ProjectsBtn";
-import ArrowAnimation from "@/components/lottie/Arrow";
 import { FlameFlake } from "@/components/particles/Fire";
-import ThirdwebConnectButton from "@/components/thirdweb/ConnectButton";
-import { Button } from "@/components/ui/Button";
-import { useIntroStore } from "@/store/intro-check-store";
 
-const Intro = dynamic(() => import("@/components/intro/Intro"), {
-  ssr: false,
-});
+interface ISectionList {
+  title: string;
+  description?: string;
+  path: string;
+  imgUrl: string;
+  rowSpan?: string;
+}
+
+const sectionList: ISectionList[] = [
+  {
+    title: "HISTORY",
+    description: "blahblah",
+    path: "/history",
+    imgUrl: "/background/01.png",
+    rowSpan: "row-span-3",
+  },
+  {
+    title: "GAME START",
+    description: "LLM Jailbreaking NFT Game",
+    path: "/tutorial",
+    imgUrl: "/background/02.png",
+    rowSpan: "row-span-3",
+  },
+  {
+    title: "MARKET",
+    description: "blahblah",
+    path: "/market",
+    imgUrl: "/background/05.png",
+    rowSpan: "row-span-3",
+  },
+  {
+    title: "MY PAGE",
+    path: "/my-page",
+    imgUrl: "/background/06.png",
+    rowSpan: "row-span-1",
+  },
+  {
+    title: "LEADER BOARD",
+    path: "/leaderboard",
+    imgUrl: "/background/07.png",
+    rowSpan: "row-span-1",
+  },
+  {
+    title: "CONTACT",
+    path: "/contact",
+    imgUrl: "/background/zaion_city.jpg",
+    rowSpan: "row-span-1",
+  },
+];
 
 export default function Home() {
   const audioPlayer = useRef<HTMLAudioElement>(null);
-  const [showPage, setShowPage] = useState<boolean>(false);
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const { hasSeenIntro, setHasSeenIntro } = useIntroStore();
-
-  const activeAccount = useActiveAccount();
-
-  useEffect(() => {
-    if (!hasSeenIntro) {
-      setShowPage(false);
-      setHasSeenIntro(true);
-    } else {
-      setShowPage(true);
-    }
-  }, [hasSeenIntro, setHasSeenIntro]);
-
-  const handleButtonClick = async () => {
-    if (activeAccount) {
-      router.push("/tutorial");
-    } else {
-      alert("Login First");
-    }
-  };
+  const [backgroundImg, setBackgroundImg] = useState<string>(
+    sectionList[0].imgUrl,
+  );
 
   return (
     <>
-      {!showPage && <Intro setShowPage={setShowPage} />}
+      <motion.div
+        key="main"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1 }}
+        className="relative h-full w-[100vw]"
+      >
+        <Header />
+        <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop />
 
-      {showPage && (
-        <motion.div
-          key="main"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          className="h-full"
-        >
-          <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop />
-          <Nav />
-          <Header />
-          <motion.div key={pathname} className="h-full">
-            <main className="relative h-full">
-              <FlameFlake />
-              <video
-                autoPlay
-                muted
-                playsInline
-                loop
-                poster="/landing.png"
-                className="fixed left-0 top-0 -z-10 min-h-full min-w-full object-cover"
-              >
-                <source src="/videos/landing_with.mp4" type="video/mp4" />
-              </video>
-
-              <div className="relative z-20">
-                <div className="container mx-auto flex h-full flex-col justify-center text-center xl:pt-20 xl:text-left">
-                  <div className="max-sm:mt-8">
-                    <h1 className="h1 bg-gradient-to-b from-sky-500 to-slate-300 bg-clip-text font-black text-transparent">
-                      <span className="text-shadow-inner">
-                        Transforming <br /> Into{" "}
-                      </span>
-                      <span className="text-red-600 text-shadow-inner">
-                        RED Flight
-                      </span>
-                    </h1>
-                    <Button
-                      onClick={handleButtonClick}
-                      className="flex gap-2 rounded-full bg-primary1 p-2 px-4 text-white max-sm:-translate-y-4 max-sm:text-sm"
-                    >
-                      LLM Jailbreaking NFT Game
-                      <ArrowAnimation />
-                    </Button>
-
-                    <div className="mt-4">
-                      <ThirdwebConnectButton />
-                    </div>
-                  </div>
-
-                  <div className="mt-72">
-                    <ProjectsBtn />
-                  </div>
-                </div>
-              </div>
-            </main>
-          </motion.div>
-        </motion.div>
-      )}
+        <FlameFlake />
+        <div
+          className={`absolute z-[-100] grid h-full w-full grid-cols-4 pt-[82px] xl:pt-[90px]`}
+          style={{
+            backgroundImage: `url(${backgroundImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.7,
+            transitionBehavior: "normal",
+            transitionDuration: "0.3s",
+            transitionDelay: "0s",
+            transition: "ease-in-out",
+            transitionProperty: "background-image",
+          }}
+        ></div>
+        <div className={`grid h-full grid-cols-4 pt-[82px] xl:pt-[90px]`}>
+          {sectionList.map((section, index) => {
+            return (
+              <Section
+                key={index}
+                sectionDetail={section}
+                setBackgroundImg={setBackgroundImg}
+              />
+            );
+          })}
+        </div>
+      </motion.div>
     </>
   );
 }
