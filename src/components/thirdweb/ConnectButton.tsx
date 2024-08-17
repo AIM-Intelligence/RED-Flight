@@ -1,7 +1,4 @@
-import { useCallback } from "react";
-
-import { useQueryClient } from "@tanstack/react-query";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
+import { ConnectButton } from "thirdweb/react";
 
 import { useWeb3User } from "@/hooks/useSignIn";
 import { client } from "@/lib/client";

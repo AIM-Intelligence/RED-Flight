@@ -61,7 +61,7 @@ export default function Home() {
           transition={{ duration: 1 }}
           className="h-full"
         >
-          {/* <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop /> */}
+          <audio ref={audioPlayer} src="/audio/landing.mp3" autoPlay loop />
           <Nav />
           <Header />
           <motion.div key={pathname} className="h-full">

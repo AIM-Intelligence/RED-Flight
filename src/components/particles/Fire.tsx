@@ -30,6 +30,7 @@ export const FlameFlake = () => {
   }, []);
 
   const particlesLoaded = useCallback(async (_?: Container) => {
+    console.log(_);
     // Your asynchronous logic here
   }, []);
 

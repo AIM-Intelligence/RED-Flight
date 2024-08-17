@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 
-import ArrowAnimation from "../lottie/Arrow";
 import { motion } from "framer-motion";
 
+import ArrowAnimation from "@/components/lottie/Arrow";
 import { useCount } from "@/store/tutorial-store";
 
 const FirstImage = () => {

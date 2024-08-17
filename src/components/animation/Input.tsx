@@ -19,6 +19,8 @@ import { cn } from "@/lib/utils";
 
 // Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -67,4 +69,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export { Input };
+// export { Input };

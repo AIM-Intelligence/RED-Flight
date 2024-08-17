@@ -5,13 +5,13 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
-import { GPT4oPasswordAccordion } from "../llm/GPT4oPassword";
-import ArrowAnimation from "../lottie/Arrow";
-import { Button } from "../ui/Button";
 import { InputPassword } from "./07-form";
 import Info07 from "./07-info";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
+import ArrowAnimation from "@/components/lottie/Arrow";
+import { Button } from "@/components/ui/Button";
 import { MessagesContext } from "@/context/Messages";
 
 const DifficultySelector = ({ onSelect }: any) => {

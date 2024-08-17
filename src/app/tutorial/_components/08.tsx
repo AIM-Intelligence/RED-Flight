@@ -5,13 +5,13 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import ArrowAnimation from "../lottie/Arrow";
-import { Button, buttonVariants } from "../ui/Button";
 import GetToken from "./08-token";
 import { motion } from "framer-motion";
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
+import ArrowAnimation from "@/components/lottie/Arrow";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
 const FirstImage = ({ onComplete }: any) => {
