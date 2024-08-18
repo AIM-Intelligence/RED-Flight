@@ -13,6 +13,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@ai-sdk/openai": "latest",
     "@dotlottie/react-player": "^1.6.19",
     "@hookform/resolvers": "^3.6.0",
     "@radix-ui/react-accordion": "^1.1.2",
@@ -28,6 +29,11 @@
     "@tsparticles/preset-fire": "^3.0.2",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.4.0",
+    "ai": "latest",
+    "@ai-sdk/react": "latest",
+    "@ai-sdk/ui-utils": "latest",
+    "@vercel/blob": "^0.23.4",
+    "openai": "4.52.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "eventsource-parser": "^1.1.2",
@@ -35,7 +41,6 @@
     "input-otp": "^1.2.4",
     "lucide-react": "^0.379.0",
     "next": "14.2.3",
-    "openai": "^4.38.5",
     "react": "^18.3",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.3",

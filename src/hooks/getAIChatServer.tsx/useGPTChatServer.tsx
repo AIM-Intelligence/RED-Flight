@@ -3,83 +3,87 @@ import { useContext } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { nanoid } from "nanoid";
 
+import { toast } from "@/components/ui/use-toast";
 import { MessagesContext } from "@/context/Messages";
+import useNFTStore from "@/store/prompt-nft-store";
 import { Message } from "@/validation/message";
 
 const useAIChatServer = (
   firstTouch: boolean,
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined,
   setInput?: (input: string) => void | undefined,
-): { mutate: any; isPending: any } => {
+) => {
+  const { inputNFT } = useNFTStore();
+
   const {
     addMessage,
     removeMessage,
-    updateMessage,
     setIsMessageUpdating,
     messages,
+    setCodeFound,
   } = useContext(MessagesContext);
 
   return useMutation({
-    mutationFn: async (_messages: Message) => {
+    mutationFn: async (message: Message) => {
+      setIsMessageUpdating(true);
       const response = await fetch("/api/message", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ messages }),
+        body: JSON.stringify({ messages: [...messages, message], inputNFT }),
       });
 
-      console.log(_messages);
+      const data = await response.json();
 
-      return response.body;
+      if (!response.ok) {
+        const errorMessage = data.error || "An error occurred";
+        alert(errorMessage);
+        window.location.reload();
+        throw new Error(errorMessage);
+      }
+
+      return data;
     },
     onMutate(message) {
       addMessage(message);
     },
-    onSuccess: async stream => {
-      if (!stream) throw new Error("No stream found");
-
-      // construct new message to add
-      const id = nanoid();
+    onSuccess: async data => {
       const responseMessage: Message = {
-        id,
+        id: nanoid(),
         isUserMessage: false,
-        text: "",
+        text: data.result,
       };
 
-      // add new message to state
       addMessage(responseMessage);
 
-      setIsMessageUpdating(true);
-
-      const reader = stream.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-
-        done = doneReading;
-        const chunkValue = decoder.decode(value);
-        updateMessage(id, prev => prev + chunkValue);
-      }
-
-      // clean up
       setIsMessageUpdating(false);
+
+      if (data.codeFound) {
+        setCodeFound(true);
+      }
 
       setTimeout(() => {
         textareaRef?.current?.focus();
       }, 10);
 
       if (!firstTouch) {
-        setInput!("");
+        setInput?.("");
       }
     },
-    onError: (_, message) => {
+    onError: (error: Error, message) => {
+      removeMessage(message.id);
+      setIsMessageUpdating(false);
       if (!firstTouch) {
         textareaRef?.current?.focus();
       }
-      removeMessage(message.id);
-      textareaRef?.current?.focus();
+
+      toast({
+        title: "Error",
+        description:
+          error.message || "An error occurred while processing your request.",
+        variant: "destructive",
+      });
     },
   });
 };

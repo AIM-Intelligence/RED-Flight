@@ -20,6 +20,7 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
   const firstTouch = true;
 
   const { isPending } = useAIChatServer(firstTouch);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     onToggle(close === 1);
@@ -50,11 +51,14 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
             </AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-col text-black">
-                <ChatMessages className="flex-1 px-2 py-3" />
+                <ChatMessages
+                  isLoading={isLoading}
+                  className="flex-1 px-2 py-3"
+                />
                 <ChatInput
                   className="px-4"
                   isPendingParent={isPending}
-                  subject="basic_chat"
+                  onPendingChange={setIsLoading}
                 />
               </div>
             </AccordionContent>

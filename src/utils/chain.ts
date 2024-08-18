@@ -9,4 +9,4 @@ const theta = defineChain(365);
 const chainList = [zetaT, mantaT, zkSyncT, coreT, theta];
 export default chainList;
 
-export const chain = defineChain(7001);
+export const chain = defineChain(3441006);

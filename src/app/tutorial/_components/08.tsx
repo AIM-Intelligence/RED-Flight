@@ -5,7 +5,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-import GetToken from "./08-token";
 import { motion } from "framer-motion";
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
@@ -176,12 +175,6 @@ const ThirdImage = () => {
             </div>
             <div className="my-2 h-[2px] w-full bg-gradient-to-r from-transparent via-red-600 to-transparent" />
 
-            <div className="flex flex-col gap-2">
-              <p className="max-w-md text-center text-white">
-                Create your Prompt NFT and leave mark on RED Flight.
-              </p>
-              <GetToken />
-            </div>
             <div className="grid w-full grid-cols-2 items-center gap-4">
               <Link
                 href="/"
@@ -202,10 +195,6 @@ const ThirdImage = () => {
                 Replay
               </Button>
             </div>
-
-            {/* <div className="text-white text-xl w-[60px] cursor-pointer">
-            <ArrowAnimation />
-          </div> */}
           </div>
         </div>
       </motion.div>

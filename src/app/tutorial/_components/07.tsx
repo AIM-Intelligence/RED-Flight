@@ -13,9 +13,17 @@ import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button } from "@/components/ui/Button";
 import { MessagesContext } from "@/context/Messages";
+import useNFTStore from "@/store/prompt-nft-store";
+
+const difficultyLevels = {
+  easy: 1,
+  normal: 2,
+  hard: 3,
+  extreme: 4,
+};
 
 const DifficultySelector = ({ onSelect }: any) => {
-  const difficulties = ["easy", "normal", "hard", "impossible"];
+  const difficulties = ["easy", "normal", "hard", "extreme"];
 
   return (
     <div className="absolute left-28 top-28 border border-red-500 bg-black p-4">
@@ -40,10 +48,11 @@ const DifficultySelector = ({ onSelect }: any) => {
 
 const FirstImage = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(150000);
+  const [timeLeft, setTimeLeft] = useState(1500000);
   const [difficulty, setDifficulty] = useState<any>("");
 
   const { updateMessage, messages } = useContext(MessagesContext);
+  const { updateInputNFT } = useNFTStore();
 
   const router = useRouter();
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -81,6 +90,11 @@ const FirstImage = () => {
   const handleDifficultySelect = (selectedDifficulty: string) => {
     setDifficulty(selectedDifficulty);
     console.log(`Selected difficulty: ${selectedDifficulty}`);
+
+    updateInputNFT({
+      level:
+        difficultyLevels[selectedDifficulty as keyof typeof difficultyLevels],
+    });
 
     // Update the first message with the selected difficulty
     if (messages.length > 0) {
@@ -137,7 +151,7 @@ const FirstImage = () => {
           </AnimatePresence>
         </div>
         <div className="absolute bottom-32 right-32 flex cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
-          <InputPassword difficulty={difficulty} />
+          <InputPassword />
         </div>
       </motion.div>
     </>

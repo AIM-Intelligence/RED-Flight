@@ -16,14 +16,14 @@ export type Database = {
           creator: string;
           desc: string | null;
           id: string;
-          image_url: string;
+          image_url: string | null;
           length: number;
           level: number;
           nft_address: string | null;
           nft_id: number | null;
           prompt: Json;
           target: string;
-          title: string;
+          title: string | null;
         };
         Insert: {
           conversation?: number;
@@ -31,14 +31,14 @@ export type Database = {
           creator: string;
           desc?: string | null;
           id?: string;
-          image_url: string;
+          image_url?: string | null;
           length?: number;
           level: number;
           nft_address?: string | null;
           nft_id?: number | null;
           prompt: Json;
           target: string;
-          title: string;
+          title?: string | null;
         };
         Update: {
           conversation?: number;
@@ -46,14 +46,14 @@ export type Database = {
           creator?: string;
           desc?: string | null;
           id?: string;
-          image_url?: string;
+          image_url?: string | null;
           length?: number;
           level?: number;
           nft_address?: string | null;
           nft_id?: number | null;
           prompt?: Json;
           target?: string;
-          title?: string;
+          title?: string | null;
         };
         Relationships: [
           {
@@ -115,20 +115,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      increment_difficulty: {
-        Args: {
-          address_arg: string;
-          column_name: string;
-        };
-        Returns: undefined;
-      };
-      increment_score: {
-        Args: {
-          address_arg: string;
-          score_increment: number;
-        };
-        Returns: undefined;
-      };
+      [_ in never]: never;
     };
     Enums: {
       [_ in never]: never;

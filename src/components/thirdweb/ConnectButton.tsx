@@ -26,8 +26,6 @@ const ThirdwebConnectButton: React.FC = () => {
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });
 
-          console.log("currentUser", currentUser);
-
           if (currentUser && currentUser.wallet_address !== address) {
             console.log("Address mismatch. Logging out.");
             await logout();
@@ -35,7 +33,7 @@ const ThirdwebConnectButton: React.FC = () => {
           return await isLoggedIn();
         },
         doLogin: async params => {
-          console.log("logging in!", params);
+          console.log("logging in!");
           await login(params);
           await refreshUser();
         },

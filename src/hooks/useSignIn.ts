@@ -1,53 +1,26 @@
-// Adjust the import path as needed
-import { useEffect } from "react";
+import { useCallback } from "react";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useIsFetching,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
-// Adjust the import path as needed
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { getOrCreateWeb3User } from "@/server/auth/sign-in";
-// Adjust the import path based on your shadcn setup
 import { useWeb3UserStore } from "@/store/user-store";
 import { Tables } from "@/validation/types/supabase";
-
-// Adjust the import path as needed
 
 type User = Tables<"user">;
 
 export function useWeb3User() {
-  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { setUser, clearUser } = useWeb3UserStore();
+  const isFetching = useIsFetching({ queryKey: ["web3User"] });
 
-  const query = useQuery<User, Error>({
-    queryKey: ["user"],
-    queryFn: getOrCreateWeb3User,
-  });
-
-  useEffect(() => {
-    if (query.isSuccess && query.data) {
-      setUser(query.data);
-    } else if (query.isError) {
-      // toast({
-      //   title: "Error",
-      //   description: query.error.message || "Failed to fetch user data",
-      //   variant: "destructive",
-      // });
-      clearUser();
-    }
-  }, [
-    query.isSuccess,
-    query.isError,
-    query.data,
-    query.error,
-    setUser,
-    clearUser,
-    toast,
-  ]);
-
-  const mutation = useMutation<User, Error, void, unknown>({
+  const mutation = useMutation({
     mutationFn: getOrCreateWeb3User,
-    onSuccess: data => {
+    onSuccess: (data: User) => {
       queryClient.setQueryData(["web3User"], data);
       setUser(data);
       toast({
@@ -55,24 +28,25 @@ export function useWeb3User() {
         description: "User data updated successfully",
       });
     },
-    onError: error => {
+    onError: (error: Error) => {
       console.log(error);
-      // toast({
-      //   title: "Error",
-      //   description: error.message || "Failed to update user data",
-      //   variant: "destructive",
-      // });
+      clearUser();
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update user data",
+        variant: "destructive",
+      });
     },
   });
 
-  const refreshUser = async (): Promise<void> => {
+  const refreshUser = useCallback(async (): Promise<void> => {
     await mutation.mutateAsync();
-  };
+  }, [mutation]);
 
   return {
-    isLoading: query.isPending,
-    isError: query.isError,
-    error: query.error,
+    isLoading: mutation.isPending || isFetching > 0,
+    isError: mutation.isError,
+    error: mutation.error,
     refreshUser,
   };
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CornerDownLeft, Loader2 } from "lucide-react";
 import { nanoid } from "nanoid";
@@ -10,7 +10,18 @@ import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
 import { cn } from "@/lib/utils";
 import { Message } from "@/validation/message";
 
-const ChatInput = ({ isPendingParent }: any, { className, ...props }: any) => {
+interface ChatInputProps {
+  isPendingParent: boolean;
+  className?: string;
+  onPendingChange: (isPending: boolean) => void;
+}
+
+const ChatInput = ({
+  isPendingParent,
+  className,
+  onPendingChange,
+  ...props
+}: ChatInputProps) => {
   const [input, setInput] = useState<string>("");
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
 
@@ -21,6 +32,10 @@ const ChatInput = ({ isPendingParent }: any, { className, ...props }: any) => {
     textareaRef,
     setInput,
   );
+
+  useEffect(() => {
+    onPendingChange(isPending);
+  }, [isPending, onPendingChange]);
 
   return (
     <div {...props} className={cn("border-t border-red-500", className)}>

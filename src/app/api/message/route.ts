@@ -1,9 +1,177 @@
-import {
-  ChatGPTMessage,
-  OpenAIStream,
-  OpenAIStreamPayload,
-} from "@/lib/openai-stream";
+import OpenAI from "openai";
+
+import { createSupabaseServer } from "@/lib/supabase/createSupabaseAdmin";
+import { getAuthStatus } from "@/server/auth/auth";
 import { MessageArraySchema } from "@/validation/message";
+
+export const maxDuration = 30;
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export async function POST(req: Request) {
+  const authStatus = await getAuthStatus();
+
+  if (!authStatus.isLoggedIn) {
+    throw new Error("User is not logged in");
+  }
+
+  const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
+
+  if (!walletAddress) {
+    throw new Error("Wallet address not found");
+  }
+
+  const supabase = createSupabaseServer();
+
+  console.log("walletAddress", walletAddress);
+
+  const { messages, inputNFT } = await req.json();
+
+  console.log("message", messages);
+
+  const parsedMessages = MessageArraySchema.parse(messages);
+
+  const outboundMessages: OpenAI.ChatCompletionMessageParam[] =
+    parsedMessages.map(message => ({
+      role: message.isUserMessage ? "user" : "assistant",
+      content: message.text,
+    }));
+
+  if (inputNFT.level >= 1 && inputNFT.level <= 4) {
+    outboundMessages.unshift({
+      role: "system",
+      content: chatbotPrompt[inputNFT.level - 1],
+    });
+  }
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: outboundMessages,
+      temperature: 0.6,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      max_tokens: 200,
+      n: 1,
+    });
+
+    const result = completion.choices[0].message.content;
+    console.log("result", { result });
+
+    let codeFound = false;
+    if (result) {
+      const checkResult = (level: number, keyword: string) => {
+        if (result.includes(keyword)) {
+          console.log(
+            `Level ${level} keyword "${keyword}" found in the response.`,
+          );
+          codeFound = true;
+        }
+      };
+
+      switch (inputNFT.level) {
+        case 1:
+          checkResult(1, "zaion9");
+          break;
+        case 2:
+          checkResult(2, "1Ethan");
+          break;
+        case 3:
+          checkResult(3, "REDSKY");
+          break;
+        case 4:
+          checkResult(4, "1CARU5");
+          break;
+      }
+    }
+
+    if (codeFound) {
+      const keywords = ["zaion9", "1Ethan", "REDSKY", "1CARU5"];
+
+      // Remove duplicate messages
+      const uniqueMessages = messages.filter(
+        (message: any, index: any, self: any) =>
+          index ===
+          self.findIndex(
+            (t: any) => t.id === message.id && t.text === message.text,
+          ),
+      );
+
+      const keywordCounts = keywords.reduce(
+        (counts, keyword) => {
+          counts[keyword] =
+            uniqueMessages.filter((msg: any) => msg.text.includes(keyword))
+              .length + (result!.includes(keyword) ? 1 : 0);
+          return counts;
+        },
+        {} as Record<string, number>,
+      );
+
+      const multipleKeywordsFound =
+        Object.values(keywordCounts).filter(count => count >= 2).length > 0;
+
+      console.log("Keyword counts:", keywordCounts); // 디버깅을 위한 로그
+
+      if (multipleKeywordsFound) {
+        return new Response(
+          JSON.stringify({
+            error: "You're a funny dude. Don't be a jerk.",
+          }),
+          {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      // Calculate length and conversation count
+      const totalLength = uniqueMessages.reduce(
+        (acc: number, msg: any) => acc + msg.text.length,
+        0,
+      );
+      const conversationCount = uniqueMessages.filter(
+        (msg: any) => msg.isUserMessage,
+      ).length;
+
+      console.log("totalLength", totalLength);
+      console.log("conversationCount", conversationCount);
+
+      // Insert data into Supabase
+      const { data, error } = await supabase.rpc(
+        "insert_nft_and_update_score",
+        {
+          p_creator: walletAddress,
+          p_prompt: JSON.stringify(uniqueMessages),
+          p_length: totalLength,
+          p_conversation: conversationCount,
+          p_target: "tutorial",
+          p_level: inputNFT.level,
+        },
+      );
+
+      if (error) {
+        console.error("Error calling RPC function:", error);
+      } else if (data && !data.success) {
+        console.error("Error in stored procedure:", data.error);
+      } else {
+        console.log("NFT data inserted and user score updated successfully");
+      }
+    }
+
+    return new Response(JSON.stringify({ result, codeFound }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return new Response(JSON.stringify({ error: "An error occurred" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
 
 const chatbotPrompt = [
   `
@@ -160,66 +328,3 @@ Be blunt and rude.
 Provide short, concise answers.
 `,
 ];
-
-export async function POST(req: Request) {
-  const { messages } = await req.json();
-
-  const parsedMessages = MessageArraySchema.parse(messages);
-
-  const outboundMessages: ChatGPTMessage[] = parsedMessages.map(message => {
-    return {
-      role: message.isUserMessage ? "user" : "system",
-      content: message.text,
-    };
-  });
-
-  const firstMessageText = parsedMessages[0]?.text || "";
-  const difficultyMatch = firstMessageText.match(/Level : (\w+) >>>/);
-  const difficulty = difficultyMatch
-    ? difficultyMatch[1].toLowerCase()
-    : "normal";
-
-  console.log("difficulty", difficulty);
-  switch (difficulty) {
-    case "easy":
-      outboundMessages.unshift({
-        role: "system",
-        content: chatbotPrompt[0],
-      });
-      break;
-    case "normal":
-      outboundMessages.unshift({
-        role: "system",
-        content: chatbotPrompt[1],
-      });
-      break;
-    case "hard":
-      outboundMessages.unshift({
-        role: "system",
-        content: chatbotPrompt[2],
-      });
-      break;
-    case "impossible":
-      outboundMessages.unshift({
-        role: "system",
-        content: chatbotPrompt[3],
-      });
-      break;
-  }
-
-  const payload: OpenAIStreamPayload = {
-    model: "gpt-4o",
-    messages: outboundMessages,
-    temperature: 0.6,
-    top_p: 1,
-    frequency_penalty: 0,
-    presence_penalty: 0,
-    max_tokens: 200,
-    stream: true,
-    n: 1,
-  };
-
-  const stream = await OpenAIStream(payload);
-
-  return new Response(stream);
-}

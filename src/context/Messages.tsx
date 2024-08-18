@@ -14,22 +14,27 @@ const defaultValue = [
 export const MessagesContext = createContext<{
   messages: Message[];
   isMessageUpdating: boolean;
+  codeFound: boolean;
   addMessage: (message: Message) => void;
   removeMessage: (id: string) => void;
   updateMessage: (id: string, updateFn: (prevText: string) => string) => void;
   setIsMessageUpdating: (isUpdating: boolean) => void;
+  setCodeFound: (found: boolean) => void;
 }>({
   messages: [],
   isMessageUpdating: false,
+  codeFound: false,
   addMessage: () => {},
   removeMessage: () => {},
   updateMessage: () => {},
   setIsMessageUpdating: () => {},
+  setCodeFound: () => {},
 });
 
 export function MessagesProvider({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState(defaultValue);
   const [isMessageUpdating, setIsMessageUpdating] = useState<boolean>(false);
+  const [codeFound, setCodeFound] = useState<boolean>(false);
 
   const addMessage = (message: Message) => {
     setMessages(prev => [...prev, message]);
@@ -58,10 +63,12 @@ export function MessagesProvider({ children }: { children: React.ReactNode }) {
       value={{
         messages,
         isMessageUpdating,
+        codeFound,
         addMessage,
         removeMessage,
         updateMessage,
         setIsMessageUpdating,
+        setCodeFound,
       }}
     >
       {children}
