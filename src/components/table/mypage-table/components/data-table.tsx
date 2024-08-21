@@ -26,7 +26,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/components/ui/Table";
 import { useModal } from "@/store/use-modal-store";
 
 interface DataTableProps<TData, TValue> {
