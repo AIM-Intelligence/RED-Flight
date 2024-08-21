@@ -19,6 +19,7 @@ export type Database = {
           image_url: string | null;
           length: number;
           level: number;
+          name: string | null;
           nft_address: string | null;
           nft_id: number | null;
           prompt: Json;
@@ -34,6 +35,7 @@ export type Database = {
           image_url?: string | null;
           length?: number;
           level: number;
+          name?: string | null;
           nft_address?: string | null;
           nft_id?: number | null;
           prompt: Json;
@@ -49,6 +51,7 @@ export type Database = {
           image_url?: string | null;
           length?: number;
           level?: number;
+          name?: string | null;
           nft_address?: string | null;
           nft_id?: number | null;
           prompt?: Json;
@@ -115,7 +118,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      insert_nft_and_update_score: {
+        Args: {
+          p_creator: string;
+          p_prompt: Json;
+          p_length: number;
+          p_conversation: number;
+          p_target: string;
+          p_level: number;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       [_ in never]: never;
