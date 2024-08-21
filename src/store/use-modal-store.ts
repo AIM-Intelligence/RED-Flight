@@ -1,17 +1,17 @@
 import { create } from "zustand";
 
+import { Database } from "@/validation/types/supabase";
+
+type REDUser = Database["public"]["Tables"]["user"]["Row"];
+
 export type ModalType =
-  | "showPromptData"
-  | "showUserInfoEdit"
-  | "showUserInfoEditcopy"
-  | "showUserInfoEditImage";
+  | "showRedPromptData"
+  | "showRedNFTPromptData"
+  | "showUserInfoEdit";
 
 interface ModalData {
-  nftDetail?: any;
-  userInfo?: any;
-  id?: any;
-  stakedInfo?: any;
-  refetchStakedInfo?: any;
+  user_info?: REDUser;
+  red_prompt?: JSON;
 }
 
 interface ModalStore {

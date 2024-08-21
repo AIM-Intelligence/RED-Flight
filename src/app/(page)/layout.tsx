@@ -17,6 +17,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         transition={{ duration: 1 }}
       >
         <Nav />
+
         <HeaderPage />
         {children}
         <ModalProvider />

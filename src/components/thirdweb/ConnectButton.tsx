@@ -1,12 +1,15 @@
+import { useRouter } from "next/navigation";
+
 import { ConnectButton } from "thirdweb/react";
 
-import { useWeb3User } from "@/hooks/useSignIn";
+import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
 import { generatePayload, isLoggedIn, login, logout } from "@/server/auth/auth";
 import { useWeb3UserStore } from "@/store/user-store";
 import chainList from "@/utils/chain";
 
 const ThirdwebConnectButton: React.FC = () => {
+  const router = useRouter();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
 
@@ -21,6 +24,7 @@ const ThirdwebConnectButton: React.FC = () => {
     <ConnectButton
       client={client}
       appMetadata={appMetadata}
+      autoConnect={false}
       chains={chainList}
       auth={{
         isLoggedIn: async address => {
@@ -29,6 +33,7 @@ const ThirdwebConnectButton: React.FC = () => {
           if (currentUser && currentUser.wallet_address !== address) {
             console.log("Address mismatch. Logging out.");
             await logout();
+            router.push("/login");
           }
           return await isLoggedIn();
         },

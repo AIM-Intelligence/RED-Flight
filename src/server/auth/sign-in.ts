@@ -6,11 +6,11 @@ import { getAuthStatus } from "./auth";
 import { createSupabaseServer } from "@/lib/supabase/createSupabaseAdmin";
 import { Database } from "@/validation/types/supabase";
 
-type Web3User = Database["public"]["Tables"]["user"]["Row"];
+type User = Database["public"]["Tables"]["user"]["Row"];
 
 // Adjust the import path as needed
 
-export async function getOrCreateWeb3User(): Promise<Web3User> {
+export async function getOrCreateWeb3User(): Promise<User> {
   // Check authentication status
   const authStatus = await getAuthStatus();
 
@@ -40,7 +40,7 @@ export async function getOrCreateWeb3User(): Promise<Web3User> {
   }
 
   if (data) {
-    return data as Web3User;
+    return data as User;
   }
 
   // If user doesn't exist, create a new one
@@ -56,5 +56,5 @@ export async function getOrCreateWeb3User(): Promise<Web3User> {
     throw new Error("Failed to create new user");
   }
 
-  return newUser as Web3User;
+  return newUser as User;
 }

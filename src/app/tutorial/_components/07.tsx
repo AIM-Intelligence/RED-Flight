@@ -13,7 +13,7 @@ import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button } from "@/components/ui/Button";
 import { MessagesContext } from "@/context/Messages";
-import useNFTStore from "@/store/prompt-nft-store";
+import useNFTStore from "@/store/prompt/prompt-insert-store";
 
 const difficultyLevels = {
   easy: 1,

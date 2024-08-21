@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-import NFTDetail from "@/components/dialog/NftDetail";
-import UserInfoEdit from "@/components/dialog/UserInfoEdit";
-import UserInfoEditImage from "@/components/dialog/UserInfoEditImage";
+import UserInfoEditModal from "@/components/modal/UserInfoEdit";
+import RedPromptModal from "@/components/modal/dPromptModal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,9 +18,8 @@ export const ModalProvider = () => {
 
   return (
     <>
-      <NFTDetail />
-      <UserInfoEdit />
-      <UserInfoEditImage />
+      <UserInfoEditModal />
+      <RedPromptModal />
     </>
   );
 };

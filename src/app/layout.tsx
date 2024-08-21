@@ -4,7 +4,7 @@ import "../styles/globals.css";
 import type { Metadata } from "next";
 import { ThirdwebProvider } from "thirdweb/react";
 
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/Toaster";
 import QueryProvider from "@/lib/providers/query-provider";
 
 const sora = Sora({

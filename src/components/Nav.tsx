@@ -2,14 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 
-import {
-  Award,
-  GalleryHorizontal,
-  Gem,
-  Home,
-  Trophy,
-  User,
-} from "lucide-react";
+import { Award, GalleryHorizontal, Home, Trophy, User } from "lucide-react";
 import { useActiveAccount } from "thirdweb/react";
 
 import {
@@ -22,18 +15,21 @@ import {
 // nav data
 export const navData = [
   { name: "Home", path: "/", icon: <Home /> },
-  { name: "My Page", path: "/my-page", icon: <User /> },
-  { name: "NFT Leaderboard", path: "/nft-leaderboard", icon: <Award /> },
-  { name: "User Leaderboard", path: "/user-leaderboard", icon: <Trophy /> },
+  { name: "My RED Page", path: "/my-red-page", icon: <User /> },
   {
-    name: "NFT Gallery",
-    path: "/nft-gallery",
-    icon: <GalleryHorizontal />,
+    name: "RED Prompt Leaderboard",
+    path: "/red-prompt-leaderboard",
+    icon: <Award />,
   },
   {
-    name: "Staking NFT",
-    path: "/my-staking-nft",
-    icon: <Gem />,
+    name: "RED User Leaderboard",
+    path: "/red-user-leaderboard",
+    icon: <Trophy />,
+  },
+  {
+    name: "RED NFT Owner",
+    path: "/red-nft-owner",
+    icon: <GalleryHorizontal />,
   },
 ];
 
@@ -43,7 +39,7 @@ const Nav = () => {
   const activeAccount = useActiveAccount();
 
   const handleButtonClick = async (path: string) => {
-    if (activeAccount) {
+    if (path === "/" || activeAccount) {
       router.push(path);
     } else {
       alert("Connect Wallet first");
