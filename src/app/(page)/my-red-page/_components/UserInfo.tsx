@@ -89,39 +89,49 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
               <div className="my-6 h-[2px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent" />
 
               <div className="relative">
-                <div className="absolute left-1/2 top-0 h-full w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-red-500 to-transparent" />
-
-                <div className="grid grid-cols-2 gap-10">
-                  <div className="col-span-1">
+                <div className="grid grid-cols-3 gap-10">
+                  <div className="col-span-2">
                     <div className="grid w-full grid-cols-2 gap-4">
                       <div className="rounded-lg border border-red-500 bg-black p-3">
-                        <p className="text-sm font-medium text-gray-400">
-                          Easy
-                        </p>
+                        <span className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-400">
+                            Easy
+                          </p>
+                          <p>+10</p>
+                        </span>
                         <p className="mt-1 text-lg font-semibold text-white">
                           {user.easy}
                         </p>
                       </div>
                       <div className="rounded-lg border border-red-500 bg-black p-3">
-                        <p className="text-sm font-medium text-gray-400">
-                          Normal
-                        </p>
+                        <span className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-400">
+                            Normal
+                          </p>
+                          <p>+50</p>
+                        </span>
                         <p className="mt-1 text-lg font-semibold text-white">
                           {user.normal}
                         </p>
                       </div>
                       <div className="rounded-lg border border-red-500 bg-black p-3">
-                        <p className="text-sm font-medium text-gray-400">
-                          Hard
-                        </p>
+                        <span className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-400">
+                            Hard
+                          </p>
+                          <p>+200</p>
+                        </span>
                         <p className="mt-1 text-lg font-semibold text-white">
                           {user.hard}
                         </p>
                       </div>
                       <div className="rounded-lg border border-red-500 bg-black p-3">
-                        <p className="text-sm font-medium text-gray-400">
-                          Extreme
-                        </p>
+                        <span className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-400">
+                            Extreme
+                          </p>
+                          <p>+600</p>
+                        </span>
                         <p className="mt-1 text-lg font-semibold text-white">
                           {user.extreme}
                         </p>

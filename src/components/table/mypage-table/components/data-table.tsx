@@ -28,6 +28,9 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import { useModal } from "@/store/use-modal-store";
+import { Database } from "@/validation/types/supabase";
+
+type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -69,6 +72,16 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const handleRowClick = (row: { original: RED_Prompt }) => {
+    console.log(row.original);
+    const red_prompt = row.original;
+    if (red_prompt) {
+      onOpen("showRedPromptData", { red_prompt });
+    } else {
+      console.log("No prompt available");
+    }
+  };
+
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -105,14 +118,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => {
-                    const red_prompt = (row.original as any)?.prompt;
-                    if (red_prompt) {
-                      onOpen("showRedPromptData", { red_prompt });
-                    } else {
-                      console.log("No prompt available");
-                    }
-                  }}
+                  onClick={() => handleRowClick(row as any)}
                   className="border-b border-t border-red-500 hover:bg-red-500/50 data-[state=selected]:bg-red-700/50"
                 >
                   {row.getVisibleCells().map(cell => (

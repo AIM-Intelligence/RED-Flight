@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useActiveAccount } from "thirdweb/react";
 
 import { useToast } from "@/components/ui/use-toast";
 import { getUserPrompts } from "@/server/nft-prompt/select-promptNFT";
 import { usePromptStore } from "@/store/prompt/prompt-select-store";
+import { useWeb3UserStore } from "@/store/user-store";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Database["public"]["Tables"]["prompt nft"]["Row"];
@@ -11,7 +11,7 @@ type PromptNFT = Database["public"]["Tables"]["prompt nft"]["Row"];
 export function useSelectPrompt() {
   const { toast } = useToast();
   const { setPrompts } = usePromptStore();
-  const activeAccount = useActiveAccount();
+  const { user } = useWeb3UserStore();
 
   return useQuery<PromptNFT[], Error>({
     queryKey: ["userPrompts"],
@@ -38,7 +38,7 @@ export function useSelectPrompt() {
       }
     },
     retry: false,
-    enabled: !!activeAccount,
+    enabled: !!user,
   });
 }
 

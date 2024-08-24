@@ -24,10 +24,10 @@ export function useWeb3User() {
       queryClient.setQueryData(["web3User"], data);
       setUser(data);
       queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
-      toast({
-        title: "Success",
-        description: "User data updated successfully",
-      });
+      // toast({
+      //   title: "Success",
+      //   description: "User data updated successfully",
+      // });
     },
     onError: (error: Error) => {
       console.log(error);

@@ -1,18 +1,5 @@
 const addressList = [
   {
-    // zeta
-    "7001": {
-      nftCollectionContractAddress:
-        "0x0B5eC88F7134dFBDA606F7678d06b8F23C3c759f",
-      profileNftCollectionContractAddress:
-        "0x8DF94d5f59d2bA9bf418b0D2e37d12633Bc52a42",
-      nftDropContractAddress: "0x8DF94d5f59d2bA9bf418b0D2e37d12633Bc52a42",
-      rewardTokenContractAddress: "0x68d3487BEa57bC98D3cA5557edd0ba2ac90B57a1",
-      stakingContractAddress: "0x48df4BfBd00B18E7690F1edeED3BC00bFe2bb3B4",
-    },
-  },
-  {
-    // manta
     "3441006": {
       nftCollectionContractAddress:
         "0x0265615b0Ea4Ef75d31640D96408033a85C8C584",
@@ -23,45 +10,9 @@ const addressList = [
       stakingContractAddress: "0xa170aac4BE1406dA6f070F0F0E1143f432dbB0B9",
     },
   },
-  {
-    // zkSync
-    "300": {
-      nftCollectionContractAddress:
-        "0xc5DaA1605f4c5854a2127FcE22aCad1aD6Fa7DF7",
-      profileNftCollectionContractAddress:
-        "0x5409E93c73c68c4CA41bD6D891a23d11380B3E6d",
-      nftDropContractAddress: "0xC9ee30Ca1CB0208CA4C96Fd7E6a478CcF2F18b40",
-      rewardTokenContractAddress: "0x8f9D35D20eE0709D60d7046ae53B87e9F2dF7a66",
-      stakingContractAddress: "0x365C45a668340C4d81e47eEEc477B705aD3919A0",
-    },
-  },
-  {
-    // core
-    "1115": {
-      nftCollectionContractAddress:
-        "0x94A42A13B95fF4e48EB9820340128b9DA03E6BBb",
-      profileNftCollectionContractAddress:
-        "0xdbB5046b5a0D994c68eA049CF857B947E7b9A00d",
-      nftDropContractAddress: "",
-      rewardTokenContractAddress: "0x9a2939d4adA6F1067a1e0Bae09489C7D988b33E3",
-      stakingContractAddress: "0x3a9e90061100d6eaa506a066495148E2F6F23D04",
-    },
-  },
-  {
-    // theta
-    "365": {
-      nftCollectionContractAddress:
-        "0x8E9284D2923154b69254b192Cd1475c29651B702",
-      profileNftCollectionContractAddress: "",
-      nftDropContractAddress: "",
-      rewardTokenContractAddress: "0x9826B2717F03AD6De10DB7012804AB328d35F881",
-      stakingContractAddress: "",
-    },
-  },
 ];
 
-export const getContractAddress = (chainId: number | undefined) => {
-  if (chainId == undefined) return;
+export const getContractAddress = (chainId: number) => {
   const id = chainId.toString();
   const result = addressList.find(item => Object.keys(item)[0] == id);
   return result ? Object.values(result)[0] : null;

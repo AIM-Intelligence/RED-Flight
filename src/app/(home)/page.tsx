@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
-import { useActiveAccount } from "thirdweb/react";
 
 import Header from "@/components/Header";
 import Nav from "@/components/Nav";
@@ -16,6 +15,7 @@ import { FlameFlake } from "@/components/particles/Fire";
 import ThirdwebConnectButton from "@/components/thirdweb/ConnectButton";
 import { Button } from "@/components/ui/Button";
 import { useIntroStore } from "@/store/intro-check-store";
+import { useWeb3UserStore } from "@/store/user-store";
 
 const Intro = dynamic(() => import("@/components/intro/Intro"), {
   ssr: false,
@@ -29,7 +29,7 @@ export default function Home() {
 
   const { hasSeenIntro, setHasSeenIntro } = useIntroStore();
 
-  const activeAccount = useActiveAccount();
+  const { user } = useWeb3UserStore();
 
   useEffect(() => {
     if (!hasSeenIntro) {
@@ -41,7 +41,7 @@ export default function Home() {
   }, [hasSeenIntro, setHasSeenIntro]);
 
   const handleButtonClick = async () => {
-    if (activeAccount) {
+    if (user) {
       router.push("/tutorial");
     } else {
       alert("Login First");

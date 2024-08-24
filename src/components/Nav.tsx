@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from "next/navigation";
 
 import { Award, GalleryHorizontal, Home, Trophy, User } from "lucide-react";
-import { useActiveAccount } from "thirdweb/react";
 
 import {
   Tooltip,
@@ -11,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/Tooltip";
+import { useWeb3UserStore } from "@/store/user-store";
 
 // nav data
 export const navData = [
@@ -36,10 +36,10 @@ export const navData = [
 const Nav = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const activeAccount = useActiveAccount();
+  const { user } = useWeb3UserStore();
 
   const handleButtonClick = async (path: string) => {
-    if (path === "/" || activeAccount) {
+    if (path === "/" || user) {
       router.push(path);
     } else {
       alert("Connect Wallet first");

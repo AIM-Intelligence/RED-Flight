@@ -1,11 +1,8 @@
+"use client";
+
+import { Suspense } from "react";
+
 import Image from "next/image";
-
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Red Flight login",
-  description: "AI Jailbreaking NFT Game",
-};
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   return (
@@ -17,7 +14,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         height={1080}
         alt="zaion city"
       />
-      {children}
+      <Suspense>{children}</Suspense>
     </main>
   );
 };

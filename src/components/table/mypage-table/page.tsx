@@ -2,18 +2,18 @@
 
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
-import { useActiveAccount } from "thirdweb/react";
 
 import { usePrompts, useSelectPrompt } from "@/hooks/prompt/useSelectPrompt";
+import { useWeb3UserStore } from "@/store/user-store";
 
 export default function PromptPageTable() {
   const prompts = usePrompts();
-  const activeAccount = useActiveAccount();
+  const { user } = useWeb3UserStore();
   const { status } = useSelectPrompt();
 
   console.log("prompts", prompts);
 
-  if (!activeAccount) {
+  if (!user) {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
