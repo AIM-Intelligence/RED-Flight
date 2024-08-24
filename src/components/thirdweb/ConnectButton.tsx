@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { ConnectButton } from "thirdweb/react";
+import { ConnectButton, useActiveWallet } from "thirdweb/react";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
@@ -15,8 +15,10 @@ import { chain } from "@/utils/chain";
 const ThirdwebConnectButton: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
+  const activeWallet = useActiveWallet();
 
   const appMetadata = {
     name: "RED Flight",
@@ -26,12 +28,25 @@ const ThirdwebConnectButton: React.FC = () => {
   };
 
   useEffect(() => {
+    const handleAuth = async () => {
+      if (!activeWallet) {
+        await logout();
+        clearUser();
+        const currentPath = window.location.pathname;
+        router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      }
+    };
+
+    if (!activeWallet && pathname !== "/" && pathname !== "/login") {
+      handleAuth();
+    }
+
     // Check for redirect parameter on component mount
     const redirectPath = searchParams.get("redirect");
     if (redirectPath && currentUser) {
       router.push(redirectPath);
     }
-  }, [currentUser, router, searchParams]);
+  }, [currentUser, router, searchParams, activeWallet]);
 
   return (
     <ConnectButton

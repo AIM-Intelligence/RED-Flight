@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
 import { FaDiscord } from "react-icons/fa";
@@ -12,6 +13,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { useCount } from "@/store/tutorial-store";
 
 const FirstImage = ({ onComplete }: any) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
@@ -112,6 +114,14 @@ const SecondImage = () => {
 };
 
 const ThirdImage = () => {
+  const router = useRouter();
+  const { setCount } = useCount();
+
+  const handleGoHome = () => {
+    setCount(1);
+    router.push("/");
+  };
+
   return (
     <>
       <motion.div
@@ -176,15 +186,15 @@ const ThirdImage = () => {
             <div className="my-2 h-[2px] w-full bg-gradient-to-r from-transparent via-red-600 to-transparent" />
 
             <div className="grid w-full grid-cols-2 items-center gap-4">
-              <Link
-                href="/"
+              <Button
                 className={cn(
                   buttonVariants({ variant: "outline" }),
                   "w-full bg-transparent",
                 )}
+                onClick={handleGoHome}
               >
                 Go Home
-              </Link>
+              </Button>
 
               <Button
                 onClick={() => {

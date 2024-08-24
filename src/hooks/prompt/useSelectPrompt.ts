@@ -1,3 +1,5 @@
+import { usePathname } from "next/navigation";
+
 import { useQuery } from "@tanstack/react-query";
 
 import { useToast } from "@/components/ui/use-toast";
@@ -12,6 +14,7 @@ export function useSelectPrompt() {
   const { toast } = useToast();
   const { setPrompts } = usePromptStore();
   const { user } = useWeb3UserStore();
+  const pathname = usePathname();
 
   return useQuery<PromptNFT[], Error>({
     queryKey: ["userPrompts"],
@@ -38,7 +41,7 @@ export function useSelectPrompt() {
       }
     },
     retry: false,
-    enabled: !!user,
+    enabled: !!user && pathname === "/my-red-page",
   });
 }
 

@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { CornerDownLeft, Loader2 } from "lucide-react";
 import { nanoid } from "nanoid";
 
 import { Textarea } from "@/components/ui/Textarea";
+import { MessagesContext } from "@/context/Messages";
 import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
 import { cn } from "@/lib/utils";
 import { Message } from "@/validation/message";
@@ -24,6 +25,7 @@ const ChatInput = ({
 }: ChatInputProps) => {
   const [input, setInput] = useState<string>("");
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
+  const { codeFound } = useContext(MessagesContext);
 
   const firstTouch = false;
 
@@ -42,7 +44,7 @@ const ChatInput = ({
       <div className="relative mt-4 flex-1 overflow-hidden rounded-lg border-none outline-none">
         <Textarea
           ref={textareaRef}
-          disabled={isPending || isPendingParent}
+          disabled={isPending || isPendingParent || codeFound}
           rows={3}
           onKeyDown={e => {
             if (e.key === "Enter" && !e.shiftKey) {
