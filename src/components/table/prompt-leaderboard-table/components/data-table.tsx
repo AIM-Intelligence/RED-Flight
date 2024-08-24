@@ -116,7 +116,7 @@ export function DataTable<TData, TValue>({
                 key={headerGroup.id}
                 className="border-red-500 bg-black hover:bg-black"
               >
-                <TableHead className="text-white">Rank</TableHead>
+                <TableHead className="text-white">No.</TableHead>
                 {headerGroup.headers.map(header => {
                   return (
                     <TableHead
