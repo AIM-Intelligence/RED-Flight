@@ -47,7 +47,11 @@ export async function updateUserProfile(
     .select()
     .single();
 
-  if (error) {
+  console.log("user update error", error);
+
+  if (error && error.code === "23505") {
+    throw new Error("This name already exists");
+  } else if (error) {
     throw new Error("Failed to update user profile");
   }
 

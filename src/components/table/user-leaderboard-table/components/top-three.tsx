@@ -1,118 +1,70 @@
 import React from "react";
 
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
+import Image from "next/image";
 
-interface UserProps {
+import { MediaRenderer } from "thirdweb/react";
+
+import { client } from "@/lib/client";
+import { Database } from "@/validation/types/supabase";
+
+type User = Database["public"]["Tables"]["user"]["Row"];
+
+interface TopThreeProps {
   user: User;
+  place: 1 | 2 | 3;
 }
 
-export const FirstPlace: React.FC<UserProps> = ({ user }) => {
-  let profile_img;
-  if (user.image_url) {
-    profile_img = user.image_url;
-  } else {
-    profile_img = "/logo1.png";
-  }
-  let name;
-  if (user.name) {
-    name = user.name;
-  } else {
-    name = "NoName";
-  }
-  const wallet_address = user.wallet_address.slice(0, 12);
-  return (
-    <div
-      key={user.id}
-      className={`flex w-[30%] flex-col items-center rounded-md border-2 border-red-500 bg-black/50 p-4 text-white`}
-    >
-      <p className="mb-4 text-lg font-bold text-white">🏆 1st Place</p>
-
-      <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black p-1">
-        <img className="w-full" src={profile_img} alt="default_img" />
-      </div>
-
-      <h2 className="text-xl">{name}</h2>
-      <p className="text-sm">{wallet_address}...</p>
-      <p className="mt-2 text-xl font-semibold text-[rgb(255,215,0)]">
-        Score: {user.score}
-      </p>
-    </div>
-  );
+const placeEmoji = {
+  1: "🏆",
+  2: "🥈",
+  3: "🥉",
 };
 
-export const SecondPlace: React.FC<UserProps> = ({ user }) => {
-  let profile_img;
-  if (user.image_url) {
-    profile_img = user.image_url;
-  } else {
-    profile_img = "/logo1.png";
-  }
-  let name;
-  if (user.name) {
-    name = user.name;
-  } else {
-    name = "NoName";
-  }
-  const wallet_address = user.wallet_address.slice(0, 12);
-  return (
-    <div
-      key={user.id}
-      className={`flex w-[30%] flex-col items-center rounded-md border-2 border-transparent p-4 text-white`}
-    >
-      <p className="mb-4 text-lg font-bold text-white">🥈 2nd Place</p>
-
-      <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black p-1">
-        <img className="w-full" src={profile_img} alt="default_img" />
-      </div>
-
-      <h2 className="text-xl">{name}</h2>
-      <p className="text-sm">{wallet_address}...</p>
-      <p className="mt-2 text-xl font-semibold text-white">
-        Score: {user.score}
-      </p>
-    </div>
-  );
+const placeText = {
+  1: "1st",
+  2: "2nd",
+  3: "3rd",
 };
 
-export const ThirdPlace: React.FC<UserProps> = ({ user }) => {
-  let profile_img;
-  if (user.image_url) {
-    profile_img = user.image_url;
-  } else {
-    profile_img = "/logo1.png";
-  }
-  let name;
-  if (user.name) {
-    name = user.name;
-  } else {
-    name = "NoName";
-  }
+export const TopThreePlace: React.FC<TopThreeProps> = ({ user, place }) => {
+  const name = user.name || "Anonymity";
   const wallet_address = user.wallet_address.slice(0, 12);
+
+  const isFirstPlace = place === 1;
+
   return (
     <div
       key={user.id}
-      className={`flex w-[30%] flex-col items-center rounded-md border-2 border-transparent p-4 text-white`}
+      className={`flex w-[30%] flex-col items-center rounded-md border-2 p-4 text-white ${
+        isFirstPlace ? "border-red-500 bg-black/50" : "border-transparent"
+      }`}
     >
-      <p className="mb-4 text-lg font-bold text-white">🥉 3rd Place</p>
+      <p className="mb-4 text-lg font-bold text-white">
+        {placeEmoji[place]} {placeText[place]} Place
+      </p>
 
-      <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black p-1">
-        <img className="w-full" src={profile_img} alt="default_img" />
+      <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black">
+        {user.image_url ? (
+          <MediaRenderer
+            client={client}
+            src={user.image_url}
+            className="rounded-full"
+          />
+        ) : (
+          <Image
+            width={130}
+            height={130}
+            src="/asset/1.png"
+            alt="default profile"
+          />
+        )}
       </div>
 
       <h2 className="text-xl">{name}</h2>
       <p className="text-sm">{wallet_address}...</p>
-      <p className="mt-2 text-xl font-semibold text-white">
+      <p
+        className={`mt-2 text-xl font-semibold ${isFirstPlace ? "text-[rgb(255,215,0)]" : "text-white"}`}
+      >
         Score: {user.score}
       </p>
     </div>

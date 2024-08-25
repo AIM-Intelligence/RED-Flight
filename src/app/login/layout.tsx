@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/Button";
 
-const layout = async ({ children }: { children: React.ReactNode }) => {
+const layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   return (
     <main className="flex h-screen items-center justify-center bg-black">

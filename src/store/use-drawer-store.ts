@@ -1,9 +1,13 @@
 import { create } from "zustand";
 
-export type DrawerType = "showRedPromptData";
+import { Database } from "@/validation/types/supabase";
+
+type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
+
+export type DrawerType = "showNFTClaimDrawer";
 
 interface DrawerData {
-  red_prompt?: JSON;
+  red_prompt?: RED_Prompt;
 }
 
 interface DrawerStore {
@@ -14,7 +18,7 @@ interface DrawerStore {
   onClose: () => void;
 }
 
-export const useModal = create<DrawerStore>(set => ({
+export const useDrawer = create<DrawerStore>(set => ({
   type: null,
   data: {},
   isOpen: false,

@@ -1,6 +1,6 @@
 "use client";
 
-import { levels, targets } from "../data/data";
+import { levels, targets } from "./criteria";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Cross2Icon } from "@radix-ui/react-icons";

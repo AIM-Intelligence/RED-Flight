@@ -1,6 +1,6 @@
 "use client";
 
-import { chainIds, levels, targets } from "../data/data";
+import { chainIds, levels } from "./criteria";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -22,21 +22,21 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Search by creator..."
-          value={table.getState().globalFilter || ""}
+          placeholder="Search by Creator Address"
+          value={(table.getColumn("creator")?.getFilterValue() as string) ?? ""}
           onChange={event => {
-            const filterValue = event.target.value;
-            table.setGlobalFilter(filterValue); // Set a global filter that applies to multiple columns
+            const value = event.target.value;
+            table.getColumn("creator")?.setFilterValue(value);
           }}
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />
-        {table.getColumn("target") && (
+        {/* {table.getColumn("target") && (
           <DataTableFacetedFilter
             column={table.getColumn("target")}
             title="Target"
             options={targets}
           />
-        )}
+        )} */}
         {table.getColumn("level") && (
           <DataTableFacetedFilter
             column={table.getColumn("level")}

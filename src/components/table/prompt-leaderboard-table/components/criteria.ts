@@ -12,45 +12,33 @@ export const targets = [
 export const levels = [
   {
     label: "Easy",
-    value: "easy",
+    value: 1,
   },
   {
     label: "Normal",
-    value: "normal",
+    value: 2,
   },
   {
     label: "Hard",
-    value: "hard",
+    value: 3,
   },
   {
     label: "Extreme",
-    value: "extreme",
+    value: 4,
   },
   {
     label: "Custom",
-    value: "custom",
+    value: 5,
   },
 ];
 
 export const chainIds = [
   {
-    label: "Zeta",
-    value: "zeta",
-  },
-  {
     label: "Manta",
-    value: "manta",
+    value: 3441006,
   },
   {
-    label: "ZKsync",
-    value: "zksync",
-  },
-  {
-    label: "Core",
-    value: "core",
-  },
-  {
-    label: "Theta",
-    value: "theta",
+    label: "Not NFT",
+    value: 0,
   },
 ];

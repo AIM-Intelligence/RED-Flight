@@ -22,11 +22,15 @@ export async function getAllPrompts(): Promise<PromptNFT[]> {
   const supabase = createSupabaseServer();
 
   // Fetch all prompt NFTs for the user
-  const { data, error } = await supabase.from("prompt nft").select(`
+  const { data, error } = await supabase
+    .from("prompt nft")
+    .select(
+      `
     id, created_at, creator, desc, chain_id, conversation, image_url, 
     length, level, name, nft_address, nft_id, owner, target, title, user:creator (name)
-  `);
-  console.log("??", data);
+  `,
+    )
+    .order("length", { ascending: true });
 
   if (error) {
     console.error("Error fetching user prompts:", error);

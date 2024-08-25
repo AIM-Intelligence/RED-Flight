@@ -27,14 +27,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import { useModal } from "@/store/use-modal-store";
-import { Database } from "@/validation/types/supabase";
-
-type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
-
-type User = {
-  name: string;
-};
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,12 +43,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
-  const [sorting, setSorting] = React.useState<SortingState>([
-    { id: "level", desc: true }, // 1. Level 내림차순
-    { id: "conversation", desc: false }, // 2. Conversation 오름차순
-    { id: "length", desc: false }, // 3. Length 오름차순
-  ]);
-  const { onOpen } = useModal();
+  const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -78,32 +65,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    globalFilterFn: (row, columnId, filterValue) => {
-      const user = row.getValue("user") as User;
-      const creator = row.getValue("creator") as string;
-
-      const userName = user?.name?.toLowerCase() || "";
-      const creatorAddress = creator?.toLowerCase() || "";
-      const searchValue = filterValue.toLowerCase();
-
-      return (
-        userName.includes(searchValue) || creatorAddress.includes(searchValue)
-      );
-    },
   });
-
-  const handleRowClick = (row: { original: RED_Prompt }) => {
-    console.log(row.original);
-    const red_prompt = row.original;
-    if (red_prompt) {
-      onOpen("showRedPromptData", { red_prompt });
-    } else {
-      console.log("No prompt available");
-    }
-  };
-
-  const pageIndex = table.getState().pagination.pageIndex;
-  const pageSize = table.getState().pagination.pageSize;
 
   return (
     <div className="space-y-4">
@@ -116,7 +78,6 @@ export function DataTable<TData, TValue>({
                 key={headerGroup.id}
                 className="border-red-500 bg-black hover:bg-black"
               >
-                <TableHead className="text-white">No.</TableHead>
                 {headerGroup.headers.map(header => {
                   return (
                     <TableHead
@@ -138,14 +99,12 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => handleRowClick(row as any)}
-                  className="border-b border-t border-red-500 hover:bg-red-500/50 data-[state=selected]:bg-red-700/50"
+                  className="border-b border-t border-red-500 hover:bg-red-600/50 data-[state=selected]:bg-red-700/50"
                 >
-                  <TableCell>{pageIndex * pageSize + index + 1}</TableCell>
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>
                       {flexRender(

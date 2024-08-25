@@ -2,19 +2,7 @@ import { create } from "zustand";
 
 import { Database } from "@/validation/types/supabase";
 
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
-// type User = Database["public"]["Tables"]["user"]["Row"]
+type User = Database["public"]["Tables"]["user"]["Row"];
 
 interface UserRankStore {
   topThreeArr: User[];

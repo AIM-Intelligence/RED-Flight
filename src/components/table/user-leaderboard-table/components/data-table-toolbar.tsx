@@ -1,7 +1,5 @@
 "use client";
 
-import { chainIds, levels, targets } from "../data/data";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Table } from "@tanstack/react-table";
@@ -22,11 +20,23 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Search by user..."
-          value={table.getState().globalFilter || ""}
+          placeholder="Search by name"
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={event => {
-            const filterValue = event.target.value;
-            table.setGlobalFilter(filterValue); // Set a global filter that applies to multiple columns
+            const value = event.target.value;
+            table.getColumn("name")?.setFilterValue(value);
+          }}
+          className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
+        />
+        <Input
+          placeholder="Search by address"
+          value={
+            (table.getColumn("wallet_address")?.getFilterValue() as string) ??
+            ""
+          }
+          onChange={event => {
+            const value = event.target.value;
+            table.getColumn("wallet_address")?.setFilterValue(value);
           }}
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />
