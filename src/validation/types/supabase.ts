@@ -11,7 +11,7 @@ export type Database = {
     Tables: {
       "prompt nft": {
         Row: {
-          chain_id: number | null;
+          chain_id: number;
           conversation: number;
           created_at: string;
           creator: string;
@@ -29,7 +29,7 @@ export type Database = {
           title: string | null;
         };
         Insert: {
-          chain_id?: number | null;
+          chain_id?: number;
           conversation?: number;
           created_at?: string;
           creator: string;
@@ -47,7 +47,7 @@ export type Database = {
           title?: string | null;
         };
         Update: {
-          chain_id?: number | null;
+          chain_id?: number;
           conversation?: number;
           created_at?: string;
           creator?: string;
@@ -131,17 +131,30 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      insert_nft_and_update_score: {
-        Args: {
-          p_creator: string;
-          p_prompt: Json;
-          p_length: number;
-          p_conversation: number;
-          p_target: string;
-          p_level: number;
-        };
-        Returns: undefined;
-      };
+      insert_nft_and_update_score:
+        | {
+            Args: {
+              p_creator: string;
+              p_prompt: Json;
+              p_length: number;
+              p_conversation: number;
+              p_target: string;
+              p_level: number;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              p_creator: string;
+              p_prompt: Json;
+              p_length: number;
+              p_conversation: number;
+              p_target: string;
+              p_level: number;
+              p_name: string;
+            };
+            Returns: undefined;
+          };
     };
     Enums: {
       [_ in never]: never;

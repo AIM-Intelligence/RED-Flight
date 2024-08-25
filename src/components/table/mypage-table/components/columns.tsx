@@ -1,53 +1,23 @@
 "use client";
 
-import { targets } from "../data/data";
+import { targets } from "./criteria";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
+//import { DataTableRowActions } from "./data-table-row-actions";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Checkbox } from "@/components/ui/Checkbox";
+//import { Checkbox } from "@/components/ui/Checkbox";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Database["public"]["Tables"]["prompt nft"]["Row"];
 
 export const columns: ColumnDef<PromptNFT>[] = [
   {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px] border-red-500"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px] border-red-500"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "id",
+    id: "rowNumber",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Task" />
+      <DataTableColumnHeader column={column} title="No." />
     ),
     cell: ({ row }) => {
-      const id = row.getValue("id") as string;
-      const truncatedId = id.slice(0, 7);
-      return (
-        <div className="w-[80px]" title={id}>
-          {truncatedId}...
-        </div>
-      );
+      return <div className="w-[80px]">{row.index + 1}</div>;
     },
     enableSorting: false,
     enableHiding: false,
@@ -69,6 +39,28 @@ export const columns: ColumnDef<PromptNFT>[] = [
       return (
         <div className="flex w-[100px] items-center">
           <span>{target.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Target Name" />
+    ),
+    cell: ({ row }) => {
+      const name = row.getValue("name") as string;
+
+      if (!name) {
+        return null;
+      }
+
+      return (
+        <div className="flex w-[100px] items-center">
+          <span>{name}</span>
         </div>
       );
     },
@@ -152,8 +144,8 @@ export const columns: ColumnDef<PromptNFT>[] = [
     },
   },
 
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
+  // {
+  //   id: "actions",
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ];
