@@ -11,6 +11,7 @@ export type Database = {
     Tables: {
       "prompt nft": {
         Row: {
+          chain_id: number | null;
           conversation: number;
           created_at: string;
           creator: string;
@@ -22,11 +23,13 @@ export type Database = {
           name: string | null;
           nft_address: string | null;
           nft_id: number | null;
+          owner: string | null;
           prompt: Json;
           target: string;
           title: string | null;
         };
         Insert: {
+          chain_id?: number | null;
           conversation?: number;
           created_at?: string;
           creator: string;
@@ -38,11 +41,13 @@ export type Database = {
           name?: string | null;
           nft_address?: string | null;
           nft_id?: number | null;
+          owner?: string | null;
           prompt: Json;
           target: string;
           title?: string | null;
         };
         Update: {
+          chain_id?: number | null;
           conversation?: number;
           created_at?: string;
           creator?: string;
@@ -54,6 +59,7 @@ export type Database = {
           name?: string | null;
           nft_address?: string | null;
           nft_id?: number | null;
+          owner?: string | null;
           prompt?: Json;
           target?: string;
           title?: string | null;
@@ -62,6 +68,13 @@ export type Database = {
           {
             foreignKeyName: "prompt nft_creator_fkey";
             columns: ["creator"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["wallet_address"];
+          },
+          {
+            foreignKeyName: "prompt nft_owner_fkey";
+            columns: ["owner"];
             isOneToOne: false;
             referencedRelation: "user";
             referencedColumns: ["wallet_address"];
