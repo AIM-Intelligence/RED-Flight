@@ -149,6 +149,7 @@ export async function POST(req: Request) {
           p_conversation: conversationCount,
           p_target: "tutorial",
           p_level: inputNFT.level,
+          p_name: null,
         },
       );
 
