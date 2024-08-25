@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 
-import type { Container } from "@tsparticles/engine";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
@@ -29,8 +28,8 @@ export const FlameFlake = () => {
     });
   }, []);
 
-  const particlesLoaded = useCallback(async (_?: Container) => {
-    console.log(_);
+  const particlesLoaded = useCallback(async () => {
+    //console.log(_);
     // Your asynchronous logic here
   }, []);
 

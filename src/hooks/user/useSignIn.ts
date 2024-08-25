@@ -1,10 +1,6 @@
 import { useCallback } from "react";
 
-import {
-  useIsFetching,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "@/components/ui/use-toast";
 import { getOrCreateWeb3User } from "@/server/auth/sign-in";
@@ -16,13 +12,12 @@ type User = Tables<"user">;
 export function useWeb3User() {
   const queryClient = useQueryClient();
   const { setUser, clearUser } = useWeb3UserStore();
-  const isFetching = useIsFetching({ queryKey: ["web3User"] });
 
   const mutation = useMutation({
     mutationFn: getOrCreateWeb3User,
     onSuccess: (data: User) => {
-      queryClient.setQueryData(["web3User"], data);
       setUser(data);
+
       queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
       // toast({
       //   title: "Success",
@@ -45,7 +40,7 @@ export function useWeb3User() {
   }, [mutation]);
 
   return {
-    isLoading: mutation.isPending || isFetching > 0,
+    isLoading: mutation.isPending,
     isError: mutation.isError,
     error: mutation.error,
     refreshUser,

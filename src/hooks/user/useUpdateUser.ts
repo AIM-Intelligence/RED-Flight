@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { toast } from "@/components/ui/use-toast";
 import { updateUserProfile } from "@/server/auth/update-user";
@@ -17,13 +17,11 @@ type UpdateUserParams = {
 };
 
 export function useUpdateWeb3User() {
-  const queryClient = useQueryClient();
   const { setUser } = useWeb3UserStore();
 
   const updateMutation = useMutation({
     mutationFn: updateUserProfile,
     onSuccess: (data: User) => {
-      queryClient.setQueryData(["web3User"], data);
       setUser(data);
       toast({
         title: "Success",
