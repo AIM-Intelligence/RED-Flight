@@ -4,6 +4,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 //import { DataTableRowActions } from "./data-table-row-actions";
 import { ColumnDef } from "@tanstack/react-table";
 
+import { formatDateToLocal } from "@/utils/date-to-local";
 //import { Checkbox } from "@/components/ui/Checkbox";
 import { Database } from "@/validation/types/supabase";
 
@@ -40,7 +41,9 @@ export const columns: ColumnDef<PromptNFT>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+      const name = (row.getValue(id) as string) ?? "";
+      const filterValue = value.toLowerCase();
+      return name.toLowerCase().includes(filterValue);
     },
   },
   {
@@ -114,6 +117,22 @@ export const columns: ColumnDef<PromptNFT>[] = [
       return (
         <span className="max-w-[500px] truncate font-medium">
           {row.getValue("length")}
+        </span>
+      );
+    },
+  },
+  {
+    accessorKey: "created_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }) => {
+      const dateValue = row.getValue("created_at") as string;
+      const formattedDate = dateValue ? formatDateToLocal(dateValue) : "";
+
+      return (
+        <span className="max-w-[500px] truncate font-medium">
+          {formattedDate}
         </span>
       );
     },

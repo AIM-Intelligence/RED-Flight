@@ -39,13 +39,7 @@ export function DataTableToolbar<TData>({
           }}
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />
-        {/* {table.getColumn("target") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("target")}
-            title="Target"
-            options={targets}
-          />
-        )} */}
+
         {table.getColumn("level") && (
           <DataTableFacetedFilter
             column={table.getColumn("level")}

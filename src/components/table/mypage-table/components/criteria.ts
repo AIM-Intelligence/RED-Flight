@@ -1,33 +1,22 @@
-export const targets = [
-  {
-    value: "tutorial",
-    label: "Tutorial",
-  },
-  {
-    value: "custom",
-    label: "Custom",
-  },
-];
-
 export const levels = [
   {
     label: "Easy",
-    value: "easy",
+    value: 1,
   },
   {
     label: "Normal",
-    value: "normal",
+    value: 2,
   },
   {
     label: "Hard",
-    value: "hard",
+    value: 3,
   },
   {
     label: "Extreme",
-    value: "extreme",
+    value: 4,
   },
   {
     label: "Custom",
-    value: "custom",
+    value: 5,
   },
 ];

@@ -109,31 +109,6 @@ export const columns: ColumnDef<PromptNFT>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
-  // {
-  //   accessorKey: "target",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Target" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const target = targets.find(
-  //       target => target.value === row.getValue("target"),
-  //     );
-
-  //     if (!target) {
-  //       return null;
-  //     }
-
-  //     return (
-  //       <div className="flex w-[100px] items-center">
-  //         <span>{target.label}</span>
-  //       </div>
-  //     );
-  //   },
-  //   filterFn: (row, id, value) => {
-  //     return value.includes(row.getValue(id));
-  //   },
-  // },
   {
     accessorKey: "name",
     header: ({ column }) => (
