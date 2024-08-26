@@ -28,7 +28,7 @@ export const navData = [
     icon: <Trophy />,
   },
   {
-    name: "RED NFT Owner",
+    name: "RED NFT Checker Owner",
     path: "/red-nft-owner",
     icon: <GalleryHorizontal />,
   },

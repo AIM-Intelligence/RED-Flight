@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { Database } from "@/validation/types/supabase";
 
 type REDUser = Database["public"]["Tables"]["user"]["Row"];
-type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
+type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 export type ModalType =
   | "showRedPromptData"

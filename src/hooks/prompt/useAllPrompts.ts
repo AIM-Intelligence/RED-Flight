@@ -7,7 +7,7 @@ import { useWeb3UserStore } from "@/store/user-store";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["prompt nft"]["Row"],
+  Database["public"]["Tables"]["red prompt nft"]["Row"],
   "prompt"
 >;
 

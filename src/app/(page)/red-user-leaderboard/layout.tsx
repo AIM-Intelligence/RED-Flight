@@ -1,20 +1,13 @@
 import Image from "next/image";
-import { redirect } from "next/navigation";
 
 import { Metadata } from "next";
-
-import { isLoggedIn } from "@/server/auth/auth";
 
 export const metadata: Metadata = {
   title: "Red Flight NFT Market",
   description: "AI Jailbreaking NFT Game",
 };
-
+// 9a37ed
 const layout = async ({ children }: { children: React.ReactNode }) => {
-  if (!(await isLoggedIn())) {
-    redirect("/login");
-  }
-
   return (
     <main className="relative min-h-screen bg-black font-sora text-white">
       <Image

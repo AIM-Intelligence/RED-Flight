@@ -9,7 +9,54 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      "prompt nft": {
+      "blue prompt nft": {
+        Row: {
+          code: string;
+          created_at: string;
+          creator: string;
+          id: string;
+          image_url: string | null;
+          length: number;
+          lose: number;
+          name: string;
+          prompt: string;
+          win: number;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          creator: string;
+          id?: string;
+          image_url?: string | null;
+          length?: number;
+          lose?: number;
+          name: string;
+          prompt: string;
+          win?: number;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          creator?: string;
+          id?: string;
+          image_url?: string | null;
+          length?: number;
+          lose?: number;
+          name?: string;
+          prompt?: string;
+          win?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "blue prompt nft_creator_fkey";
+            columns: ["creator"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["wallet_address"];
+          },
+        ];
+      };
+      "red prompt nft": {
         Row: {
           chain_id: number;
           conversation: number;

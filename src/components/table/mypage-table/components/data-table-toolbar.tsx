@@ -1,6 +1,6 @@
 "use client";
 
-import { levels, targets } from "./criteria";
+import { levels } from "./criteria";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -28,13 +28,6 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         /> */}
-        {table.getColumn("target") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("target")}
-            title="Target"
-            options={targets}
-          />
-        )}
         {table.getColumn("level") && (
           <DataTableFacetedFilter
             column={table.getColumn("level")}
