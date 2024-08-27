@@ -30,13 +30,16 @@ export function DataTableToolbar<TData>({
           }}
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />
-        {/* {table.getColumn("target") && (
-          <DataTableFacetedFilter
-            column={table.getColumn("target")}
-            title="Target"
-            options={targets}
-          />
-        )} */}
+        <Input
+          placeholder="Search by Target Name"
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          onChange={event => {
+            const value = event.target.value;
+            table.getColumn("name")?.setFilterValue(value);
+          }}
+          className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
+        />
+
         {table.getColumn("level") && (
           <DataTableFacetedFilter
             column={table.getColumn("level")}

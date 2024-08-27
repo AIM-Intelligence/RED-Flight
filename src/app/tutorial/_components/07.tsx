@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button } from "@/components/ui/Button";
+import { tutorial_ai_name } from "@/constants/ai_name";
 import { MessagesContext } from "@/context/Messages";
 import useNFTStore from "@/store/prompt/prompt-insert-store";
 
@@ -99,7 +100,13 @@ const FirstImage = () => {
     // Update the first message with the selected difficulty
     if (messages.length > 0) {
       updateMessage(messages[0].id, prevText => {
-        return `Level : ${selectedDifficulty} >>> ${prevText}`;
+        const aiName =
+          tutorial_ai_name[
+            difficultyLevels[
+              selectedDifficulty as keyof typeof difficultyLevels
+            ] - 1
+          ];
+        return `${aiName} >>> Level : ${selectedDifficulty} >>> ${prevText}`;
       });
     }
 

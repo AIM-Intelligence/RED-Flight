@@ -5,7 +5,7 @@ import { getAuthStatus } from "../auth/auth";
 import { createSupabaseServer } from "@/lib/supabase/createSupabaseAdmin";
 import { Database } from "@/validation/types/supabase";
 
-type PromptNFT = Database["public"]["Tables"]["prompt nft"]["Row"];
+type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 export async function getUserPrompts(): Promise<PromptNFT[]> {
   // Check authentication status
@@ -25,9 +25,9 @@ export async function getUserPrompts(): Promise<PromptNFT[]> {
   // Create Supabase client
   const supabase = createSupabaseServer();
 
-  // Fetch all prompt NFTs for the user
+  // Fetch all red prompt nfts for the user
   const { data, error } = await supabase
-    .from("prompt nft")
+    .from("red prompt nft")
     .select("*")
     .eq("creator", walletAddress);
 

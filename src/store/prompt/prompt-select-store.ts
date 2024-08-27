@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { Database } from "@/validation/types/supabase";
 
-type PromptNFT = Database["public"]["Tables"]["prompt nft"]["Row"];
+type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 interface PromptStore {
   prompts: PromptNFT[];
