@@ -6,7 +6,7 @@ import { createSupabaseServer } from "@/lib/supabase/createSupabaseAdmin";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["prompt nft"]["Row"],
+  Database["public"]["Tables"]["red prompt nft"]["Row"],
   "prompt"
 >;
 
@@ -21,9 +21,9 @@ export async function getAllPrompts(): Promise<PromptNFT[]> {
   // Create Supabase client
   const supabase = createSupabaseServer();
 
-  // Fetch all prompt NFTs for the user
+  // Fetch all red prompt nfts for the user
   const { data, error } = await supabase
-    .from("prompt nft")
+    .from("red prompt nft")
     .select(
       `
     id, created_at, creator, desc, chain_id, conversation, image_url, 

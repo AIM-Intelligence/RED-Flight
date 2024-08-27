@@ -30,7 +30,7 @@ import {
 import { useModal } from "@/store/use-modal-store";
 import { Database } from "@/validation/types/supabase";
 
-type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
+type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
