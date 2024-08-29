@@ -45,6 +45,22 @@ import { cn } from "@/lib/utils";
 
 // Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
+// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
+
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
@@ -68,7 +84,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           background: useMotionTemplate`
         radial-gradient(
           ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
-          var(--rose-500),
+          var(--red-600),
           transparent 80%
         )
       `,
@@ -81,7 +97,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type={type}
           className={cn(
-            `duration-400 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black shadow-input transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-rose-400 disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none`,
+            `duration-400 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black shadow-input transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-red-600 disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none`,
             className,
           )}
           ref={ref}

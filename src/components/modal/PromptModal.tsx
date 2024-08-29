@@ -74,7 +74,7 @@ const RedPromptModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white dark:bg-black sm:max-w-[425px]">
+      <DialogContent className="border-red-600 bg-black text-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Attack Prompt</DialogTitle>
         </DialogHeader>
@@ -115,7 +115,7 @@ const RedPromptModal = () => {
         </div>
         <DialogFooter>
           <Button
-            className="w-full"
+            className="w-full bg-red-600 hover:bg-red-700"
             onClick={() => onOpen("showNFTClaimDrawer", data)}
           >
             Claim NFT

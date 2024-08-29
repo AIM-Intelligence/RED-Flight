@@ -7,17 +7,13 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { ColumnDef } from "@tanstack/react-table";
 import { MediaRenderer } from "thirdweb/react";
 
-import { client } from "@/lib/client";
+import { storageClient } from "@/lib/client-storage";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
   Database["public"]["Tables"]["red prompt nft"]["Row"],
   "id" | "prompt"
 >;
-
-type User = {
-  name: string;
-};
 
 export const columns: ColumnDef<PromptNFT>[] = [
   {
@@ -33,16 +29,15 @@ export const columns: ColumnDef<PromptNFT>[] = [
     },
     enableSorting: false,
     enableHiding: false,
+    // metadata.image
   },
   {
     accessorKey: "image_url",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Image" />
     ),
-    cell: ({ row }) => {
-      const url = row.getValue("image_url") as any;
-
-      console.log("wefewfwefewf", url);
+    cell: async ({ row }) => {
+      const url = row.getValue("image_url") as string;
       if (!url) {
         return (
           <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-lg bg-black">
@@ -55,39 +50,25 @@ export const columns: ColumnDef<PromptNFT>[] = [
           </div>
         );
       }
+
+      console.log(url);
+
+      // const ipfs = resolveScheme({
+      //   client,
+      //   uri: url[0],
+      // });
+
+      // console.log("Image", ipfs);
+
       return (
         <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
           <MediaRenderer
-            client={client}
+            client={storageClient}
             src={url[0]}
             className="rounded-full"
           />
         </div>
       );
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  // creator name
-  {
-    accessorKey: "user",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Creator Name" />
-    ),
-    cell: ({ row }) => {
-      const user = row.getValue("user") as User;
-
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {user.name ? user.name : "Anonymity"}
-        </span>
-      );
-    },
-    filterFn: (row, id, value) => {
-      const user = row.getValue(id) as User;
-      const name = user?.name?.toLowerCase() || "";
-      const filterValue = value.toLowerCase();
-      return name.includes(filterValue);
     },
     enableSorting: false,
     enableHiding: false,
@@ -197,9 +178,19 @@ export const columns: ColumnDef<PromptNFT>[] = [
         chain => chain.value === row.getValue("chain_id"),
       );
 
+      // const chainIdValue = row.getValue("chain_id");
+      // const chainId = chainIds.find(
+      //   chainId =>
+      //     chainId.value ===
+      //     (chainIdValue === null ? null : String(chainIdValue)),
+      // );
+      if (!chainId) {
+        return null;
+      }
+
       return (
         <div className="flex items-center">
-          <span>{chainId?.label}</span>
+          <span>{chainId.label}</span>
         </div>
       );
     },
