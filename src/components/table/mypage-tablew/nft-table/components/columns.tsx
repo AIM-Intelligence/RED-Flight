@@ -7,7 +7,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { ColumnDef } from "@tanstack/react-table";
 import { MediaRenderer } from "thirdweb/react";
 
-import { storageClient } from "@/lib/client-storage";
+import { client } from "@/lib/client";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
@@ -63,7 +63,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
       return (
         <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
           <MediaRenderer
-            client={storageClient}
+            client={client}
             src={url[0]}
             className="rounded-full"
           />
