@@ -4,7 +4,7 @@ import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
   Database["public"]["Tables"]["red prompt nft"]["Row"],
-  "prompt"
+  "id" | "prompt"
 >;
 
 interface PromptStore {

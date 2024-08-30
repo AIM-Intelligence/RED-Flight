@@ -3,15 +3,21 @@
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 
-import { usePrompts, useSelectPrompt } from "@/hooks/prompt/useSelectPrompt";
 import { useWeb3UserStore } from "@/store/user-store";
+import { Database } from "@/validation/types/supabase";
 
-export default function PromptPageTable() {
-  const prompts = usePrompts();
+type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+
+interface PromptPageTableProps {
+  promptsWithoutChainId: PromptNFT[];
+  status: any;
+}
+
+export default function PromptPageTable({
+  promptsWithoutChainId,
+  status,
+}: PromptPageTableProps) {
   const { user } = useWeb3UserStore();
-  const { status } = useSelectPrompt();
-
-  console.log("prompts", prompts);
 
   if (!user) {
     return (
@@ -51,7 +57,7 @@ export default function PromptPageTable() {
             My Red Prompts
           </h2>
         </div>
-        <DataTable data={prompts} columns={columns} />
+        <DataTable data={promptsWithoutChainId} columns={columns} />
       </div>
     </>
   );

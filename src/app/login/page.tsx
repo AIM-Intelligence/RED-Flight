@@ -10,7 +10,7 @@ import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
 import { generatePayload, isLoggedIn, login, logout } from "@/server/auth/auth";
 import { useWeb3UserStore } from "@/store/user-store";
-import { chain } from "@/utils/chain";
+import { chainList } from "@/utils/chain";
 
 const ThirdwebConnectButton: React.FC = () => {
   const router = useRouter();
@@ -37,8 +37,7 @@ const ThirdwebConnectButton: React.FC = () => {
     <ConnectEmbed
       client={client}
       appMetadata={appMetadata}
-      chain={chain}
-      //chains={chainList}
+      chains={chainList}
       auth={{
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });
