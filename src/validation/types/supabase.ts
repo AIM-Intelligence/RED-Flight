@@ -20,6 +20,7 @@ export type Database = {
           lose: number;
           name: string;
           prompt: string;
+          token_id: number | null;
           win: number;
         };
         Insert: {
@@ -32,6 +33,7 @@ export type Database = {
           lose?: number;
           name: string;
           prompt: string;
+          token_id?: number | null;
           win?: number;
         };
         Update: {
@@ -44,6 +46,7 @@ export type Database = {
           lose?: number;
           name?: string;
           prompt?: string;
+          token_id?: number | null;
           win?: number;
         };
         Relationships: [
@@ -58,58 +61,61 @@ export type Database = {
       };
       "red prompt nft": {
         Row: {
-          chain_id: number;
+          chain_id: string;
           conversation: number;
           created_at: string;
           creator: string;
           desc: string | null;
           id: string;
-          image_url: string | null;
+          image_url: string[] | null;
           length: number;
           level: number;
           name: string | null;
           nft_address: string | null;
-          nft_id: number | null;
           owner: string | null;
           prompt: Json;
           target: string;
           title: string | null;
+          token_id: string[] | null;
+          transaction_hash: string | null;
         };
         Insert: {
-          chain_id?: number;
+          chain_id: string;
           conversation?: number;
           created_at?: string;
           creator: string;
           desc?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url?: string[] | null;
           length?: number;
           level: number;
           name?: string | null;
           nft_address?: string | null;
-          nft_id?: number | null;
           owner?: string | null;
           prompt: Json;
           target: string;
           title?: string | null;
+          token_id?: string[] | null;
+          transaction_hash?: string | null;
         };
         Update: {
-          chain_id?: number;
+          chain_id?: string;
           conversation?: number;
           created_at?: string;
           creator?: string;
           desc?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url?: string[] | null;
           length?: number;
           level?: number;
           name?: string | null;
           nft_address?: string | null;
-          nft_id?: number | null;
           owner?: string | null;
           prompt?: Json;
           target?: string;
           title?: string | null;
+          token_id?: string[] | null;
+          transaction_hash?: string | null;
         };
         Relationships: [
           {

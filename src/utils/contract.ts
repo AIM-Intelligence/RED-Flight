@@ -4,9 +4,11 @@ import { defineChain, getContract } from "thirdweb";
 
 import { client } from "@/lib/client";
 
+// TODO: Make "getAllContracts" just address
+
 export const getAllContracts = (chainId: number) => {
   const ca = getContractAddress(chainId);
-  const chain = defineChain(chainId ? chainId : 3441006);
+  const chain = defineChain(chainId);
 
   if (!ca) return null;
 

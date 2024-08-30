@@ -8,6 +8,7 @@ import { DrawerProvider } from "@/lib/providers/drawer-provider";
 import { ModalProvider } from "@/lib/providers/modal-provider";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
+  // TODO: chianID filter
   return (
     <main className="page relative bg-black font-sora text-white">
       <motion.div

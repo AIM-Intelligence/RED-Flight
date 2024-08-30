@@ -34,8 +34,4 @@ export const chainIds = [
     label: "Kaia",
     value: "1001",
   },
-  {
-    label: "Not NFT",
-    value: "0",
-  },
 ];
