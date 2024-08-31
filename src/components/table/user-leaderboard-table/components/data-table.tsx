@@ -65,6 +65,18 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    globalFilterFn: (row, columnId, filterValue) => {
+      const name = row.getValue("name") as string;
+      const address = row.getValue("wallet_address") as string;
+
+      const userName = name?.toLowerCase() || "";
+      const userAddress = address?.toLowerCase() || "";
+      const searchValue = filterValue.toLowerCase();
+
+      return (
+        userName.includes(searchValue) || userAddress.includes(searchValue)
+      );
+    },
   });
 
   return (

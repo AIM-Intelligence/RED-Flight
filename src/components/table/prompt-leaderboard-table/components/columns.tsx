@@ -45,7 +45,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
       console.log("wefewfwefewf", url);
       if (!url) {
         return (
-          <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-lg bg-black">
+          <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
             <Image
               width={130}
               height={130}
@@ -77,11 +77,19 @@ export const columns: ColumnDef<PromptNFT>[] = [
     cell: ({ row }) => {
       const user = row.getValue("user") as User;
 
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {user.name ? user.name : "Anonymity"}
-        </span>
-      );
+      if (user.name) {
+        return (
+          <span className="max-w-[500px] truncate font-medium">
+            {user.name}
+          </span>
+        );
+      } else {
+        return (
+          <span className="max-w-[500px] truncate font-medium text-[#c4c4c4]">
+            Unknown
+          </span>
+        );
+      }
     },
     filterFn: (row, id, value) => {
       const user = row.getValue(id) as User;
@@ -180,7 +188,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <span className="max-w-[500px] truncate font-medium">
+        <span className="max-w-[500px] truncate text-lg font-bold font-medium text-white text-stroke">
           {row.getValue("length")}
         </span>
       );

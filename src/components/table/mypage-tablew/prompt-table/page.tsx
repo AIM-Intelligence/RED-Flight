@@ -9,12 +9,12 @@ import { Database } from "@/validation/types/supabase";
 type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 interface PromptPageTableProps {
-  promptsWithoutChainId: PromptNFT[];
+  prompts: PromptNFT[];
   status: any;
 }
 
 export default function PromptPageTable({
-  promptsWithoutChainId,
+  prompts,
   status,
 }: PromptPageTableProps) {
   const { user } = useWeb3UserStore();
@@ -57,7 +57,7 @@ export default function PromptPageTable({
             My Red Prompts
           </h2>
         </div>
-        <DataTable data={promptsWithoutChainId} columns={columns} />
+        <DataTable data={prompts} columns={columns} />
       </div>
     </>
   );
