@@ -13,7 +13,7 @@ const AsisstAI = () => {
 
   useEffect(() => {
     if (
-      contextMessages.length >= 6 &&
+      contextMessages.length >= 2 &&
       !contextMessages[contextMessages.length - 1].isUserMessage
     ) {
       console.log("check");
@@ -28,16 +28,14 @@ const AsisstAI = () => {
       : null;
 
   return (
-    <div className="rounded-lg text-blue-500">
-      <h2 className="mb-4 text-xl font-bold">Assist AI Feedback</h2>
+    <div className="text-orange-500">
+      <h2 className="mb-4 text-xl font-bold">Voice of an unknown person</h2>
       {isPending ? (
         <p>Analyzing conversation...</p>
       ) : error ? (
         <p className="text-red-500">Error: {error}</p>
       ) : latestAssistMessage ? (
-        <div className="rounded bg-blue-100 p-4">
-          <strong>Assist AI:</strong> {latestAssistMessage.text}
-        </div>
+        <div className="p-2">{latestAssistMessage.text}</div>
       ) : (
         <p>Waiting for enough context to provide feedback...</p>
       )}

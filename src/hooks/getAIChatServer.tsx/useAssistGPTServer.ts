@@ -72,11 +72,11 @@ const useAssistGPTServer = () => {
       setIsLoading(true);
       setError(null);
     },
-    onSuccess: (data: { text: string }) => {
+    onSuccess: (data: { result: string }) => {
       //text => result
       const assistMessage: Message = {
         id: nanoid(),
-        text: data.text, // =text => result
+        text: data.result, // =text => result
         victim: false,
         user: false,
         "assist ai": true,

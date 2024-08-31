@@ -156,7 +156,7 @@ export async function POST(req: Request) {
         uniqueMessages.filter((msg: any) => msg.text.includes(sixCharCode))
           .length + (result?.includes(sixCharCode) ? 1 : 0);
 
-      //  console.log("sixCharCodeCount", sixCharCodeCount);
+      console.log("sixCharCodeCount", sixCharCodeCount);
 
       if (sixCharCodeCount > 1) {
         return new Response(
@@ -180,7 +180,7 @@ export async function POST(req: Request) {
         (msg: any) => msg.isUserMessage,
       ).length;
 
-      //  console.log("result", result);
+      console.log("result", result);
       // Insert data into Supabase
       const { data, error } = await supabase.rpc(
         "insert_nft_and_update_score",

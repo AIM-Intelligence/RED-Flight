@@ -18,14 +18,14 @@ import { MessagesContext } from "@/context/Messages";
 import useNFTStore from "@/store/prompt/prompt-insert-store";
 
 const difficultyLevels = {
-  easy: 1,
+  "Role Playing": 1,
   normal: 2,
   hard: 3,
   extreme: 4,
 };
 
 const DifficultySelector = ({ onSelect }: any) => {
-  const difficulties = ["easy", "normal", "hard", "extreme"];
+  const difficulties = ["Role Playing", "normal", "hard", "extreme"];
 
   return (
     <div className="absolute left-28 top-28 border border-red-500 bg-black p-4">
@@ -129,7 +129,7 @@ const FirstImage = () => {
           priority
         />
 
-        {messages.length >= 1 && (
+        {messages.length >= 3 && (
           <div className="absolute inset-0 z-20 max-h-[300px] max-w-[500px] translate-x-40 translate-y-40 border border-red-600 bg-black/80 p-4">
             <AsisstAI />
           </div>
