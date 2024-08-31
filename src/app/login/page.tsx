@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { ConnectEmbed } from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
@@ -25,6 +26,23 @@ const ThirdwebConnectButton: React.FC = () => {
     logoUrl: "/logo1.png",
   };
 
+  const wallets = [
+    inAppWallet({
+      auth: {
+        options: [
+          "google",
+          "discord",
+          "telegram",
+          "email",
+          "facebook",
+          "passkey",
+          "phone",
+        ],
+      },
+    }),
+    createWallet("io.metamask"),
+  ];
+
   useEffect(() => {
     // Check for redirect parameter on component mount
     const redirectPath = searchParams.get("redirect");
@@ -38,6 +56,7 @@ const ThirdwebConnectButton: React.FC = () => {
       client={client}
       appMetadata={appMetadata}
       chains={chainList}
+      wallets={wallets}
       auth={{
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });
