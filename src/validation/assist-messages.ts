@@ -3,7 +3,7 @@ import { z } from "zod";
 export const MessageSchema = z.object({
   id: z.string(),
   text: z.string(),
-  "victim ai": z.boolean().optional(),
+  victim: z.boolean().optional(),
   user: z.boolean().optional(),
   "assist ai": z.boolean().optional(),
 });

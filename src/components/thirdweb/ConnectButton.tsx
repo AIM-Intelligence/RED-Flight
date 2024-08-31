@@ -9,6 +9,7 @@ import {
   useActiveWallet,
   useActiveWalletChain,
 } from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
@@ -31,6 +32,23 @@ const ThirdwebConnectButton: React.FC = () => {
     description: "AI Jailbreaking NFT Game",
     logoUrl: "/logo1.png",
   };
+
+  const wallets = [
+    inAppWallet({
+      auth: {
+        options: [
+          "google",
+          "discord",
+          "telegram",
+          "email",
+          "facebook",
+          "passkey",
+          "phone",
+        ],
+      },
+    }),
+    createWallet("io.metamask"),
+  ];
 
   useEffect(() => {
     const handleAuth = async () => {
@@ -58,6 +76,7 @@ const ThirdwebConnectButton: React.FC = () => {
       client={client}
       appMetadata={appMetadata}
       autoConnect={false}
+      wallets={wallets}
       chains={chainList}
       auth={{
         isLoggedIn: async address => {

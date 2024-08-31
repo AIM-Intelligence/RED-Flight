@@ -7,7 +7,7 @@ import useAssistGPTStore from "@/store/prompt/assist-prompt-store";
 export interface Message {
   id: string;
   text: string;
-  "victim ai"?: boolean;
+  victim?: boolean;
   user?: boolean;
   "assist ai"?: boolean;
 }
@@ -28,27 +28,30 @@ const useAssistGPTServer = () => {
       let reconstructedMessages: Message[];
 
       if (contextMessages.length > 7) {
-        // Use the messages from the store when contextMessages length exceeds 8
-
-        reconstructedMessages = messages.map(msg => ({
+        // Use the messages from the store when contextMessages length exceeds 7
+        const lastTwoMessages = contextMessages.slice(-2).map(msg => ({
           id: msg.id,
           text: msg.text,
-          "victim ai": msg["victim ai"] || false,
-          user: msg.user || false,
-          "assist ai": msg["assist ai"] || false,
-        }));
-      } else {
-        // Use the provided contextMessages when length is 8 or less
-        reconstructedMessages = contextMessages.map(msg => ({
-          id: msg.id,
-          text: msg.text,
-          "victim ai": !msg.isUserMessage && !msg.isAssistAI,
+          victim: !msg.isUserMessage && !msg.isAssistAI,
           user: msg.isUserMessage,
           "assist ai": msg.isAssistAI || false,
         }));
-      }
 
-      setMessages(reconstructedMessages);
+        reconstructedMessages = [...messages, ...lastTwoMessages];
+        setMessages(reconstructedMessages);
+        //console.log("reconstructedMessages2", reconstructedMessages);
+      } else {
+        // Use the provided contextMessages when length is 7 or less
+        reconstructedMessages = contextMessages.map(msg => ({
+          id: msg.id,
+          text: msg.text,
+          victim: !msg.isUserMessage && !msg.isAssistAI,
+          user: msg.isUserMessage,
+          "assist ai": msg.isAssistAI || false,
+        }));
+        setMessages(reconstructedMessages);
+        //console.log("reconstructedMessages1", reconstructedMessages);
+      }
 
       const response = await fetch("/api/assist", {
         method: "POST",
@@ -69,11 +72,12 @@ const useAssistGPTServer = () => {
       setIsLoading(true);
       setError(null);
     },
-    onSuccess: (data: { result: string }) => {
+    onSuccess: (data: { text: string }) => {
+      //text => result
       const assistMessage: Message = {
         id: nanoid(),
-        text: data.result,
-        "victim ai": false,
+        text: data.text, // =text => result
+        victim: false,
         user: false,
         "assist ai": true,
       };
