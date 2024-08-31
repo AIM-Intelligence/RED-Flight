@@ -17,6 +17,16 @@ const addressList = [
       stakingContractAddress: "",
     },
   },
+  // TODO: 이더리움에 하나 추가해야 함
+  {
+    "1": {
+      nftCollectionContractAddress: "",
+      profileNftCollectionContractAddress: "",
+      nftDropContractAddress: "0x06F01BA25C8ec85C7bBBAFdA1064c5DDF278C904",
+      rewardTokenContractAddress: "",
+      stakingContractAddress: "",
+    },
+  },
 ];
 
 export const getContractAddress = (chainId: number) => {
