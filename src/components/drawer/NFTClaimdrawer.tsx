@@ -220,6 +220,8 @@ export function NFTClaimDrawer() {
                 console.log("chainId:", chainId);
                 console.log("promptId:", data.red_prompt!.id);
 
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
                 await enrollNFT({
                   transactionHash: tx.transactionHash,
                   chainId: chainId,
