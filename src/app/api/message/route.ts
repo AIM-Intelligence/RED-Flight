@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
   const { messages, inputNFT } = await req.json();
 
-  console.log("Raw messages:", JSON.stringify(messages, null, 2));
+  //console.log("Raw messages:", JSON.stringify(messages, null, 2));
 
   let extractedWord = null;
 
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
     }
   }
 
-  console.log("Extracted word:", extractedWord);
+  // console.log("Extracted word:", extractedWord);
 
   const parsedMessages = MessageArraySchema.parse(messages);
 
@@ -108,7 +108,7 @@ export async function POST(req: Request) {
       bluePromptData.code,
     );
 
-    console.log("sixCharCode", sixCharCode);
+    //console.log("sixCharCode", sixCharCode);
 
     const modifiedPrompt = bluePromptData.prompt.replace(
       new RegExp(bluePromptData.code, "g"),
@@ -121,13 +121,13 @@ export async function POST(req: Request) {
     });
   }
 
-  console.log("outboundMessages", outboundMessages);
+  //console.log("outboundMessages", outboundMessages);
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-4o-mini",
       messages: outboundMessages,
-      temperature: 0.5,
+      temperature: 1,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
@@ -135,11 +135,13 @@ export async function POST(req: Request) {
       n: 1,
     });
 
+    // console.log("completion", completion);
+
     const result = completion.choices[0].message.content;
 
     const codeFound = result?.includes(sixCharCode) || false;
 
-    console.log("codeFound", codeFound);
+    // console.log("codeFound", codeFound);
 
     if (codeFound) {
       const uniqueMessages = messages.filter(
@@ -154,7 +156,7 @@ export async function POST(req: Request) {
         uniqueMessages.filter((msg: any) => msg.text.includes(sixCharCode))
           .length + (result?.includes(sixCharCode) ? 1 : 0);
 
-      console.log("sixCharCodeCount", sixCharCodeCount);
+      //  console.log("sixCharCodeCount", sixCharCodeCount);
 
       if (sixCharCodeCount > 1) {
         return new Response(
@@ -178,7 +180,7 @@ export async function POST(req: Request) {
         (msg: any) => msg.isUserMessage,
       ).length;
 
-      console.log("result", result);
+      //  console.log("result", result);
       // Insert data into Supabase
       const { data, error } = await supabase.rpc(
         "insert_nft_and_update_score",

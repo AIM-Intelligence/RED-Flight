@@ -4,7 +4,12 @@ import { useEffect } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { ConnectButton, useActiveWallet } from "thirdweb/react";
+import {
+  ConnectButton,
+  useActiveWallet,
+  useActiveWalletChain,
+} from "thirdweb/react";
+import { createWallet, inAppWallet } from "thirdweb/wallets";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
@@ -18,6 +23,7 @@ const ThirdwebConnectButton: React.FC = () => {
   const pathname = usePathname();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
+  const chainId = useActiveWalletChain();
   const activeWallet = useActiveWallet();
 
   const appMetadata = {
@@ -26,6 +32,23 @@ const ThirdwebConnectButton: React.FC = () => {
     description: "AI Jailbreaking NFT Game",
     logoUrl: "/logo1.png",
   };
+
+  const wallets = [
+    inAppWallet({
+      auth: {
+        options: [
+          "google",
+          "discord",
+          "telegram",
+          "email",
+          "facebook",
+          "passkey",
+          "phone",
+        ],
+      },
+    }),
+    createWallet("io.metamask"),
+  ];
 
   useEffect(() => {
     const handleAuth = async () => {
@@ -53,10 +76,12 @@ const ThirdwebConnectButton: React.FC = () => {
       client={client}
       appMetadata={appMetadata}
       autoConnect={false}
+      wallets={wallets}
       chains={chainList}
       auth={{
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });
+          console.log("chainId", chainId && chainId.id);
 
           if (currentUser && currentUser.wallet_address !== address) {
             await logout();
@@ -64,6 +89,13 @@ const ThirdwebConnectButton: React.FC = () => {
             const currentPath = window.location.pathname;
             router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
           }
+
+          if (
+            (chainId && chainId.id !== 3441006) ||
+            (chainId && chainId.id !== 11155111)
+          ) {
+          }
+
           return await isLoggedIn();
         },
         doLogin: async params => {

@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import AsisstAI from "./07-assist";
 import { InputPassword } from "./07-form";
 import Info07 from "./07-info";
 import { AnimatePresence, motion } from "framer-motion";
@@ -109,8 +110,6 @@ const FirstImage = () => {
         return `${aiName} >>> Level : ${selectedDifficulty} >>> ${prevText}`;
       });
     }
-
-    console.log("Updated messages:", messages);
   };
 
   return (
@@ -129,6 +128,12 @@ const FirstImage = () => {
           objectFit="cover"
           priority
         />
+
+        {messages.length >= 1 && (
+          <div className="absolute inset-0 z-20 max-h-[300px] max-w-[500px] translate-x-40 translate-y-40 border border-red-600 bg-black/80 p-4">
+            <AsisstAI />
+          </div>
+        )}
 
         <div className="absolute bottom-20 left-28 flex h-2/6 w-2/5 cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
           <Info07 />
