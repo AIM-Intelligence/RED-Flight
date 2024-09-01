@@ -3,8 +3,8 @@ import { create } from "zustand";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["prompt nft"]["Row"],
-  "prompt"
+  Database["public"]["Tables"]["red prompt nft"]["Row"],
+  "id" | "prompt"
 >;
 
 interface PromptStore {

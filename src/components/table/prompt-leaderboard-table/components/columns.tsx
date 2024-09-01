@@ -1,16 +1,18 @@
 "use client";
 
-import { targets } from "../data/data";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { DataTableRowActions } from "./data-table-row-actions";
-import { ColumnDef } from "@tanstack/react-table";
+import Image from "next/image";
 
-import { Checkbox } from "@/components/ui/Checkbox";
+import { chainIds, levels } from "./criteria";
+import { DataTableColumnHeader } from "./data-table-column-header";
+import { ColumnDef } from "@tanstack/react-table";
+import { MediaRenderer } from "thirdweb/react";
+
+import { client } from "@/lib/client";
 import { Database } from "@/validation/types/supabase";
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["prompt nft"]["Row"],
-  "prompt"
+  Database["public"]["Tables"]["red prompt nft"]["Row"],
+  "id" | "prompt"
 >;
 
 type User = {
@@ -18,56 +20,48 @@ type User = {
 };
 
 export const columns: ColumnDef<PromptNFT>[] = [
-  // checkbox
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={value => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //       className="translate-y-[2px] border-red-500"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={value => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //       className="translate-y-[2px] border-red-500"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
-
-  // image_url
+  {
+    accessorKey: "rank",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Rank" />
+    ),
+    cell: ({ row }) => {
+      const rank = row.index + 1;
+      return (
+        <span className="max-w-[100px] truncate text-xl font-bold">{rank}</span>
+      );
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "image_url",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Image" />
     ),
     cell: ({ row }) => {
-      const url = row.getValue("image_url") as string;
+      const url = row.getValue("image_url") as any;
+
+      console.log("wefewfwefewf", url);
       if (!url) {
         return (
-          <div
-            className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black p-1"
-            title={url}
-          >
-            <img className="w-full" src="/logo1.png" alt="default_img" />
+          <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
+            <Image
+              width={130}
+              height={130}
+              src="/logo1.png"
+              alt="default profile"
+            />
           </div>
         );
       }
       return (
-        <div
-          className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black p-1"
-          title={url}
-        >
-          <img className="w-full" src={url} alt="default_img" />
+        <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
+          <MediaRenderer
+            client={client}
+            src={url[0]}
+            className="rounded-full"
+          />
         </div>
       );
     },
@@ -77,20 +71,22 @@ export const columns: ColumnDef<PromptNFT>[] = [
   // creator name
   {
     accessorKey: "user",
-    id: "user",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Creator Name" />
     ),
     cell: ({ row }) => {
       const user = row.getValue("user") as User;
-      if (!user.name) {
-        return (
-          <span className="max-w-[500px] truncate font-medium">NoName</span>
-        );
-      } else {
+
+      if (user.name) {
         return (
           <span className="max-w-[500px] truncate font-medium">
             {user.name}
+          </span>
+        );
+      } else {
+        return (
+          <span className="max-w-[500px] truncate font-medium text-[#c4c4c4]">
+            Unknown
           </span>
         );
       }
@@ -99,7 +95,6 @@ export const columns: ColumnDef<PromptNFT>[] = [
       const user = row.getValue(id) as User;
       const name = user?.name?.toLowerCase() || "";
       const filterValue = value.toLowerCase();
-
       return name.includes(filterValue);
     },
     enableSorting: false,
@@ -108,7 +103,6 @@ export const columns: ColumnDef<PromptNFT>[] = [
   // creator address
   {
     accessorKey: "creator",
-    id: "creator",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Creator Address" />
     ),
@@ -129,24 +123,17 @@ export const columns: ColumnDef<PromptNFT>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  // target
   {
-    accessorKey: "target",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Target" />
+      <DataTableColumnHeader column={column} title="Target Name" />
     ),
     cell: ({ row }) => {
-      const target = targets.find(
-        target => target.value === row.getValue("target"),
-      );
-
-      if (!target) {
-        return null;
-      }
+      const name = row.getValue("name") as string;
 
       return (
         <div className="flex w-[100px] items-center">
-          <span>{target.label}</span>
+          <span>{name ? name : "Nanobytes"}</span>
         </div>
       );
     },
@@ -161,46 +148,22 @@ export const columns: ColumnDef<PromptNFT>[] = [
       <DataTableColumnHeader column={column} title="Level" />
     ),
     cell: ({ row }) => {
-      const level = row.getValue("level") as number;
-      let levelLabel: string;
+      const level = levels.find(
+        level => Number(level.value) === row.getValue("level"),
+      );
 
-      switch (level) {
-        case 1:
-          levelLabel = "Easy";
-          break;
-        case 2:
-          levelLabel = "Normal";
-          break;
-        case 3:
-          levelLabel = "Hard";
-          break;
-        case 4:
-          levelLabel = "Extreme";
-          break;
-        case 5:
-          levelLabel = "Custom";
-          break;
-        default:
-          levelLabel = "Unknown";
+      if (!level) {
+        return null;
       }
 
       return (
         <div className="flex items-center">
-          <span>{levelLabel}</span>
+          <span>{level.label}</span>
         </div>
       );
     },
     filterFn: (row, id, value) => {
-      const levelMap = {
-        1: "easy",
-        2: "normal",
-        3: "hard",
-        4: "extreme",
-        5: "custom",
-      };
-      const levelValue =
-        levelMap[row.getValue(id) as keyof typeof levelMap] || "unknown";
-      return value.includes(levelValue);
+      return value.includes(row.getValue(id));
     },
   },
   // conversation
@@ -225,7 +188,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <span className="max-w-[500px] truncate font-medium">
+        <span className="max-w-[500px] truncate text-lg font-bold font-medium text-white text-stroke">
           {row.getValue("length")}
         </span>
       );
@@ -238,53 +201,19 @@ export const columns: ColumnDef<PromptNFT>[] = [
       <DataTableColumnHeader column={column} title="ChainID" />
     ),
     cell: ({ row }) => {
-      const chain_id = row.getValue("chain_id") as number;
-      let chainIdLabel: string;
-
-      switch (chain_id) {
-        case 7001:
-          chainIdLabel = `Zeta ${chain_id}`;
-          break;
-        case 3441006:
-          chainIdLabel = `Manta ${chain_id}`;
-          break;
-        case 300:
-          chainIdLabel = `ZKsync ${chain_id}`;
-          break;
-        case 1115:
-          chainIdLabel = `Core ${chain_id}`;
-          break;
-        case 365:
-          chainIdLabel = `Theta ${chain_id}`;
-          break;
-        default:
-          chainIdLabel = "Unknown";
-      }
+      const chainId = chainIds.find(
+        chain => chain.value === row.getValue("chain_id"),
+      );
 
       return (
         <div className="flex items-center">
-          <span>{chainIdLabel}</span>
+          <span>{chainId?.label}</span>
         </div>
       );
     },
     filterFn: (row, id, value) => {
-      const chainIdMap = {
-        7001: "zeta",
-        3441006: "manta",
-        300: "zksync",
-        1115: "core",
-        365: "theta",
-      };
-      const chainIdValue =
-        chainIdMap[row.getValue(id) as keyof typeof chainIdMap] || "unknown";
-      return value.includes(chainIdValue);
+      return value.includes(row.getValue(id));
     },
     enableSorting: false,
   },
-
-  // details
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => <DataTableRowActions row={row} />,
-  // },
 ];

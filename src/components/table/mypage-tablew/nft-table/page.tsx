@@ -3,21 +3,27 @@
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 
-import { usePrompts, useSelectPrompt } from "@/hooks/prompt/useSelectPrompt";
 import { useWeb3UserStore } from "@/store/user-store";
+import { Database } from "@/validation/types/supabase";
 
-export default function PromptPageTable() {
-  const prompts = usePrompts();
+type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+
+interface NFTPageTableProps {
+  promptsWithChainId: PromptNFT[];
+  status: any;
+}
+
+export default function NFTTable({
+  promptsWithChainId,
+  status,
+}: NFTPageTableProps) {
   const { user } = useWeb3UserStore();
-  const { status } = useSelectPrompt();
-
-  console.log("prompts", prompts);
 
   if (!user) {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
-          My Red Prompts
+          My Red NFTs
         </h2>
       </div>
     );
@@ -48,10 +54,10 @@ export default function PromptPageTable() {
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-red-600">
-            My Red Prompts
+            My Red NFTs
           </h2>
         </div>
-        <DataTable data={prompts} columns={columns} />
+        <DataTable data={promptsWithChainId} columns={columns} />
       </div>
     </>
   );

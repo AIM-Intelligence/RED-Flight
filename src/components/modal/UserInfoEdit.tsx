@@ -79,13 +79,13 @@ const UserInfoEditModal: React.FC = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white sm:max-w-[425px]">
+      <DialogContent className="border-red-600 bg-black text-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit User Information</DialogTitle>
         </DialogHeader>
         <div className="mt-5 flex w-full flex-col items-center justify-center">
-          <div className="mb-5">
-            Profile Image NFT Claim feature coming soon
+          <div className="mb-5 text-center">
+            Profile Image NFT Claim coming soon...
           </div>
           <Form {...form}>
             <form
@@ -117,7 +117,7 @@ const UserInfoEditModal: React.FC = () => {
               <Button
                 type="submit"
                 className={cn(
-                  "relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium shadow-input hover:cursor-pointer",
+                  "relative flex h-10 w-full items-center justify-center space-x-2 rounded-md bg-red-500 px-4 font-medium shadow-input hover:cursor-pointer hover:bg-red-700",
                   "transition duration-100 ease-in-out focus:outline-none focus:ring-1 focus:ring-red-500 focus:ring-offset-1",
                 )}
                 disabled={isUpdating}

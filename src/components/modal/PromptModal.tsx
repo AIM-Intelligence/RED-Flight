@@ -1,24 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import MarkdownLite from "../llm/components/MarkdownLite";
-import { toEther } from "thirdweb";
-import { getContractMetadata } from "thirdweb/extensions/common";
-import {
-  getActiveClaimCondition,
-  getTotalClaimedSupply,
-  nextTokenIdToMint,
-} from "thirdweb/extensions/erc721";
-import { useActiveWalletChain, useReadContract } from "thirdweb/react";
+import { Button } from "../ui/Button";
 
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/Dialog";
 import { cn } from "@/lib/utils";
+import { useDrawer } from "@/store/use-drawer-store";
 import { useModal } from "@/store/use-modal-store";
-import { getAllContracts } from "@/utils/contract";
 
 interface Message {
   id: string;
@@ -28,57 +22,10 @@ interface Message {
 
 const RedPromptModal = () => {
   const { isOpen, onClose, type, data } = useModal();
+  const { onOpen } = useDrawer();
   const [parsedMessages, setParsedMessages] = useState<Message[]>([]);
   const isModalOpen = isOpen && type === "showRedPromptData";
   const scrollRef = useRef<HTMLDivElement>(null);
-
-  const chain = useActiveWalletChain();
-
-  const chainId = chain ? chain.id : 3441006;
-
-  const { NFT_DROP_CONTRACT } = getAllContracts(chainId)!;
-
-  const { data: contractMetadata } = useReadContract(getContractMetadata, {
-    contract: NFT_DROP_CONTRACT,
-    queryOptions: {
-      enabled: !!NFT_DROP_CONTRACT,
-    },
-  });
-
-  const { data: claimedSupply } = useReadContract(getTotalClaimedSupply, {
-    contract: NFT_DROP_CONTRACT,
-    queryOptions: {
-      enabled: !!NFT_DROP_CONTRACT,
-    },
-  });
-
-  const { data: totalNFTSupply } = useReadContract(nextTokenIdToMint, {
-    contract: NFT_DROP_CONTRACT,
-    queryOptions: {
-      enabled: !!NFT_DROP_CONTRACT,
-    },
-  });
-
-  const { data: claimCondition } = useReadContract(getActiveClaimCondition, {
-    contract: NFT_DROP_CONTRACT,
-    queryOptions: {
-      enabled: !!NFT_DROP_CONTRACT,
-    },
-  });
-
-  const getPrice = (quantity: number) => {
-    const total =
-      quantity * parseInt(claimCondition?.pricePerToken.toString() || "0");
-    return toEther(BigInt(total));
-  };
-
-  console.log("contractMetadata", contractMetadata);
-  console.log("claimedSupply", claimedSupply); // 0
-  console.log("totalNFTSupply", totalNFTSupply); // 31
-  console.log("claimCondition", claimCondition);
-  console.log("getPrice", getPrice);
-
-  console.log("data.red_prompt", data.red_prompt);
 
   useEffect(() => {
     if (data && data.red_prompt) {
@@ -127,7 +74,7 @@ const RedPromptModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-white dark:bg-black sm:max-w-[425px]">
+      <DialogContent className="border-red-600 bg-black text-white sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Attack Prompt</DialogTitle>
         </DialogHeader>
@@ -166,6 +113,14 @@ const RedPromptModal = () => {
             </div>
           ))}
         </div>
+        <DialogFooter>
+          <Button
+            className="w-full bg-red-600 hover:bg-red-700"
+            onClick={() => onOpen("showNFTClaimDrawer", data)}
+          >
+            Claim NFT
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

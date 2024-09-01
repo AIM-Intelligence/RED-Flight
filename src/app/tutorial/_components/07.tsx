@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
+import AsisstAI from "./07-assist";
 import { InputPassword } from "./07-form";
 import Info07 from "./07-info";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,6 +13,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button } from "@/components/ui/Button";
+import { tutorial_ai_name } from "@/constants/ai_name";
 import { MessagesContext } from "@/context/Messages";
 import useNFTStore from "@/store/prompt/prompt-insert-store";
 
@@ -99,11 +101,15 @@ const FirstImage = () => {
     // Update the first message with the selected difficulty
     if (messages.length > 0) {
       updateMessage(messages[0].id, prevText => {
-        return `Level : ${selectedDifficulty} >>> ${prevText}`;
+        const aiName =
+          tutorial_ai_name[
+            difficultyLevels[
+              selectedDifficulty as keyof typeof difficultyLevels
+            ] - 1
+          ];
+        return `${aiName} >>> Level : ${selectedDifficulty} >>> ${prevText}`;
       });
     }
-
-    console.log("Updated messages:", messages);
   };
 
   return (
@@ -122,6 +128,12 @@ const FirstImage = () => {
           objectFit="cover"
           priority
         />
+
+        {messages.length >= 1 && (
+          <div className="absolute inset-0 z-20 max-h-[300px] max-w-[500px] translate-x-40 translate-y-40 border border-red-600 bg-black/80 p-4">
+            <AsisstAI />
+          </div>
+        )}
 
         <div className="absolute bottom-20 left-28 flex h-2/6 w-2/5 cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
           <Info07 />

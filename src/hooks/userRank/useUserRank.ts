@@ -4,22 +4,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { getUserRank } from "@/server/user-rank/select-userRank";
 import { useUserRankStore } from "@/store/user-rank-store";
 import { useWeb3UserStore } from "@/store/user-store";
+import { Database } from "@/validation/types/supabase";
 
-// import { Database } from "@/validation/types/supabase";
-
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
-// type User = Database["public"]["Tables"]["user"]["Row"]
+type User = Database["public"]["Tables"]["user"]["Row"];
 
 export function useUserRank() {
   const { toast } = useToast();
@@ -30,14 +17,13 @@ export function useUserRank() {
     queryKey: ["userRanks"],
     queryFn: async () => {
       try {
-        const userRankArr = await getUserRank();
-
-        const topThree = userRankArr.slice(0, 3);
-        const remain = userRankArr.slice(3);
+        const userArr = await getUserRank();
+        const topThree = userArr.slice(0, 3);
+        const remain = userArr.slice(3);
 
         setTopThreeArr(topThree);
         setUserRankArr(remain);
-        return userRankArr;
+        return userArr;
       } catch (error) {
         if (error instanceof Error) {
           toast({

@@ -50,7 +50,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
                   Edit
                 </Button>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-4">
                 <Image
                   alt="profile"
                   src="/asset/1.png"

@@ -27,23 +27,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/Table";
-import { useModal } from "@/store/use-modal-store";
-
-// import { Database } from "@/validation/types/supabase";
-
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
-// type User = Database["public"]["Tables"]["user"]["Row"]
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -61,7 +44,6 @@ export function DataTable<TData, TValue>({
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const { onOpen } = useModal();
 
   const table = useReactTable({
     data,
@@ -97,16 +79,6 @@ export function DataTable<TData, TValue>({
     },
   });
 
-  const handleRowClick = (row: { original: User }) => {
-    // console.log(row.original);
-    // const red_prompt = row.original;
-    // if (red_prompt) {
-    //   onOpen("showRedPromptData", { red_prompt });
-    // } else {
-    //   console.log("No prompt available");
-    // }
-  };
-
   return (
     <div className="space-y-4">
       <DataTableToolbar table={table} />
@@ -139,12 +111,11 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => (
+              table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onClick={() => handleRowClick(row as any)}
-                  className="border-b border-t border-red-500 hover:bg-red-500/50 data-[state=selected]:bg-red-700/50"
+                  className="border-b border-t border-red-500 hover:bg-red-600/50 data-[state=selected]:bg-red-700/50"
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

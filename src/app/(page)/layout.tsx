@@ -4,9 +4,11 @@ import { motion } from "framer-motion";
 
 import HeaderPage from "@/components/HeaderPage";
 import Nav from "@/components/Nav";
+import { DrawerProvider } from "@/lib/providers/drawer-provider";
 import { ModalProvider } from "@/lib/providers/modal-provider";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
+  // TODO: chianID filter
   return (
     <main className="page relative bg-black font-sora text-white">
       <motion.div
@@ -21,6 +23,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
         <HeaderPage />
         {children}
         <ModalProvider />
+        <DrawerProvider />
       </motion.div>
     </main>
   );

@@ -1,14 +1,3 @@
-export const targets = [
-  {
-    value: "tutorial",
-    label: "Tutorial",
-  },
-  {
-    value: "custom",
-    label: "Custom",
-  },
-];
-
 export const levels = [
   {
     label: "Easy",
@@ -29,5 +18,28 @@ export const levels = [
   {
     label: "Custom",
     value: "custom",
+  },
+];
+
+export const chainIds = [
+  {
+    label: "Zeta",
+    value: "zeta",
+  },
+  {
+    label: "Manta",
+    value: "manta",
+  },
+  {
+    label: "ZKsync",
+    value: "zksync",
+  },
+  {
+    label: "Core",
+    value: "core",
+  },
+  {
+    label: "Theta",
+    value: "theta",
   },
 ];

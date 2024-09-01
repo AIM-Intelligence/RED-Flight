@@ -4,13 +4,17 @@ import { useEffect } from "react";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { ConnectButton, useActiveWallet } from "thirdweb/react";
+import {
+  ConnectButton,
+  useActiveWallet,
+  useActiveWalletChain,
+} from "thirdweb/react";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { client } from "@/lib/client";
 import { generatePayload, isLoggedIn, login, logout } from "@/server/auth/auth";
 import { useWeb3UserStore } from "@/store/user-store";
-import { chain } from "@/utils/chain";
+import { chainList } from "@/utils/chain";
 
 const ThirdwebConnectButton: React.FC = () => {
   const router = useRouter();
@@ -18,6 +22,7 @@ const ThirdwebConnectButton: React.FC = () => {
   const pathname = usePathname();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
+  const chainId = useActiveWalletChain();
   const activeWallet = useActiveWallet();
 
   const appMetadata = {
@@ -53,11 +58,11 @@ const ThirdwebConnectButton: React.FC = () => {
       client={client}
       appMetadata={appMetadata}
       autoConnect={false}
-      chain={chain}
-      //chains={chainList}
+      chains={chainList}
       auth={{
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });
+          console.log("chainId", chainId && chainId.id);
 
           if (currentUser && currentUser.wallet_address !== address) {
             await logout();
@@ -65,6 +70,13 @@ const ThirdwebConnectButton: React.FC = () => {
             const currentPath = window.location.pathname;
             router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
           }
+
+          if (
+            (chainId && chainId.id !== 3441006) ||
+            (chainId && chainId.id !== 11155111)
+          ) {
+          }
+
           return await isLoggedIn();
         },
         doLogin: async params => {

@@ -1,37 +1,27 @@
 "use client";
 
+import Image from "next/image";
+
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { ColumnDef } from "@tanstack/react-table";
+import { MediaRenderer } from "thirdweb/react";
 
-// import { Database } from "@/validation/types/supabase";
+import { client } from "@/lib/client";
+import { Database } from "@/validation/types/supabase";
 
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
-// type User = Database["public"]["Tables"]["user"]["Row"]
+type User = Database["public"]["Tables"]["user"]["Row"];
 
 export const columns: ColumnDef<User>[] = [
   // rank
   {
     accessorKey: "rank",
-    id: "rank",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Rank" />
     ),
     cell: ({ row }) => {
+      const rank = row.index + 4;
       return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("rank")}
-        </span>
+        <span className="max-w-[100px] truncate text-xl font-bold">{rank}</span>
       );
     },
     enableSorting: false,
@@ -47,20 +37,19 @@ export const columns: ColumnDef<User>[] = [
       const url = row.getValue("image_url") as string;
       if (!url) {
         return (
-          <div
-            className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full bg-black p-1"
-            title={url}
-          >
-            <img className="w-full" src="/logo1.png" alt="default_img" />
+          <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full bg-black">
+            <Image
+              width={130}
+              height={130}
+              src="/asset/1.png"
+              alt="default profile"
+            />
           </div>
         );
       }
       return (
-        <div
-          className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black p-1"
-          title={url}
-        >
-          <img className="w-full" src={url} alt="default_img" />
+        <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
+          <MediaRenderer client={client} src={url} className="rounded-full" />
         </div>
       );
     },
@@ -70,24 +59,25 @@ export const columns: ColumnDef<User>[] = [
   // name
   {
     accessorKey: "name",
-    id: "name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
       const name = row.getValue("name") as string;
-      if (!name) {
+      if (name) {
         return (
-          <span className="max-w-[500px] truncate font-medium">NoName</span>
+          <span className="max-w-[500px] truncate font-medium">{name}</span>
         );
       } else {
         return (
-          <span className="max-w-[500px] truncate font-medium">{name}</span>
+          <span className="max-w-[500px] truncate font-medium text-[#c4c4c4]">
+            Unknown
+          </span>
         );
       }
     },
     filterFn: (row, id, value) => {
-      const name = row.getValue(id) as string;
+      const name = (row.getValue(id) as string) ?? "";
       const filterValue = value.toLowerCase();
       return name.toLowerCase().includes(filterValue);
     },
@@ -97,7 +87,6 @@ export const columns: ColumnDef<User>[] = [
   // address
   {
     accessorKey: "wallet_address",
-    id: "wallet_address",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Address" />
     ),
@@ -111,7 +100,7 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      const address = row.getValue(id) as string;
+      const address = (row.getValue(id) as string) ?? "";
       const filterValue = value.toLowerCase();
       return address.toLowerCase().includes(filterValue);
     },

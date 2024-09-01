@@ -30,7 +30,7 @@ import {
 import { useModal } from "@/store/use-modal-store";
 import { Database } from "@/validation/types/supabase";
 
-type RED_Prompt = Database["public"]["Tables"]["prompt nft"]["Row"];
+type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -43,7 +43,10 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<VisibilityState>({
+      nft_address: false,
+      owner: false,
+    });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
@@ -119,7 +122,7 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   onClick={() => handleRowClick(row as any)}
-                  className="border-b border-t border-red-500 hover:bg-red-500/50 data-[state=selected]:bg-red-700/50"
+                  className="border-b border-t border-red-500 hover:bg-red-600/50 data-[state=selected]:bg-red-700/50"
                 >
                   {row.getVisibleCells().map(cell => (
                     <TableCell key={cell.id}>

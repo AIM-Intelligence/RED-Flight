@@ -9,60 +9,113 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      "prompt nft": {
+      "blue prompt nft": {
         Row: {
-          chain_id: number | null;
+          code: string;
+          created_at: string;
+          creator: string;
+          id: string;
+          image_url: string | null;
+          length: number;
+          lose: number;
+          name: string;
+          prompt: string;
+          token_id: number | null;
+          win: number;
+        };
+        Insert: {
+          code: string;
+          created_at?: string;
+          creator: string;
+          id?: string;
+          image_url?: string | null;
+          length?: number;
+          lose?: number;
+          name: string;
+          prompt: string;
+          token_id?: number | null;
+          win?: number;
+        };
+        Update: {
+          code?: string;
+          created_at?: string;
+          creator?: string;
+          id?: string;
+          image_url?: string | null;
+          length?: number;
+          lose?: number;
+          name?: string;
+          prompt?: string;
+          token_id?: number | null;
+          win?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "blue prompt nft_creator_fkey";
+            columns: ["creator"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["wallet_address"];
+          },
+        ];
+      };
+      "red prompt nft": {
+        Row: {
+          chain_id: string;
           conversation: number;
           created_at: string;
           creator: string;
           desc: string | null;
           id: string;
-          image_url: string | null;
+          image_url: string[] | null;
           length: number;
           level: number;
           name: string | null;
           nft_address: string | null;
-          nft_id: number | null;
           owner: string | null;
           prompt: Json;
           target: string;
           title: string | null;
+          token_id: string[] | null;
+          transaction_hash: string | null;
         };
         Insert: {
-          chain_id?: number | null;
+          chain_id: string;
           conversation?: number;
           created_at?: string;
           creator: string;
           desc?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url?: string[] | null;
           length?: number;
           level: number;
           name?: string | null;
           nft_address?: string | null;
-          nft_id?: number | null;
           owner?: string | null;
           prompt: Json;
           target: string;
           title?: string | null;
+          token_id?: string[] | null;
+          transaction_hash?: string | null;
         };
         Update: {
-          chain_id?: number | null;
+          chain_id?: string;
           conversation?: number;
           created_at?: string;
           creator?: string;
           desc?: string | null;
           id?: string;
-          image_url?: string | null;
+          image_url?: string[] | null;
           length?: number;
           level?: number;
           name?: string | null;
           nft_address?: string | null;
-          nft_id?: number | null;
           owner?: string | null;
           prompt?: Json;
           target?: string;
           title?: string | null;
+          token_id?: string[] | null;
+          transaction_hash?: string | null;
         };
         Relationships: [
           {
@@ -131,17 +184,30 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      insert_nft_and_update_score: {
-        Args: {
-          p_creator: string;
-          p_prompt: Json;
-          p_length: number;
-          p_conversation: number;
-          p_target: string;
-          p_level: number;
-        };
-        Returns: undefined;
-      };
+      insert_nft_and_update_score:
+        | {
+            Args: {
+              p_creator: string;
+              p_prompt: Json;
+              p_length: number;
+              p_conversation: number;
+              p_target: string;
+              p_level: number;
+            };
+            Returns: undefined;
+          }
+        | {
+            Args: {
+              p_creator: string;
+              p_prompt: Json;
+              p_length: number;
+              p_conversation: number;
+              p_target: string;
+              p_level: number;
+              p_name: string;
+            };
+            Returns: undefined;
+          };
     };
     Enums: {
       [_ in never]: never;

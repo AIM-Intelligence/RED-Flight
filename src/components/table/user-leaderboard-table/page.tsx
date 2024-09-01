@@ -2,7 +2,7 @@
 
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
-import { FirstPlace, SecondPlace, ThirdPlace } from "./components/top-three";
+import { TopThreePlace } from "./components/top-three";
 
 import {
   useTopThree,
@@ -11,26 +11,12 @@ import {
 } from "@/hooks/userRank/useUserRank";
 import { useWeb3UserStore } from "@/store/user-store";
 
-type User = {
-  id: string;
-  image_url: string;
-  name: string;
-  wallet_address: string;
-  score: number;
-  easy: number;
-  normal: number;
-  hard: number;
-  extreme: number;
-  rank: number;
-};
-
 export default function UserLeaderBoardPageTable() {
   const topThreeArr = useTopThree();
   const userRankArr = useUserRanks();
 
   const { user } = useWeb3UserStore();
   const { status } = useUserRank();
-  console.log("all user rank", userRankArr);
 
   if (!user) {
     return (
@@ -71,9 +57,9 @@ export default function UserLeaderBoardPageTable() {
           </h2>
         </div>
         <div className="flex justify-center gap-4">
-          <SecondPlace user={topThreeArr[1]} />
-          <FirstPlace user={topThreeArr[0]} />
-          <ThirdPlace user={topThreeArr[2]} />
+          <TopThreePlace user={topThreeArr[1]} place={2} />
+          <TopThreePlace user={topThreeArr[0]} place={1} />
+          <TopThreePlace user={topThreeArr[2]} place={3} />
         </div>
 
         <DataTable data={userRankArr} columns={columns} />
