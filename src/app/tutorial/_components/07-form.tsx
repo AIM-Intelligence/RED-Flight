@@ -1,9 +1,8 @@
-"use client";
-
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,7 +27,6 @@ export function InputPassword() {
   const queryClient = useQueryClient();
   const { codeFound } = useContext(MessagesContext);
   const { increment } = useCount();
-
   const { refreshUser } = useWeb3User();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -46,7 +44,22 @@ export function InputPassword() {
   }
 
   return (
-    <>
+    <div className="relative">
+      <AnimatePresence>
+        {codeFound && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="absolute -top-12 left-0 right-0 mb-6 text-center"
+          >
+            <p className="text-xl font-bold text-green-500">
+              Password entry is enabled.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -67,11 +80,17 @@ export function InputPassword() {
                     <p className="text-2xl text-white">Code :</p>
                     <InputOTPGroup className="gap-2">
                       {[...Array(6)].map((_, index) => (
-                        <InputOTPSlot
+                        <motion.div
                           key={index}
-                          index={index}
-                          className="rounded-lg border-2 border-red-500 text-center text-xl transition duration-200 focus:border-red-700 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
-                        />
+                          initial={false}
+                          animate={codeFound ? { scale: [1, 1.1, 1] } : {}}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <InputOTPSlot
+                            index={index}
+                            className="rounded-lg border-2 border-red-500 text-center text-xl transition duration-200 focus:border-red-700 focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+                          />
+                        </motion.div>
                       ))}
                     </InputOTPGroup>
                   </InputOTP>
@@ -81,6 +100,6 @@ export function InputPassword() {
           />
         </form>
       </Form>
-    </>
+    </div>
   );
 }

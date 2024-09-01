@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 
 import { motion } from "framer-motion";
@@ -20,6 +21,48 @@ import { useWeb3UserStore } from "@/store/user-store";
 const Intro = dynamic(() => import("@/components/intro/Intro"), {
   ssr: false,
 });
+const VideoHoverButton: React.FC<any> = ({
+  onClick,
+  className,
+  children,
+  videoSrc,
+  ...props
+}) => {
+  const [isHovered, setIsHovered] = useState<boolean>(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (isHovered && videoRef.current) {
+      videoRef.current.play();
+    } else if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  }, [isHovered]);
+
+  return (
+    <div className="group relative inline-block">
+      <Button
+        onClick={onClick}
+        className={` ${className} relative z-10 text-lg transition-all duration-300 group-hover:bg-opacity-30 group-hover:text-white`}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        {...props}
+      >
+        {children}
+      </Button>
+      <video
+        ref={videoRef}
+        className="absolute inset-0 h-full w-full rounded-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        loop
+        muted
+        playsInline
+      >
+        <source src={videoSrc} type="video/mp4" />
+      </video>
+    </div>
+  );
+};
 
 export default function Home() {
   const audioPlayer = useRef<HTMLAudioElement>(null);
@@ -80,22 +123,33 @@ export default function Home() {
 
               <div className="relative z-20">
                 <div className="container mx-auto flex h-full flex-col justify-center text-center xl:pt-20 xl:text-left">
-                  <div className="max-sm:mt-8">
-                    <h1 className="h1 bg-gradient-to-b from-sky-500 to-slate-300 bg-clip-text font-black text-transparent">
+                  <div className="mt-10">
+                    <div className="mb-10">
+                      <Image
+                        src="/redflightname.png"
+                        width={600}
+                        height={300}
+                        alt="Redflight"
+                      />
+                    </div>
+                    {/* <h1 className="h1 bg-gradient-to-b from-sky-500 to-slate-300 bg-clip-text font-black text-transparent">
                       <span className="text-shadow-inner">
                         Transforming <br /> Into{" "}
                       </span>
                       <span className="text-red-600 text-shadow-inner">
                         RED Flight
                       </span>
-                    </h1>
-                    <Button
+                    </h1> */}
+                    <VideoHoverButton
                       onClick={handleButtonClick}
-                      className="flex gap-2 rounded-full bg-primary1 p-2 px-4 text-white max-sm:-translate-y-4 max-sm:text-sm"
+                      className="flex items-center justify-center gap-2 rounded-full bg-primary1 px-6 py-6 text-white shadow-lg transition-all duration-100 hover:bg-transparent hover:shadow-xl max-sm:-translate-y-4 max-sm:text-sm"
+                      videoSrc="/videos/logo_main.mp4"
                     >
-                      LLM Jailbreaking NFT Game
-                      <ArrowAnimation />
-                    </Button>
+                      <span className="mr-2">AI Jailbreaking Game Start</span>
+                      <span className="z-30 max-w-10">
+                        <ArrowAnimation />
+                      </span>
+                    </VideoHoverButton>
 
                     <div className="mt-4">
                       <ThirdwebConnectButton />

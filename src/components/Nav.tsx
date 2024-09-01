@@ -28,8 +28,8 @@ export const navData = [
     icon: <Trophy />,
   },
   {
-    name: "RED NFT Checker",
-    path: "/red-nft-Checker",
+    name: "Red Flight Story",
+    path: "/red-flight-world",
     icon: <GalleryHorizontal />,
   },
 ];
@@ -44,7 +44,9 @@ const Nav = () => {
     if (path === "/" || (user && activeWallet)) {
       router.push(path);
     } else {
-      alert("Connect Wallet first");
+      alert("Login first");
+      // const currentPath = encodeURIComponent(path);
+      // router.push(`/?redirect=${currentPath}`);
     }
   };
 

@@ -165,7 +165,7 @@ const ThirdImage = () => {
               >
                 <div className="flex gap-2">
                   <Link target="_blank" href="https://discord.gg/HyuhgvGBu9">
-                    Join RED Flight Community
+                    Join RED Flight Discord
                   </Link>
                   <FaDiscord className="h-6 w-6" />
                 </div>
@@ -177,7 +177,22 @@ const ThirdImage = () => {
               >
                 <div className="flex gap-2">
                   <Link target="_blank" href="https://x.com/redflightAI">
-                    Follow RED Flight News
+                    Follow RED Flight X
+                  </Link>
+                  <FaXTwitter className="h-6 w-6" />
+                </div>
+              </Button>
+
+              <Button
+                asChild
+                className="inline-flex h-10 animate-shimmer cursor-pointer items-center justify-center rounded-md border border-red-600 bg-[linear-gradient(110deg,#c81919,45%,#a90909,55%,#c81919)] bg-[length:200%_100%] px-6 font-medium text-slate-100 transition-colors focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2 focus:ring-offset-red-50"
+              >
+                <div className="flex gap-2">
+                  <Link
+                    target="_blank"
+                    href="https://www.instagram.com/redflightai"
+                  >
+                    Follow RED Flight Instagram
                   </Link>
                   <FaXTwitter className="h-6 w-6" />
                 </div>

@@ -23,7 +23,7 @@ export default function NFTTable({
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
-          Red Prompts Leaderboard
+          My Red NFTs
         </h2>
       </div>
     );
@@ -54,7 +54,7 @@ export default function NFTTable({
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-red-600">
-            RED Prompt Leaderboard
+            My Red NFTs
           </h2>
         </div>
         <DataTable data={promptsWithChainId} columns={columns} />

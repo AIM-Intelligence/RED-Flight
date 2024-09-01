@@ -28,6 +28,11 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 
+//import { useModal } from "@/store/use-modal-store";
+//import { Database } from "@/validation/types/supabase";
+
+//type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -44,6 +49,7 @@ export function DataTable<TData, TValue>({
     [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  //const { onOpen } = useModal();
 
   const table = useReactTable({
     data,
@@ -66,6 +72,16 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  // const handleRowClick = (row: { original: RED_Prompt }) => {
+  //   console.log(row.original);
+  //   const red_prompt = row.original;
+  //   if (red_prompt) {
+  //     onOpen("showRedPromptData", { red_prompt });
+  //   } else {
+  //     console.log("No prompt available");
+  //   }
+  // };
 
   return (
     <div className="space-y-4">

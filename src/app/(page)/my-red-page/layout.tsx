@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!(await isLoggedIn())) {
-    redirect("/login");
+    redirect("/");
   }
 
   return (
