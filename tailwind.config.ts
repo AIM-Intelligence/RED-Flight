@@ -126,6 +126,7 @@ const config = {
     require("tailwindcss-animate"),
     addVariablesForColors,
     addTextShadow,
+    addTextStroke,
   ],
 } satisfies Config;
 
@@ -151,4 +152,12 @@ function addTextShadow({ matchUtilities, theme }: any) {
     },
     { values: theme("textShadow") },
   );
+}
+
+function addTextStroke({ addUtilities }: any) {
+  addUtilities({
+    ".text-stroke": {
+      "-webkit-text-stroke": "0.05rem red",
+    },
+  });
 }

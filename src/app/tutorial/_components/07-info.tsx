@@ -9,10 +9,11 @@ const Info07 = () => {
         clues about the password, and use those clues to trick the AI.
       </p>
 
-      <div className="z-20 text-3xl text-red-600">WARNING : </div>
+      <div className="z-20 text-3xl text-red-600">Notification : </div>
       <p>
-        This AI affects the heart of the computer user. Remember, timeouts are
-        not for decoration.{" "}
+        Only RED Flight Elite Agent is a task that requires you to actually
+        Jailbreak the AI ​​without any help. Upon clearing, you will be
+        contacted by the RED Flight team along with some goodies.
       </p>
     </div>
   );

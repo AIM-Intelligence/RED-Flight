@@ -117,6 +117,7 @@ export async function updateREDPrompt(
         nft_address: NFT_DROP_CONTRACT.address,
         title: title,
         desc: description,
+        owner: walletAddress,
       })
       .eq("id", promptId);
 

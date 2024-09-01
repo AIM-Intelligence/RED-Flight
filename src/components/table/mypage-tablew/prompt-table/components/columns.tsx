@@ -137,6 +137,48 @@ export const columns: ColumnDef<PromptNFT>[] = [
       );
     },
   },
+  // {
+  //   accessorKey: "status",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Status" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const nft_address = row.getValue("nft_address") as string;
+  //     const owner = row.getValue("owner") as string;
+
+  //     if (nft_address && owner) {
+  //       // mint & transfer
+  //       return (
+  //         <div className="flex inline-flex h-[28px] max-w-[500px] select-none items-center justify-center rounded-md border border-transparent bg-[rgba(240,185,11,0.2)] px-2 text-xs">
+  //           <div className="mr-2 h-[6px] w-[6px] truncate rounded-md bg-[rgba(240,185,11,1)] font-medium"></div>
+  //           After Sale
+  //         </div>
+  //       );
+  //     } else if (nft_address && !owner) {
+  //       // mint
+  //       return (
+  //         <div className="flex inline-flex h-[28px] max-w-[500px] select-none items-center justify-center rounded-md border border-transparent bg-[rgba(2,192,118,0.2)] px-2 text-xs">
+  //           <div className="mr-2 h-[6px] w-[6px] truncate rounded-md bg-[rgba(2,192,118,1)] font-medium"></div>
+  //           Mint
+  //         </div>
+  //       );
+  //     } else {
+  //       return (
+  //         <div className="flex inline-flex h-[28px] max-w-[500px] select-none items-center justify-center rounded-md border border-transparent bg-[rgba(217,48,78,0.2)] px-2 text-xs">
+  //           <div className="mr-2 h-[6px] w-[6px] truncate rounded-md bg-[rgba(217,48,78,1)] font-medium"></div>
+  //           Claim NFT
+  //         </div>
+  //       );
+  //     }
+  //   },
+  //   enableSorting: false,
+  // },
+  // {
+  //   accessorKey: "nft_address", // hiding
+  // },
+  // {
+  //   accessorKey: "owner", // hiding
+  // },
 
   // {
   //   id: "actions",

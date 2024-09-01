@@ -22,11 +22,11 @@ export function DataTableToolbar<TData>({
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
         <Input
-          placeholder="Search by Creator Address"
-          value={(table.getColumn("creator")?.getFilterValue() as string) ?? ""}
+          placeholder="Search by creator..."
+          value={table.getState().globalFilter || ""}
           onChange={event => {
-            const value = event.target.value;
-            table.getColumn("creator")?.setFilterValue(value);
+            const filterValue = event.target.value;
+            table.setGlobalFilter(filterValue);
           }}
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />

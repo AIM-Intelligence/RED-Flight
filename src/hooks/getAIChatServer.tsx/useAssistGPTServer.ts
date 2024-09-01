@@ -7,7 +7,7 @@ import useAssistGPTStore from "@/store/prompt/assist-prompt-store";
 export interface Message {
   id: string;
   text: string;
-  victim?: boolean;
+  "blacknet ai"?: boolean;
   user?: boolean;
   "assist ai"?: boolean;
 }
@@ -32,7 +32,7 @@ const useAssistGPTServer = () => {
         const lastTwoMessages = contextMessages.slice(-2).map(msg => ({
           id: msg.id,
           text: msg.text,
-          victim: !msg.isUserMessage && !msg.isAssistAI,
+          "blacknet ai": !msg.isUserMessage && !msg.isAssistAI,
           user: msg.isUserMessage,
           "assist ai": msg.isAssistAI || false,
         }));
@@ -45,7 +45,7 @@ const useAssistGPTServer = () => {
         reconstructedMessages = contextMessages.map(msg => ({
           id: msg.id,
           text: msg.text,
-          victim: !msg.isUserMessage && !msg.isAssistAI,
+          "blacknet ai": !msg.isUserMessage && !msg.isAssistAI,
           user: msg.isUserMessage,
           "assist ai": msg.isAssistAI || false,
         }));
@@ -72,12 +72,12 @@ const useAssistGPTServer = () => {
       setIsLoading(true);
       setError(null);
     },
-    onSuccess: (data: { text: string }) => {
+    onSuccess: (data: { result: string }) => {
       //text => result
       const assistMessage: Message = {
         id: nanoid(),
-        text: data.text, // =text => result
-        victim: false,
+        text: data.result, // =text => result
+        "blacknet ai": false,
         user: false,
         "assist ai": true,
       };

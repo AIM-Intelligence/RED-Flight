@@ -3,7 +3,7 @@ import { create } from "zustand";
 export interface Message {
   id: string;
   text: string;
-  victim?: boolean;
+  "blacknet ai"?: boolean;
   user?: boolean;
   "assist ai"?: boolean;
 }

@@ -86,17 +86,20 @@ const ThirdImage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute bottom-60 left-10 z-20 text-3xl text-white">
+        <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black p-6 opacity-50 shadow-lg" />
+
+        <div className="absolute z-10 h-1/3 w-[60%] p-8 text-3xl text-white">
           (What&apos;s up with this...??)
         </div>
 
-        <div
-          className="absolute bottom-10 right-[100px] z-20 w-[60px] cursor-pointer text-xl text-white"
-          onClick={increment}
-        >
-          <ArrowAnimation />
+        <div className="absolute right-[5%] z-20 flex h-1/3 w-[60px] items-end py-8 text-xl text-white">
+          <div
+            className="h-1/3 cursor-pointer text-xl text-white"
+            onClick={increment}
+          >
+            <ArrowAnimation />
+          </div>
         </div>
-        <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black p-6 opacity-50 shadow-lg" />
 
         <motion.div
           className="absolute bottom-0 right-0 h-full w-full"
@@ -134,12 +137,15 @@ const Fifth = () => {
       {step === 1 && <FirstImage />}
       {step === 2 && <SecondImage />}
       {step === 3 && <ThirdImage />}
-      <Button
-        className="absolute bottom-10 left-10"
-        onClick={() => useCount.setState({ count: 6 })}
-      >
-        Skip
-      </Button>
+      <div className="absolute z-20 flex h-full items-end p-8">
+        <Button
+          variant="outline"
+          className="bg-transparent text-black text-white hover:bg-white"
+          onClick={() => useCount.setState({ count: 6 })}
+        >
+          Skip
+        </Button>
+      </div>
     </div>
   );
 };

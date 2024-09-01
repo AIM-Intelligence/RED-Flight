@@ -17,19 +17,15 @@ type PromptNFT = Omit<
 
 export const columns: ColumnDef<PromptNFT>[] = [
   {
-    accessorKey: "rank",
+    id: "rowNumber",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Rank" />
+      <DataTableColumnHeader column={column} title="No." />
     ),
     cell: ({ row }) => {
-      const rank = row.index + 1;
-      return (
-        <span className="max-w-[100px] truncate text-xl font-bold">{rank}</span>
-      );
+      return <div className="w-[80px]">{row.index + 1}</div>;
     },
     enableSorting: false,
     enableHiding: false,
-    // metadata.image
   },
   {
     accessorKey: "image_url",
