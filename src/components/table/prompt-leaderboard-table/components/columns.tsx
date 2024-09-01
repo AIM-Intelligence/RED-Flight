@@ -42,7 +42,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
     cell: ({ row }) => {
       const url = row.getValue("image_url") as any;
 
-      console.log("wefewfwefewf", url);
+      // console.log("wefewfwefewf", url);
       if (!url) {
         return (
           <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">

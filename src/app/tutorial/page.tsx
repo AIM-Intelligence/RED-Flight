@@ -23,7 +23,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!activeAccount) {
-      router.push("/login");
+      router.push("/");
     }
   }, [activeAccount, router, count]);
 

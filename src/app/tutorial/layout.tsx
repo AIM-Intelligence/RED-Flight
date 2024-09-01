@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!(await isLoggedIn())) {
-    redirect("/login");
+    redirect("/");
   }
   return (
     <main className="page relative bg-black font-sora text-white">

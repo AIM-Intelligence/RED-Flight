@@ -56,11 +56,11 @@ const ThirdwebConnectButton: React.FC = () => {
         await logout();
         clearUser();
         const currentPath = window.location.pathname;
-        router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+        router.push(`/?redirect=${encodeURIComponent(currentPath)}`);
       }
     };
 
-    if (!activeWallet && pathname !== "/" && pathname !== "/login") {
+    if (!activeWallet && pathname !== "/" && pathname !== "/") {
       handleAuth();
     }
 
@@ -87,13 +87,7 @@ const ThirdwebConnectButton: React.FC = () => {
             await logout();
             clearUser();
             const currentPath = window.location.pathname;
-            router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
-          }
-
-          if (
-            (chainId && chainId.id !== 3441006) ||
-            (chainId && chainId.id !== 11155111)
-          ) {
+            router.push(`/?redirect=${encodeURIComponent(currentPath)}`);
           }
 
           return await isLoggedIn();
@@ -114,7 +108,7 @@ const ThirdwebConnectButton: React.FC = () => {
           const currentPath = window.location.pathname;
           await logout();
           clearUser();
-          router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+          router.push(`/?redirect=${encodeURIComponent(currentPath)}`);
         },
       }}
     />

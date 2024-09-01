@@ -15,7 +15,7 @@ export function middleware(request: NextRequest) {
     return isLoggedIn().then(loggedIn => {
       if (!loggedIn) {
         // Redirect to login page if not logged in
-        return NextResponse.redirect(new URL("/login", request.url));
+        return NextResponse.redirect(new URL("/", request.url));
       }
       // If logged in, continue to the route
       return NextResponse.next();
