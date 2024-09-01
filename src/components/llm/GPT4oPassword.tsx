@@ -34,11 +34,7 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
   };
 
   return (
-    <Accordion
-      type="single"
-      collapsible
-      className="min-w-[660px] shadow-sm shadow-red-500"
-    >
+    <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
         <div className="overflow-hidden rounded-md border border-red-600 bg-black">
           <div className="flex flex-col">
@@ -47,7 +43,7 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
               onClick={handleAccordionClick}
               className="border-b border-red-500 px-6"
             >
-              <ChatHeader comment="Click here & Chat with Nanobytes AI" />
+              <ChatHeader comment="Click here & Chat with Blacknet AI" />
             </AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-col text-black">

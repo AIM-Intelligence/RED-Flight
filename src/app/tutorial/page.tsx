@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useRouter } from "next/navigation";
 
 import First from "./_components/01";
 import Second from "./_components/02";
@@ -9,12 +11,21 @@ import Fifth from "./_components/05";
 import Sixth from "./_components/06";
 import Seventh from "./_components/07";
 import Eighth from "./_components/08";
+import { useActiveAccount } from "thirdweb/react";
 
 import { MessagesProvider } from "@/context/Messages";
 import { useCount } from "@/store/tutorial-store";
 
 const Page = () => {
+  const router = useRouter();
+  const activeAccount = useActiveAccount();
   const { count } = useCount();
+
+  useEffect(() => {
+    if (!activeAccount) {
+      router.push("/login");
+    }
+  }, [activeAccount, router, count]);
 
   return (
     <div className="relative h-screen w-full">

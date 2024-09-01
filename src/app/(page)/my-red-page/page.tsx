@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
-
+//import { useMemo } from "react";
 import UserInfo from "./_components/UserInfo";
 
 import NFTTable from "@/components/table/mypage-tablew/nft-table/page";
@@ -10,9 +9,10 @@ import { useNFTs, useSelectNFT } from "@/hooks/prompt/useSelectNFT";
 import { usePrompts, useSelectPrompt } from "@/hooks/prompt/useSelectPrompt";
 import { useWeb3User } from "@/hooks/user/useSignIn";
 import { useWeb3UserStore } from "@/store/user-store";
-import { Database } from "@/validation/types/supabase";
 
-type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+//import { Database } from "@/validation/types/supabase";
+
+//type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
 const Page = () => {
   const { user } = useWeb3UserStore();
   const prompts = usePrompts();

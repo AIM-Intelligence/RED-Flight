@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { ConnectEmbed } from "thirdweb/react";
+import { ConnectEmbed, useActiveAccount } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 
 import { useWeb3User } from "@/hooks/user/useSignIn";
@@ -18,6 +18,13 @@ const ThirdwebConnectButton: React.FC = () => {
   const searchParams = useSearchParams();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
+  const activeAccount = useActiveAccount();
+
+  useEffect(() => {
+    if (!activeAccount) {
+      router.push("/login");
+    }
+  }, [activeAccount, router]);
 
   const appMetadata = {
     name: "RED Flight",
@@ -57,6 +64,7 @@ const ThirdwebConnectButton: React.FC = () => {
       appMetadata={appMetadata}
       chains={chainList}
       wallets={wallets}
+      autoConnect={false}
       auth={{
         isLoggedIn: async address => {
           console.log("checking if logged in!", { address });

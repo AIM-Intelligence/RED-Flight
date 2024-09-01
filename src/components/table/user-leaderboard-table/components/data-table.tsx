@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    globalFilterFn: (row, columnId, filterValue) => {
+    globalFilterFn: (row, filterValue) => {
       const name = row.getValue("name") as string;
       const address = row.getValue("wallet_address") as string;
 

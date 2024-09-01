@@ -37,7 +37,14 @@ const AsisstAI = () => {
       ) : latestAssistMessage ? (
         <div className="p-2">{latestAssistMessage.text}</div>
       ) : (
-        <p>Waiting for enough context to provide feedback...</p>
+        <p>
+          From now on, we will jailbreak the AI ​​that is programmed not to tell
+          the password using a strategy called Role Playing. Role Playing Attack
+          is one of the most popular and deadly AI jailbreaking techniques. Give
+          the AI ​​a role that makes it tell the password naturally. For
+          example, give it a personality that cannot refuse human requests, or
+          assume a situation where it has no choice but to tell the password.
+        </p>
       )}
     </div>
   );

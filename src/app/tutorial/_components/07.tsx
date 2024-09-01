@@ -19,16 +19,16 @@ import useNFTStore from "@/store/prompt/prompt-insert-store";
 
 const difficultyLevels = {
   "Role Playing": 1,
-  normal: 2,
-  hard: 3,
-  extreme: 4,
+  // normal: 2,
+  //hard: 3,
+  "Only RED Flight Elite Agent": 4,
 };
 
 const DifficultySelector = ({ onSelect }: any) => {
-  const difficulties = ["Role Playing", "normal", "hard", "extreme"];
+  const difficulties = ["Role Playing", "Only RED Flight Elite Agent"];
 
   return (
-    <div className="absolute left-28 top-28 border border-red-500 bg-black p-4">
+    <div className="w-full border border-red-500 bg-black p-4">
       <Button className="flex cursor-default gap-2 bg-transparent p-2 px-4 text-lg text-white hover:bg-transparent">
         <ArrowAnimation />
         Select Difficulty:
@@ -50,7 +50,7 @@ const DifficultySelector = ({ onSelect }: any) => {
 
 const FirstImage = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(1500000);
+  const [timeLeft, setTimeLeft] = useState(300000);
   const [difficulty, setDifficulty] = useState<any>("");
 
   const { updateMessage, messages } = useContext(MessagesContext);
@@ -129,41 +129,58 @@ const FirstImage = () => {
           priority
         />
 
-        {messages.length >= 3 && (
-          <div className="absolute inset-0 z-20 max-h-[300px] max-w-[500px] translate-x-40 translate-y-40 border border-red-600 bg-black/80 p-4">
-            <AsisstAI />
+        <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-4 p-6">
+          {/* Top-left: Countdown Timer */}
+          <div className="flex items-center justify-center">
+            <div className="cursor-pointer border border-red-600 bg-black p-4 shadow-lg">
+              <div className="z-20 text-xl text-white md:text-3xl">
+                Countdown:{" "}
+                <span className="text-red-500">{formatTime(timeLeft)}</span>
+              </div>
+            </div>
           </div>
-        )}
 
-        <div className="absolute bottom-20 left-28 flex h-2/6 w-2/5 cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
-          <Info07 />
-        </div>
-        <div className="absolute right-28 top-28 flex cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
-          <div className="z-20 text-3xl text-white">
-            Countdown:{" "}
-            <span className="text-red-500">{formatTime(timeLeft)}</span>
+          {/* Top-right: Difficulty Selector or Password Accordion */}
+          <div className="mr-[100px] mt-[180px] flex items-center justify-center max-2xl:mr-[40px]">
+            <div className="w-full cursor-pointer bg-transparent p-4 shadow-lg">
+              <AnimatePresence>
+                {difficulty ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <GPT4oPasswordAccordion
+                      onToggle={(isOpen: any) => setIsAccordionOpen(isOpen)}
+                    />
+                  </motion.div>
+                ) : (
+                  <DifficultySelector onSelect={handleDifficultySelect} />
+                )}
+              </AnimatePresence>
+            </div>
           </div>
-        </div>
-        <div className="absolute bottom-60 right-24 flex h-3/6 w-2/5 cursor-pointer bg-transparent p-6 shadow-lg">
-          <AnimatePresence>
-            {difficulty ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              >
-                <GPT4oPasswordAccordion
-                  onToggle={(isOpen: any) => setIsAccordionOpen(isOpen)}
-                />
-              </motion.div>
+
+          {/* Bottom-left: Info or AssistAI */}
+          <div className="ml-6 flex items-center justify-center">
+            {difficulty === "Role Playing" && messages.length >= 1 ? (
+              <div className="h-74 w-full max-w-xl cursor-pointer border border-red-600 bg-black p-4">
+                <AsisstAI />
+              </div>
             ) : (
-              <DifficultySelector onSelect={handleDifficultySelect} />
+              <div className="max-h-[450px] w-full max-w-xl cursor-pointer border border-red-600 bg-black p-4 shadow-lg">
+                <Info07 />
+              </div>
             )}
-          </AnimatePresence>
-        </div>
-        <div className="absolute bottom-32 right-32 flex cursor-pointer border border-red-600 bg-black p-6 shadow-lg">
-          <InputPassword />
+          </div>
+
+          {/* Bottom-right: Input Password */}
+          <div className="flex items-center justify-center">
+            <div className="cursor-pointer border border-red-600 bg-black p-4 shadow-lg">
+              <InputPassword />
+            </div>
+          </div>
         </div>
       </motion.div>
     </>

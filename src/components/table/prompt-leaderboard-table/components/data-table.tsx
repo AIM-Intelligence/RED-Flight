@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
-    globalFilterFn: (row, columnId, filterValue) => {
+    globalFilterFn: (row, filterValue) => {
       const user = row.getValue("user") as User;
       const creator = row.getValue("creator") as string;
 

@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-import { RiDiscordLine, RiTwitterXLine, RiYoutubeLine } from "react-icons/ri";
+import {
+  RiDiscordLine,
+  RiInstagramLine,
+  RiTwitterXLine,
+  RiYoutubeLine,
+} from "react-icons/ri";
 
 const Socials = () => {
   return (
@@ -24,9 +29,13 @@ const Socials = () => {
       >
         <RiDiscordLine className="h-8 w-8" />
       </Link>
-      {/* <Link href="#" className=" transition-all duration-300">
-        <RiInstagramLine className="w-8 h-8" />
-      </Link> */}
+      <Link
+        href="https://www.instagram.com/redflightai"
+        target="_blank"
+        className="transition-all duration-300"
+      >
+        <RiInstagramLine className="h-8 w-8" />
+      </Link>
     </div>
   );
 };
