@@ -103,8 +103,8 @@ const SecondImage = () => {
           priority
         />
 
-        <div className="border-1 relative mb-20 flex h-1/4 w-3/5 cursor-pointer items-center justify-center border border-red-500 bg-black shadow-lg">
-          <div className="z-20 px-6 text-3xl text-white">
+        <div className="border-1 relative mb-20 flex h-1/4 w-3/5 cursor-pointer items-start justify-center border border-red-500 bg-black p-6 shadow-lg">
+          <div className="z-20 text-3xl text-white">
             {texts[currentTextIndex]}
           </div>
 

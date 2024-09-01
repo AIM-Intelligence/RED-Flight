@@ -64,11 +64,17 @@ export const columns: ColumnDef<User>[] = [
     ),
     cell: ({ row }) => {
       const name = row.getValue("name") as string;
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {name ? name : "Anonymity"}
-        </span>
-      );
+      if (name) {
+        return (
+          <span className="max-w-[500px] truncate font-medium">{name}</span>
+        );
+      } else {
+        return (
+          <span className="max-w-[500px] truncate font-medium text-[#c4c4c4]">
+            Unknown
+          </span>
+        );
+      }
     },
     filterFn: (row, id, value) => {
       const name = (row.getValue(id) as string) ?? "";

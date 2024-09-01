@@ -28,6 +28,10 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 
+type User = {
+  name: string;
+};
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -65,6 +69,18 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+    globalFilterFn: (row, columnId, filterValue) => {
+      const user = row.getValue("user") as User;
+      const creator = row.getValue("creator") as string;
+
+      const userName = user?.name?.toLowerCase() || "";
+      const creatorAddress = creator?.toLowerCase() || "";
+      const searchValue = filterValue.toLowerCase();
+
+      return (
+        userName.includes(searchValue) || creatorAddress.includes(searchValue)
+      );
+    },
   });
 
   return (

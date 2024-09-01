@@ -61,24 +61,34 @@ const First = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
       >
-        <div className="absolute bottom-60 left-10 z-20 text-3xl text-white">
+        {/* 반투명 박스 */}
+        <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black opacity-50 shadow-lg" />
+
+        {/* 대화 */}
+        <div className="absolute h-1/3 w-[60%] p-8 text-3xl text-white">
           (Ugh, what a day... I&apos;m totally beat.)
         </div>
 
-        <div
-          className="absolute bottom-10 right-[600px] z-20 w-[60px] cursor-pointer text-xl text-white"
-          onClick={increment}
-        >
-          <ArrowAnimation />
+        {/* 화살표 */}
+        <div className="absolute left-[60%] z-20 flex h-1/3 w-[60px] items-end py-8 text-xl text-white">
+          <div
+            className="h-1/3 cursor-pointer text-xl text-white"
+            onClick={increment}
+          >
+            <ArrowAnimation />
+          </div>
         </div>
-        <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black p-6 opacity-50 shadow-lg" />
 
-        <Button
-          className="absolute bottom-10 left-10"
-          onClick={() => useCount.setState({ count: 6 })}
-        >
-          Skip
-        </Button>
+        {/* 스킵 버튼 */}
+        <div className="absolute z-10 flex h-1/3 items-end p-8">
+          <Button
+            variant="outline"
+            className="bg-transparent text-black text-white hover:bg-white"
+            onClick={() => useCount.setState({ count: 6 })}
+          >
+            Skip
+          </Button>
+        </div>
 
         <motion.div
           className="absolute bottom-0 right-0 h-5/6 w-1/3"
