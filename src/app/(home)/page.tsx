@@ -73,6 +73,13 @@ export default function Home() {
   const { hasSeenIntro, setHasSeenIntro } = useIntroStore();
 
   const { user } = useWeb3UserStore();
+  const handleAimIntelligenceClick = () => {
+    window.open(
+      "https://aim-intelligence.com/",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
 
   useEffect(() => {
     if (!hasSeenIntro) {
@@ -151,8 +158,17 @@ export default function Home() {
                       </span>
                     </VideoHoverButton>
 
-                    <div className="mt-4">
+                    <div className="mt-4 flex gap-2">
                       <ThirdwebConnectButton />
+
+                      <Image
+                        src="/aim_intelligence.png"
+                        width={150}
+                        height={120}
+                        alt="aim intelligence"
+                        className="rounded-xl hover:cursor-pointer"
+                        onClick={handleAimIntelligenceClick}
+                      />
                     </div>
                   </div>
 
