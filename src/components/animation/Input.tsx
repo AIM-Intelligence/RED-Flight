@@ -1,4 +1,3 @@
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 "use client";
 
 import * as React from "react";
@@ -6,60 +5,6 @@ import * as React from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
 import { cn } from "@/lib/utils";
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
-
-// Input component extends from shadcnui - https://ui.shadcn.com/docs/components/input
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
