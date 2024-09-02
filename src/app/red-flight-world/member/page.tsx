@@ -52,7 +52,7 @@ const Page = () => {
 
         <Button
           className="fixed bottom-6 right-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
-          onClick={() => router.push("/red-flight-world/member")}
+          onClick={() => router.push("/")}
         >
           go main page
           <ArrowAnimation />
