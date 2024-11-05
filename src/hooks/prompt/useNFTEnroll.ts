@@ -24,7 +24,7 @@ export function useNFTEnroll() {
           title: "Success",
           description: "NFT enrolled successfully",
         });
-
+        queryClient.invalidateQueries({ queryKey: ["userNFTs"] });
         queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
       } else {
         toast({

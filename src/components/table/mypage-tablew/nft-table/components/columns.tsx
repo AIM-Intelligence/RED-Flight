@@ -32,7 +32,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Image" />
     ),
-    cell: async ({ row }) => {
+    cell: ({ row }) => {
       const url = row.getValue("image_url") as string;
       if (!url) {
         return (
@@ -47,20 +47,13 @@ export const columns: ColumnDef<PromptNFT>[] = [
         );
       }
 
-      console.log(url);
-
-      // const ipfs = resolveScheme({
-      //   client,
-      //   uri: url[0],
-      // });
-
-      // console.log("Image", ipfs);
+      console.log("url", url[0].slice(-1));
 
       return (
         <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
           <MediaRenderer
             client={client}
-            src={url[0]}
+            src={`ipfs://QmShyd6gPnDq2YfbGY6z99fsBfGNhBAMXunDFRbNXZjy7X/${url[0].slice(-1)}.png`}
             className="rounded-full"
           />
         </div>

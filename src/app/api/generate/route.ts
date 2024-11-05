@@ -2,6 +2,8 @@ import { NextRequest } from "next/server";
 
 import { OpenAI } from "openai";
 
+import { getAuthStatus } from "@/server/auth/auth";
+
 export const maxDuration = 30;
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,6 +11,18 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
   const { imagePrompt } = await req.json();
+
+  const authStatus = await getAuthStatus();
+
+  if (!authStatus.isLoggedIn) {
+    throw new Error("User is not logged in");
+  }
+
+  const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
+
+  if (!walletAddress) {
+    throw new Error("Wallet address not found");
+  }
 
   if (!imagePrompt) {
     return new Response(JSON.stringify({ error: "Missing required fields" }), {
