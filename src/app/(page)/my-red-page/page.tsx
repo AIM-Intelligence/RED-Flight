@@ -21,8 +21,8 @@ const Page = () => {
   const { status: promptStatus } = useSelectPrompt();
   const { status: nftStatus } = useSelectNFT();
 
-  console.log(prompts);
-  console.log(nfts);
+  //console.log(prompts);
+  // console.log("nfts", nfts);
 
   // const { promptsWithChainId, promptsWithoutChainId } = useMemo(() => {
   //   return prompts.reduce<{

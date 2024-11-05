@@ -126,7 +126,9 @@ const Page = () => {
   return (
     <div className="flex flex-col items-center p-5">
       <ThirdwebConnectButton />
-      <h2 className="mb-4 text-2xl font-bold text-white">Generated Images</h2>
+      <h2 className="mb-4 mt-4 text-2xl font-bold text-white">
+        Generated Images
+      </h2>
       <div className="mb-8 grid grid-cols-5 gap-4">
         {generatedImages.map((image, index) => (
           <img

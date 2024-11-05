@@ -22,17 +22,21 @@ export const levels = [
 ];
 
 export const chainIds = [
+  // {
+  //   label: "Manta",
+  //   value: "3441006",
+  // },
+  // {
+  //   label: "Sepolia",
+  //   value: "11155111",
+  // },
+  // {
+  //   label: "Kaia",
+  //   value: "1001",
+  // },
   {
-    label: "Manta",
-    value: "3441006",
-  },
-  {
-    label: "Sepolia",
-    value: "11155111",
-  },
-  {
-    label: "Kaia",
-    value: "1001",
+    label: "AuroraT",
+    value: "1313161555",
   },
   {
     label: "Not NFT",
