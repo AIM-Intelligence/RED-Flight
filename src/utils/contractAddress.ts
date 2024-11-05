@@ -17,12 +17,20 @@ const addressList = [
       stakingContractAddress: "",
     },
   },
-  // TODO: 이더리움에 하나 추가해야 함
+  {
+    "1313161555": {
+      nftCollectionContractAddress: "",
+      profileNftCollectionContractAddress: "",
+      nftDropContractAddress: "0x4DfeA1907E86Bb14dc5E42357d1178cbDDD12611",
+      rewardTokenContractAddress: "",
+      stakingContractAddress: "",
+    },
+  },
   {
     "1": {
       nftCollectionContractAddress: "",
       profileNftCollectionContractAddress: "",
-      nftDropContractAddress: "0x06F01BA25C8ec85C7bBBAFdA1064c5DDF278C904",
+      nftDropContractAddress: "",
       rewardTokenContractAddress: "",
       stakingContractAddress: "",
     },

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaDiscord } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { RiInstagramLine } from "react-icons/ri";
 
 import ArrowAnimation from "@/components/lottie/Arrow";
 import { Button, buttonVariants } from "@/components/ui/Button";
@@ -194,7 +195,7 @@ const ThirdImage = () => {
                   >
                     Follow RED Flight Instagram
                   </Link>
-                  <FaXTwitter className="h-6 w-6" />
+                  <RiInstagramLine className="h-6 w-6" />
                 </div>
               </Button>
             </div>

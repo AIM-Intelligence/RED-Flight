@@ -68,7 +68,6 @@ export function NFTClaimDrawer() {
 
   const chain = useActiveWalletChain();
 
-  // TODO: error handling if chainId is 0
   const chainId = chain ? chain.id : 3441006;
 
   const { NFT_DROP_CONTRACT } = getAllContracts(chainId)!;
