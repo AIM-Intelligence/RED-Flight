@@ -6,11 +6,7 @@ import '@lottiefiles/dotlottie-react/dist/index.css';
 
 const LoadingAnimation = () => {
   return (
-    <DotLottieReact
-      src="/lottie/loading.lottie"
-      autoplay
-      loop
-    ></DotLottieReact>
+    <DotLottieReact src="/lottie/loading.lottie" autoplay loop></DotLottieReact>
   );
 };
 
