@@ -2,8 +2,6 @@
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-import '@lottiefiles/dotlottie-react/dist/index.css';
-
 const TutorialAnimation = () => {
   return (
     <DotLottieReact
