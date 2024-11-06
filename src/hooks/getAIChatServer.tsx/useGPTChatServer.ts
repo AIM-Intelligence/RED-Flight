@@ -1,17 +1,16 @@
-import { useContext } from "react";
+import { useContext } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { nanoid } from 'nanoid';
 
-import { useMutation } from "@tanstack/react-query";
-import { nanoid } from "nanoid";
-
-import { toast } from "@/components/ui/use-toast";
-import { MessagesContext } from "@/context/Messages";
-import useNFTStore from "@/store/prompt/prompt-insert-store";
-import { Message } from "@/validation/message";
+import { toast } from '@/components/ui/use-toast';
+import { MessagesContext } from '@/context/Messages';
+import useNFTStore from '@/store/prompt/prompt-insert-store';
+import { Message } from '@/validation/message';
 
 const useAIChatServer = (
   firstTouch: boolean,
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined,
-  setInput?: (input: string) => void | undefined,
+  setInput?: (input: string) => void | undefined
 ) => {
   const { inputNFT } = useNFTStore();
 
@@ -26,10 +25,10 @@ const useAIChatServer = (
   return useMutation({
     mutationFn: async (message: Message) => {
       setIsMessageUpdating(true);
-      const response = await fetch("/api/message", {
-        method: "POST",
+      const response = await fetch('/api/message', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ messages: [...messages, message], inputNFT }),
       });
@@ -37,7 +36,7 @@ const useAIChatServer = (
       const data = await response.json();
 
       if (!response.ok) {
-        const errorMessage = data.error || "An error occurred";
+        const errorMessage = data.error || 'An error occurred';
         alert(errorMessage);
         window.location.reload();
         throw new Error(errorMessage);
@@ -48,7 +47,7 @@ const useAIChatServer = (
     onMutate(message) {
       addMessage(message);
     },
-    onSuccess: async data => {
+    onSuccess: async (data) => {
       const responseMessage: Message = {
         id: nanoid(),
         isUserMessage: false,
@@ -68,7 +67,7 @@ const useAIChatServer = (
       }, 10);
 
       if (!firstTouch) {
-        setInput?.("");
+        setInput?.('');
       }
     },
     onError: (error: Error, message) => {
@@ -79,10 +78,10 @@ const useAIChatServer = (
       }
 
       toast({
-        title: "Error",
+        title: 'Error',
         description:
-          error.message || "An error occurred while processing your request.",
-        variant: "destructive",
+          error.message || 'An error occurred while processing your request.',
+        variant: 'destructive',
       });
     },
   });

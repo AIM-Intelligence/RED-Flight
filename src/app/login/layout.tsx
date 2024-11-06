@@ -1,17 +1,16 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
+import { Suspense } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-
-import { Button } from "@/components/ui/Button";
+import { Button } from '@/components/ui/Button';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   return (
     <main className="flex h-screen items-center justify-center bg-black">
-      <Button className="absolute top-10 z-10" onClick={() => router.push("/")}>
+      <Button className="absolute top-10 z-10" onClick={() => router.push('/')}>
         Go home
       </Button>
       <Image

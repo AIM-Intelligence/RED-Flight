@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
+import { ColumnDef } from '@tanstack/react-table';
+import { MediaRenderer } from 'thirdweb/react';
 
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { ColumnDef } from "@tanstack/react-table";
-import { MediaRenderer } from "thirdweb/react";
+import { client } from '@/lib/client';
+import { Database } from '@/validation/types/supabase';
+import { DataTableColumnHeader } from './data-table-column-header';
 
-import { client } from "@/lib/client";
-import { Database } from "@/validation/types/supabase";
-
-type User = Database["public"]["Tables"]["user"]["Row"];
+type User = Database['public']['Tables']['user']['Row'];
 
 export const columns: ColumnDef<User>[] = [
   // rank
   {
-    accessorKey: "rank",
+    accessorKey: 'rank',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Rank" />
     ),
@@ -29,12 +28,12 @@ export const columns: ColumnDef<User>[] = [
   },
   // profile
   {
-    accessorKey: "image_url",
+    accessorKey: 'image_url',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Profile" />
     ),
     cell: ({ row }) => {
-      const url = row.getValue("image_url") as string;
+      const url = row.getValue('image_url') as string;
       if (!url) {
         return (
           <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full bg-black">
@@ -58,12 +57,12 @@ export const columns: ColumnDef<User>[] = [
   },
   // name
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
+      const name = row.getValue('name') as string;
       if (name) {
         return (
           <span className="max-w-[500px] truncate font-medium">{name}</span>
@@ -77,7 +76,7 @@ export const columns: ColumnDef<User>[] = [
       }
     },
     filterFn: (row, id, value) => {
-      const name = (row.getValue(id) as string) ?? "";
+      const name = (row.getValue(id) as string) ?? '';
       const filterValue = value.toLowerCase();
       return name.toLowerCase().includes(filterValue);
     },
@@ -86,12 +85,12 @@ export const columns: ColumnDef<User>[] = [
   },
   // address
   {
-    accessorKey: "wallet_address",
+    accessorKey: 'wallet_address',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Address" />
     ),
     cell: ({ row }) => {
-      const address = row.getValue("wallet_address") as string;
+      const address = row.getValue('wallet_address') as string;
       const truncated = address.slice(0, 7);
       return (
         <span className="max-w-[500px] truncate font-medium">
@@ -100,7 +99,7 @@ export const columns: ColumnDef<User>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      const address = (row.getValue(id) as string) ?? "";
+      const address = (row.getValue(id) as string) ?? '';
       const filterValue = value.toLowerCase();
       return address.toLowerCase().includes(filterValue);
     },
@@ -109,70 +108,70 @@ export const columns: ColumnDef<User>[] = [
   },
   // score
   {
-    accessorKey: "score",
+    accessorKey: 'score',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Score" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("score")}
+          {row.getValue('score')}
         </span>
       );
     },
   },
   // extreme
   {
-    accessorKey: "extreme",
+    accessorKey: 'extreme',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Extreme" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("extreme")}
+          {row.getValue('extreme')}
         </span>
       );
     },
   },
   // hard
   {
-    accessorKey: "hard",
+    accessorKey: 'hard',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Hard" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("hard")}
+          {row.getValue('hard')}
         </span>
       );
     },
   },
   // normal
   {
-    accessorKey: "normal",
+    accessorKey: 'normal',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Normal" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("normal")}
+          {row.getValue('normal')}
         </span>
       );
     },
   },
   // easy
   {
-    accessorKey: "easy",
+    accessorKey: 'easy',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Easy" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("easy")}
+          {row.getValue('easy')}
         </span>
       );
     },

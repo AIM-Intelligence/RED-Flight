@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type State = {
   count: number;
@@ -7,9 +7,9 @@ type State = {
   setCount: (newCount: number) => void;
 };
 
-export const useCount = create<State>(set => ({
+export const useCount = create<State>((set) => ({
   count: 1,
-  increment: () => set(state => ({ count: state.count + 1 })),
+  increment: () => set((state) => ({ count: state.count + 1 })),
   setCountToSeven: () => set({ count: 7 }),
   setCount: (newCount: number) => set({ count: newCount }),
 }));

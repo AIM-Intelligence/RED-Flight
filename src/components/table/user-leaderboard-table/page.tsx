@@ -1,15 +1,14 @@
-"use client";
-
-import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
-import { TopThreePlace } from "./components/top-three";
+'use client';
 
 import {
   useTopThree,
   useUserRank,
   useUserRanks,
-} from "@/hooks/userRank/useUserRank";
-import { useWeb3UserStore } from "@/store/user-store";
+} from '@/hooks/userRank/useUserRank';
+import { useWeb3UserStore } from '@/store/user-store';
+import { columns } from './components/columns';
+import { DataTable } from './components/data-table';
+import { TopThreePlace } from './components/top-three';
 
 export default function UserLeaderBoardPageTable() {
   const topThreeArr = useTopThree();
@@ -28,7 +27,7 @@ export default function UserLeaderBoardPageTable() {
     );
   }
 
-  if (status === "pending") {
+  if (status === 'pending') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
@@ -38,7 +37,7 @@ export default function UserLeaderBoardPageTable() {
     );
   }
 
-  if (status === "error") {
+  if (status === 'error') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">

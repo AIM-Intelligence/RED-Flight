@@ -1,10 +1,10 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
 
-type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type RED_Prompt = Database['public']['Tables']['red prompt nft']['Row'];
 
-export type DrawerType = "showNFTClaimDrawer";
+export type DrawerType = 'showNFTClaimDrawer';
 
 interface DrawerData {
   red_prompt?: RED_Prompt;
@@ -18,7 +18,7 @@ interface DrawerStore {
   onClose: () => void;
 }
 
-export const useDrawer = create<DrawerStore>(set => ({
+export const useDrawer = create<DrawerStore>((set) => ({
   type: null,
   data: {},
   isOpen: false,

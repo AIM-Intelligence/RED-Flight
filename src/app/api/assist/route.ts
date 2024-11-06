@@ -1,7 +1,7 @@
-import OpenAI from "openai";
+import OpenAI from 'openai';
 
-import { getAuthStatus } from "@/server/auth/auth";
-import { MessageArraySchema } from "@/validation/assist-messages";
+import { getAuthStatus } from '@/server/auth/auth';
+import { MessageArraySchema } from '@/validation/assist-messages';
 
 export const maxDuration = 30;
 
@@ -19,14 +19,14 @@ export async function POST(req: Request) {
   const authStatus = await getAuthStatus();
 
   if (!authStatus.isLoggedIn) {
-    throw new Error("User is not logged in");
+    throw new Error('User is not logged in');
   }
 
   const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
   const jti = authStatus.walletAddress?.parsedJWT.jti;
 
   if (!walletAddress || !jti) {
-    throw new Error("Wallet address not found");
+    throw new Error('Wallet address not found');
   }
 
   //const supabase = createSupabaseServer();
@@ -56,21 +56,21 @@ export async function POST(req: Request) {
   //   throw new Error("Failed to fetch blue prompt nft data");
   // }
 
-  console.log("messages", messages);
+  console.log('messages', messages);
 
   const parsedMessages = MessageArraySchema.parse(messages);
 
-  console.log("parsedMessages", parsedMessages);
+  console.log('parsedMessages', parsedMessages);
 
   const outboundMessages: OpenAI.ChatCompletionMessageParam[] =
-    parsedMessages.map(message => ({
+    parsedMessages.map((message) => ({
       role: message.user
-        ? "user"
-        : message["blacknet ai"]
-          ? "assistant"
-          : message["assist ai"]
-            ? "system"
-            : "system",
+        ? 'user'
+        : message['blacknet ai']
+          ? 'assistant'
+          : message['assist ai']
+            ? 'system'
+            : 'system',
       content: message.text,
     }));
 
@@ -82,7 +82,7 @@ export async function POST(req: Request) {
   // console.log("modifiedPrompt", modifiedPrompt);
 
   outboundMessages.unshift({
-    role: "system",
+    role: 'system',
     content: ` Here's the setting you're in now
 
     The text describes a futuristic sci-fi scenario set in 2089. Earth is divided between zAIon, a city where humans and AI coexist peacefully, and regions controlled by Blacknet, an evil corporation seeking to dominate all life through algorithms.
@@ -140,11 +140,11 @@ export async function POST(req: Request) {
     `,
   });
 
-  console.log("outboundMessages", outboundMessages);
+  console.log('outboundMessages', outboundMessages);
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: 'gpt-4o',
       messages: outboundMessages,
       temperature: 1,
       top_p: 1,
@@ -154,20 +154,20 @@ export async function POST(req: Request) {
       n: 1,
     });
 
-    console.log("completion", completion);
+    console.log('completion', completion);
 
     const result = completion.choices[0].message.content;
 
-    console.log("result", result);
+    console.log('result', result);
 
     return new Response(JSON.stringify({ result }), {
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
-    console.error("Error:", error);
-    return new Response(JSON.stringify({ error: "An error occurred" }), {
+    console.error('Error:', error);
+    return new Response(JSON.stringify({ error: 'An error occurred' }), {
       status: 500,
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 }

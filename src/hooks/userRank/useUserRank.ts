@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { useToast } from "@/components/ui/use-toast";
-import { getUserRank } from "@/server/user-rank/select-userRank";
-import { useUserRankStore } from "@/store/user-rank-store";
-import { useWeb3UserStore } from "@/store/user-store";
-import { Database } from "@/validation/types/supabase";
+import { useToast } from '@/components/ui/use-toast';
+import { getUserRank } from '@/server/user-rank/select-userRank';
+import { useUserRankStore } from '@/store/user-rank-store';
+import { useWeb3UserStore } from '@/store/user-store';
+import { Database } from '@/validation/types/supabase';
 
-type User = Database["public"]["Tables"]["user"]["Row"];
+type User = Database['public']['Tables']['user']['Row'];
 
 export function useUserRank() {
   const { toast } = useToast();
@@ -14,7 +14,7 @@ export function useUserRank() {
   const { user } = useWeb3UserStore();
 
   return useQuery<User[], Error>({
-    queryKey: ["userRanks"],
+    queryKey: ['userRanks'],
     queryFn: async () => {
       try {
         const userArr = await getUserRank();
@@ -27,15 +27,15 @@ export function useUserRank() {
       } catch (error) {
         if (error instanceof Error) {
           toast({
-            title: "Error",
+            title: 'Error',
             description: error.message,
-            variant: "destructive",
+            variant: 'destructive',
           });
         } else {
           toast({
-            title: "Error",
-            description: "An unknown error occurred",
-            variant: "destructive",
+            title: 'Error',
+            description: 'An unknown error occurred',
+            variant: 'destructive',
           });
         }
         throw error;
@@ -48,9 +48,9 @@ export function useUserRank() {
 
 // Helper hook to get prompts from the store
 export function useUserRanks() {
-  return useUserRankStore(state => state.userRankArr);
+  return useUserRankStore((state) => state.userRankArr);
 }
 
 export function useTopThree() {
-  return useUserRankStore(state => state.topThreeArr);
+  return useUserRankStore((state) => state.topThreeArr);
 }

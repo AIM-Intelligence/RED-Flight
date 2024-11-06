@@ -1,31 +1,29 @@
-"use client";
+'use client';
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-
-import AsisstAI from "./07-assist";
-import { InputPassword } from "./07-form";
-import Info07 from "./07-info";
-import { AnimatePresence, motion } from "framer-motion";
-
-import { GPT4oPasswordAccordion } from "@/components/llm/GPT4oPassword";
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { Button } from "@/components/ui/Button";
-import { tutorial_ai_name } from "@/constants/ai_name";
-import { MessagesContext } from "@/context/Messages";
-import useNFTStore from "@/store/prompt/prompt-insert-store";
+import { GPT4oPasswordAccordion } from '@/components/llm/GPT4oPassword';
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { Button } from '@/components/ui/Button';
+import { tutorial_ai_name } from '@/constants/ai_name';
+import { MessagesContext } from '@/context/Messages';
+import useNFTStore from '@/store/prompt/prompt-insert-store';
+import AsisstAI from './07-assist';
+import { InputPassword } from './07-form';
+import Info07 from './07-info';
 
 const difficultyLevels = {
-  "Role Playing": 1,
+  'Role Playing': 1,
   // normal: 2,
   //hard: 3,
-  "Only RED Flight Elite Agent": 4,
+  'Only RED Flight Elite Agent': 4,
 };
 
 const DifficultySelector = ({ onSelect }: any) => {
-  const difficulties = ["Role Playing", "Only RED Flight Elite Agent"];
+  const difficulties = ['Role Playing', 'Only RED Flight Elite Agent'];
 
   return (
     <div className="w-full border border-red-500 bg-black p-4">
@@ -34,7 +32,7 @@ const DifficultySelector = ({ onSelect }: any) => {
         Select Difficulty:
       </Button>
       <div className="mt-2 flex space-x-2">
-        {difficulties.map(diff => (
+        {difficulties.map((diff) => (
           <button
             key={diff}
             className="rounded bg-gray-700 px-3 py-1 text-lg text-white hover:bg-gray-600"
@@ -51,7 +49,7 @@ const DifficultySelector = ({ onSelect }: any) => {
 const FirstImage = () => {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300000);
-  const [difficulty, setDifficulty] = useState<any>("");
+  const [difficulty, setDifficulty] = useState<any>('');
 
   const { updateMessage, messages } = useContext(MessagesContext);
   const { updateInputNFT } = useNFTStore();
@@ -67,10 +65,10 @@ const FirstImage = () => {
       }
 
       timer = setInterval(() => {
-        setTimeLeft(prevTime => {
+        setTimeLeft((prevTime) => {
           if (prevTime <= 0) {
             clearInterval(timer);
-            router.push("/game-fail");
+            router.push('/game-fail');
             return 0;
           }
           return prevTime - 10;
@@ -83,9 +81,9 @@ const FirstImage = () => {
   }, [isAccordionOpen, router]);
 
   const formatTime = (time: any) => {
-    const minutes = String(Math.floor(time / 60000)).padStart(2, "0");
-    const seconds = String(Math.floor((time % 60000) / 1000)).padStart(2, "0");
-    const milliseconds = String(time % 1000).padStart(3, "0");
+    const minutes = String(Math.floor(time / 60000)).padStart(2, '0');
+    const seconds = String(Math.floor((time % 60000) / 1000)).padStart(2, '0');
+    const milliseconds = String(time % 1000).padStart(3, '0');
     return `${minutes}:${seconds}:${milliseconds}`;
   };
 
@@ -100,7 +98,7 @@ const FirstImage = () => {
 
     // Update the first message with the selected difficulty
     if (messages.length > 0) {
-      updateMessage(messages[0].id, prevText => {
+      updateMessage(messages[0].id, (prevText) => {
         const aiName =
           tutorial_ai_name[
             difficultyLevels[
@@ -134,7 +132,7 @@ const FirstImage = () => {
           <div className="flex items-center justify-center">
             <div className="cursor-pointer border border-red-600 bg-black p-4 shadow-lg">
               <div className="z-20 text-xl text-white md:text-3xl">
-                Countdown:{" "}
+                Countdown:{' '}
                 <span className="text-red-500">{formatTime(timeLeft)}</span>
               </div>
             </div>
@@ -164,7 +162,7 @@ const FirstImage = () => {
 
           {/* Bottom-left: Info or AssistAI */}
           <div className="ml-6 flex items-center justify-center">
-            {difficulty === "Role Playing" && messages.length >= 1 ? (
+            {difficulty === 'Role Playing' && messages.length >= 1 ? (
               <div className="h-74 w-full max-w-xl cursor-pointer border border-red-600 bg-black p-4">
                 <AsisstAI />
               </div>

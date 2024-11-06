@@ -1,4 +1,4 @@
-import Socials from "./Socials";
+import Socials from './Socials';
 
 const Header = () => {
   return (

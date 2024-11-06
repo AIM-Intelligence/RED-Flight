@@ -1,14 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { useToast } from "@/components/ui/use-toast";
-import { getAllPrompts } from "@/server/nft-prompt/select-allPrompt";
-import { useAllPromptStore } from "@/store/prompt/prompt-all-store";
-import { useWeb3UserStore } from "@/store/user-store";
-import { Database } from "@/validation/types/supabase";
+import { useToast } from '@/components/ui/use-toast';
+import { getAllPrompts } from '@/server/nft-prompt/select-allPrompt';
+import { useAllPromptStore } from '@/store/prompt/prompt-all-store';
+import { useWeb3UserStore } from '@/store/user-store';
+import { Database } from '@/validation/types/supabase';
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["red prompt nft"]["Row"],
-  "id" | "prompt"
+  Database['public']['Tables']['red prompt nft']['Row'],
+  'id' | 'prompt'
 >;
 
 export function useAllPrompt() {
@@ -17,7 +17,7 @@ export function useAllPrompt() {
   const { user } = useWeb3UserStore();
 
   return useQuery<PromptNFT[], Error>({
-    queryKey: ["allPrompts"],
+    queryKey: ['allPrompts'],
     queryFn: async () => {
       try {
         const prompts = await getAllPrompts();
@@ -26,15 +26,15 @@ export function useAllPrompt() {
       } catch (error) {
         if (error instanceof Error) {
           toast({
-            title: "Error",
+            title: 'Error',
             description: error.message,
-            variant: "destructive",
+            variant: 'destructive',
           });
         } else {
           toast({
-            title: "Error",
-            description: "An unknown error occurred",
-            variant: "destructive",
+            title: 'Error',
+            description: 'An unknown error occurred',
+            variant: 'destructive',
           });
         }
         throw error;
@@ -47,5 +47,5 @@ export function useAllPrompt() {
 
 // Helper hook to get prompts from the store
 export function useAllPrompts() {
-  return useAllPromptStore(state => state.allPrompts);
+  return useAllPromptStore((state) => state.allPrompts);
 }

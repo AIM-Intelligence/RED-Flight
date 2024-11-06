@@ -1,12 +1,11 @@
-"use client";
+'use client';
 
-import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
+import { useWeb3UserStore } from '@/store/user-store';
+import { Database } from '@/validation/types/supabase';
+import { columns } from './components/columns';
+import { DataTable } from './components/data-table';
 
-import { useWeb3UserStore } from "@/store/user-store";
-import { Database } from "@/validation/types/supabase";
-
-type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type PromptNFT = Database['public']['Tables']['red prompt nft']['Row'];
 
 interface NFTPageTableProps {
   promptsWithChainId: PromptNFT[];
@@ -29,7 +28,7 @@ export default function NFTTable({
     );
   }
 
-  if (status === "pending") {
+  if (status === 'pending') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
@@ -39,7 +38,7 @@ export default function NFTTable({
     );
   }
 
-  if (status === "error") {
+  if (status === 'error') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">

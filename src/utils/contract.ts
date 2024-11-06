@@ -1,8 +1,8 @@
 //import { stakingContractABI } from "../constants/stakingContractABI";
-import { getContractAddress } from "./contractAddress";
-import { defineChain, getContract } from "thirdweb";
+import { defineChain, getContract } from 'thirdweb';
 
-import { client } from "@/lib/client";
+import { client } from '@/lib/client';
+import { getContractAddress } from './contractAddress';
 
 // TODO: Make "getAllContracts" just address
 

@@ -1,11 +1,10 @@
-import Link from "next/link";
-
+import Link from 'next/link';
 import {
   RiDiscordLine,
   RiInstagramLine,
   RiTwitterXLine,
   RiYoutubeLine,
-} from "react-icons/ri";
+} from 'react-icons/ri';
 
 const Socials = () => {
   return (

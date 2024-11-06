@@ -1,21 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
-
-import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { useCallback, useEffect, useState } from 'react';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
-import { loadSlim } from "@tsparticles/slim";
+import { loadSlim } from '@tsparticles/slim';
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
-import { isMobile } from "react-device-detect";
+import { isMobile } from 'react-device-detect';
 
 // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 export const FlameFlake = () => {
   const [init, setInit] = useState(false);
 
   // this should be run only once per application lifetime
   useEffect(() => {
-    initParticlesEngine(async engine => {
+    initParticlesEngine(async (engine) => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
       // starting from v2 you can add only the features you need reducing the bundle size
@@ -39,26 +38,26 @@ export const FlameFlake = () => {
       id="tsparticles"
       particlesLoaded={particlesLoaded}
       className={cn(
-        "z-50 transition-opacity ease-in-out",
-        init ? "opacity-100" : "opacity-0",
+        'z-50 transition-opacity ease-in-out',
+        init ? 'opacity-100' : 'opacity-0'
       )}
       options={{
         autoPlay: true,
         background: {
           color: {
-            value: "#000000",
+            value: '#000000',
           },
-          image: "",
-          position: "",
-          repeat: "",
-          size: "",
+          image: '',
+          position: '',
+          repeat: '',
+          size: '',
           opacity: 0,
         },
         backgroundMask: {
-          composite: "destination-out",
+          composite: 'destination-out',
           cover: {
             color: {
-              value: "#ca1e1e",
+              value: '#ca1e1e',
             },
             opacity: 1,
           },
@@ -75,7 +74,7 @@ export const FlameFlake = () => {
         duration: 0,
         fpsLimit: 120,
         interactivity: {
-          detectsOn: "window",
+          detectsOn: 'window',
           events: {
             onClick: {
               enable: false,
@@ -121,14 +120,14 @@ export const FlameFlake = () => {
             },
             enable: false,
             maxSpeed: 50,
-            mode: "bounce",
+            mode: 'bounce',
             overlap: {
               enable: true,
               retries: 0,
             },
           },
           color: {
-            value: "#c92626",
+            value: '#c92626',
             animation: {
               h: {
                 count: 0,
@@ -214,12 +213,12 @@ export const FlameFlake = () => {
             center: {
               x: 50,
               y: 50,
-              mode: "percent",
+              mode: 'percent',
               radius: 0,
             },
             decay: 0,
             distance: {},
-            direction: "left",
+            direction: 'left',
             drift: 0,
             enable: true,
             gravity: {
@@ -237,7 +236,7 @@ export const FlameFlake = () => {
               options: {},
             },
             outModes: {
-              default: "out",
+              default: 'out',
             },
             random: false,
             size: false,
@@ -262,7 +261,7 @@ export const FlameFlake = () => {
               height: 1080,
             },
             limit: {
-              mode: "delete",
+              mode: 'delete',
               value: 0,
             },
             value: 200,
@@ -276,16 +275,16 @@ export const FlameFlake = () => {
               decay: 0,
               delay: 0,
               sync: false,
-              mode: "auto",
-              startValue: "random",
-              destroy: "none",
+              mode: 'auto',
+              startValue: 'random',
+              destroy: 'none',
             },
           },
           reduceDuplicates: false,
           shadow: {
             blur: 0,
             color: {
-              value: "#000",
+              value: '#000',
             },
             enable: false,
             offset: {
@@ -297,7 +296,7 @@ export const FlameFlake = () => {
             close: true,
             fill: true,
             options: {},
-            type: "circle",
+            type: 'circle',
           },
           size: {
             value: isMobile ? 2 : 3,
@@ -308,9 +307,9 @@ export const FlameFlake = () => {
               decay: 0,
               delay: 0,
               sync: false,
-              mode: "auto",
-              startValue: "random",
-              destroy: "none",
+              mode: 'auto',
+              startValue: 'random',
+              destroy: 'none',
             },
           },
           stroke: {
@@ -324,7 +323,7 @@ export const FlameFlake = () => {
           },
           destroy: {
             bounds: {},
-            mode: "none",
+            mode: 'none',
             split: {
               count: 1,
               factor: {
@@ -349,7 +348,7 @@ export const FlameFlake = () => {
               enable: false,
               value: 0,
             },
-            mode: "vertical",
+            mode: 'vertical',
             speed: 25,
           },
           tilt: {
@@ -360,7 +359,7 @@ export const FlameFlake = () => {
               decay: 0,
               sync: false,
             },
-            direction: "clockwise",
+            direction: 'clockwise',
             enable: false,
           },
           twinkle: {
@@ -402,7 +401,7 @@ export const FlameFlake = () => {
               decay: 0,
               sync: false,
             },
-            direction: "clockwise",
+            direction: 'clockwise',
             path: false,
           },
           orbit: {
@@ -424,7 +423,7 @@ export const FlameFlake = () => {
           links: {
             blink: false,
             color: {
-              value: "#fff",
+              value: '#fff',
             },
             consent: false,
             distance: 100,
@@ -434,7 +433,7 @@ export const FlameFlake = () => {
             shadow: {
               blur: 5,
               color: {
-                value: "#000",
+                value: '#000',
               },
               enable: false,
             },
@@ -461,7 +460,7 @@ export const FlameFlake = () => {
         style: {},
 
         zLayers: 100,
-        name: "Among Us",
+        name: 'Among Us',
         emitters: {
           autoPlay: true,
           fill: true,
@@ -478,20 +477,20 @@ export const FlameFlake = () => {
               color: false,
               opacity: false,
             },
-            type: "square",
+            type: 'square',
           },
           startCount: 0,
           size: {
-            mode: "percent",
+            mode: 'percent',
             height: 0,
             width: 0,
           },
           particles: {
             shape: {
-              type: "images",
+              type: 'images',
               options: {
                 images: {
-                  src: "https://particles.js.org/images/cyan_amongus.png",
+                  src: 'https://particles.js.org/images/cyan_amongus.png',
                   width: 500,
                   height: 634,
                 },
@@ -503,8 +502,8 @@ export const FlameFlake = () => {
             move: {
               speed: 10,
               outModes: {
-                default: "none",
-                right: "destroy",
+                default: 'none',
+                right: 'destroy',
               },
               straight: true,
             },

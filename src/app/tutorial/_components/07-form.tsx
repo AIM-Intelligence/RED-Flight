@@ -1,25 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
-import { AnimatePresence, motion } from "framer-motion";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/Form';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/ui/InputOtp";
-import { MessagesContext } from "@/context/Messages";
-import { useWeb3User } from "@/hooks/user/useSignIn";
-import { useCount } from "@/store/tutorial-store";
+} from '@/components/ui/InputOtp';
+import { MessagesContext } from '@/context/Messages';
+import { useWeb3User } from '@/hooks/user/useSignIn';
+import { useCount } from '@/store/tutorial-store';
 
 const FormSchema = z.object({
   pin: z.string().min(6, {
-    message: "Password must be 6 characters.",
+    message: 'Password must be 6 characters.',
   }),
 });
 
@@ -32,13 +31,13 @@ export function InputPassword() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      pin: "",
+      pin: '',
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("messages", data);
-    queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
+    console.log('messages', data);
+    queryClient.invalidateQueries({ queryKey: ['userPrompts'] });
     refreshUser();
     increment();
   }

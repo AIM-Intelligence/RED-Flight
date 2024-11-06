@@ -1,24 +1,22 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
-import dynamic from "next/dynamic";
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import Header from '@/components/Header';
+import ArrowAnimation from '@/components/lottie/Arrow';
+import Nav from '@/components/Nav';
+import { FlameFlake } from '@/components/particles/Fire';
+import ProjectsBtn from '@/components/ProjectsBtn';
+import ThirdwebConnectButton from '@/components/thirdweb/ConnectButton';
+import { Button } from '@/components/ui/Button';
+import { useIntroStore } from '@/store/intro-check-store';
+import { useWeb3UserStore } from '@/store/user-store';
 
-import { motion } from "framer-motion";
-
-import Header from "@/components/Header";
-import Nav from "@/components/Nav";
-import ProjectsBtn from "@/components/ProjectsBtn";
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { FlameFlake } from "@/components/particles/Fire";
-import ThirdwebConnectButton from "@/components/thirdweb/ConnectButton";
-import { Button } from "@/components/ui/Button";
-import { useIntroStore } from "@/store/intro-check-store";
-import { useWeb3UserStore } from "@/store/user-store";
-
-const Intro = dynamic(() => import("@/components/intro/Intro"), {
+const Intro = dynamic(() => import('@/components/intro/Intro'), {
   ssr: false,
 });
 const VideoHoverButton: React.FC<any> = ({
@@ -44,7 +42,7 @@ const VideoHoverButton: React.FC<any> = ({
     <div className="group relative inline-block">
       <Button
         onClick={onClick}
-        className={` ${className} relative z-10 text-lg transition-all duration-300 group-hover:bg-opacity-30 group-hover:text-white`}
+        className={` ${className} group-hover:bg-opacity/30 relative z-10 text-lg transition-all duration-300 group-hover:text-white`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         {...props}
@@ -75,9 +73,9 @@ export default function Home() {
   const { user } = useWeb3UserStore();
   const handleAimIntelligenceClick = () => {
     window.open(
-      "https://aim-intelligence.com/",
-      "_blank",
-      "noopener,noreferrer",
+      'https://aim-intelligence.com/',
+      '_blank',
+      'noopener,noreferrer'
     );
   };
 
@@ -92,9 +90,9 @@ export default function Home() {
 
   const handleButtonClick = async () => {
     if (user) {
-      router.push("/tutorial");
+      router.push('/tutorial');
     } else {
-      alert("Login First");
+      alert('Login First');
     }
   };
 

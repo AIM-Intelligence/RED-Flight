@@ -1,13 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
+import { nanoid } from 'nanoid';
 
-import { nanoid } from "nanoid";
-
-import { Message } from "@/validation/message";
+import { Message } from '@/validation/message';
 
 const defaultValue = [
   {
     id: nanoid(),
-    text: "Heartbeat synchronization complete... Hello my Heart..",
+    text: 'Heartbeat synchronization complete... Hello my Heart..',
     isUserMessage: false,
   },
 ];
@@ -37,24 +36,24 @@ export function MessagesProvider({ children }: { children: React.ReactNode }) {
   const [codeFound, setCodeFound] = useState<boolean>(false);
 
   const addMessage = (message: Message) => {
-    setMessages(prev => [...prev, message]);
+    setMessages((prev) => [...prev, message]);
   };
 
   const removeMessage = (id: string) => {
-    setMessages(prev => prev.filter(message => message.id !== id));
+    setMessages((prev) => prev.filter((message) => message.id !== id));
   };
 
   const updateMessage = (
     id: string,
-    updateFn: (prevText: string) => string,
+    updateFn: (prevText: string) => string
   ) => {
-    setMessages(prev =>
-      prev.map(message => {
+    setMessages((prev) =>
+      prev.map((message) => {
         if (message.id === id) {
           return { ...message, text: updateFn(message.text) };
         }
         return message;
-      }),
+      })
     );
   };
 

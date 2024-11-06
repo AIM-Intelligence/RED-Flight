@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import { Button, buttonVariants } from "@/components/ui/Button";
+import { Button, buttonVariants } from '@/components/ui/Button';
 
 const page = () => {
   const router = useRouter();
@@ -36,7 +35,7 @@ const page = () => {
         </Button>
 
         <Link
-          className={buttonVariants({ variant: "outline" })}
+          className={buttonVariants({ variant: 'outline' })}
           target="_blank"
           href="https://discord.gg/HyuhgvGBu9"
         >
@@ -45,7 +44,7 @@ const page = () => {
 
         <Button
           className="border border-slate-200 text-slate-200 hover:opacity-75"
-          onClick={() => router.replace("/")}
+          onClick={() => router.replace('/')}
         >
           go home
         </Button>

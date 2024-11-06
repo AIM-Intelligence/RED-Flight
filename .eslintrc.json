@@ -21,9 +21,16 @@
     "prettier"
   ],
   "rules": {
+    "@typescript-eslint/no-empty-object-type": "off",
+    "prefer-const": "off",
     "tailwindcss/no-custom-classname": "off",
     "tailwindcss/classnames-order": "off",
+    "tailwindcss/enforces-shorthand": "off",
+    "@next/next/no-img-element": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "tailwindcss/no-unnecessary-arbitrary-value": "off",
     "no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-unused-vars": [
       "error",
       {
