@@ -1,23 +1,58 @@
 {
+  "plugins": [
+    "@typescript-eslint",
+    "@tanstack/query",
+    "tailwindcss",
+    "unused-imports"
+  ],
   "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "root": true,
   "extends": [
     "next/core-web-vitals",
-    "plugin:prettier/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "next/typescript",
+    "plugin:tailwindcss/recommended",
+    "prettier"
   ],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error"],
-    "@typescript-eslint/no-explicit-any": ["off"],
-    "@typescript-eslint/ban-ts-comment": ["off"],
-    "@typescript-eslint/no-empty-object-type": ["off"],
-    "prettier/prettier": [
-      "warn",
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
       {
-        "endOfLine": "auto"
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": false,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
       }
     ],
-    "react-hooks/rules-of-hooks": "off",
-    "react/jsx-pascal-case": "off",
-    "prefer-const": "off"
-  }
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": "off"
+  },
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn", "clsx", "twMerge"],
+      "config": "./tailwind.config.ts"
+    },
+    "next": {
+      "rootDir": ["./src/"]
+    }
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "assets/",
+    "public/",
+    "*.config.js",
+    "*.config.ts"
+  ]
 }
