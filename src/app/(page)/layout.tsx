@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
-import HeaderPage from "@/components/HeaderPage";
-import Nav from "@/components/Nav";
-import { DrawerProvider } from "@/lib/providers/drawer-provider";
-import { ModalProvider } from "@/lib/providers/modal-provider";
+import HeaderPage from '@/components/HeaderPage';
+import Nav from '@/components/Nav';
+import { DrawerProvider } from '@/lib/providers/drawer-provider';
+import { ModalProvider } from '@/lib/providers/modal-provider';
 
 const layout = ({ children }: { children: React.ReactNode }) => {
   // TODO: chianID filter

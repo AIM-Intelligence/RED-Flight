@@ -1,20 +1,19 @@
-"use server";
+'use server';
 
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
+import { createAuth, VerifyLoginPayloadParams } from 'thirdweb/auth';
+import { privateKeyToAccount } from 'thirdweb/wallets';
 
-import { VerifyLoginPayloadParams, createAuth } from "thirdweb/auth";
-import { privateKeyToAccount } from "thirdweb/wallets";
+import { client } from '@/lib/client';
 
-import { client } from "@/lib/client";
-
-const privateKey = process.env.THIRDWEB_ADMIN_PRIVATE_KEY || "";
+const privateKey = process.env.THIRDWEB_ADMIN_PRIVATE_KEY || '';
 
 if (!privateKey) {
-  throw new Error("Missing THIRDWEB_ADMIN_PRIVATE_KEY in .env file.");
+  throw new Error('Missing THIRDWEB_ADMIN_PRIVATE_KEY in .env file.');
 }
 
 const thirdwebAuth = createAuth({
-  domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || "",
+  domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || '',
   adminAccount: privateKeyToAccount({ client, privateKey }),
 });
 
@@ -26,12 +25,12 @@ export async function login(payload: VerifyLoginPayloadParams) {
     const jwt = await thirdwebAuth.generateJWT({
       payload: verifiedPayload.payload,
     });
-    cookies().set("jwt", jwt);
+    cookies().set('jwt', jwt);
   }
 }
 
 export async function isLoggedIn() {
-  const jwt = cookies().get("jwt");
+  const jwt = cookies().get('jwt');
   if (!jwt?.value) {
     return false;
   }
@@ -44,11 +43,11 @@ export async function isLoggedIn() {
 }
 
 export async function logout() {
-  cookies().delete("jwt");
+  cookies().delete('jwt');
 }
 
 export async function getAuthStatus() {
-  const jwt = cookies().get("jwt");
+  const jwt = cookies().get('jwt');
   if (!jwt?.value) {
     return { isLoggedIn: false, walletAddress: null };
   }

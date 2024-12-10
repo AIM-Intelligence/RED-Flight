@@ -1,11 +1,11 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface Message {
   id: string;
   text: string;
-  "blacknet ai"?: boolean;
+  'blacknet ai'?: boolean;
   user?: boolean;
-  "assist ai"?: boolean;
+  'assist ai'?: boolean;
 }
 
 interface AssistGPTState {
@@ -18,15 +18,15 @@ interface AssistGPTState {
   setError: (error: string | null) => void;
 }
 
-const useAssistGPTStore = create<AssistGPTState>(set => ({
+const useAssistGPTStore = create<AssistGPTState>((set) => ({
   messages: [],
   isLoading: false,
   error: null,
-  addMessage: message =>
-    set(state => ({ messages: [...state.messages, message] })),
-  setMessages: messages => set({ messages }),
-  setIsLoading: isLoading => set({ isLoading }),
-  setError: error => set({ error }),
+  addMessage: (message) =>
+    set((state) => ({ messages: [...state.messages, message] })),
+  setMessages: (messages) => set({ messages }),
+  setIsLoading: (isLoading) => set({ isLoading }),
+  setError: (error) => set({ error }),
 }));
 
 export default useAssistGPTStore;

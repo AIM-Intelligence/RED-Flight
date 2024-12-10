@@ -1,13 +1,12 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from '@/components/ui/use-toast';
+import { getOrCreateWeb3User } from '@/server/auth/sign-in';
+import { useWeb3UserStore } from '@/store/user-store';
+import { Tables } from '@/validation/types/supabase';
 
-import { toast } from "@/components/ui/use-toast";
-import { getOrCreateWeb3User } from "@/server/auth/sign-in";
-import { useWeb3UserStore } from "@/store/user-store";
-import { Tables } from "@/validation/types/supabase";
-
-type User = Tables<"user">;
+type User = Tables<'user'>;
 
 export function useWeb3User() {
   const queryClient = useQueryClient();
@@ -18,7 +17,7 @@ export function useWeb3User() {
     onSuccess: (data: User) => {
       setUser(data);
 
-      queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
+      queryClient.invalidateQueries({ queryKey: ['userPrompts'] });
       // toast({
       //   title: "Success",
       //   description: "User data updated successfully",
@@ -28,9 +27,9 @@ export function useWeb3User() {
       console.log(error);
       clearUser();
       toast({
-        title: "Error",
-        description: error.message || "Failed to update user data",
-        variant: "destructive",
+        title: 'Error',
+        description: error.message || 'Failed to update user data',
+        variant: 'destructive',
       });
     },
   });

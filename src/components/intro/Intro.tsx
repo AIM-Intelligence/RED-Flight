@@ -1,8 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface IntroProps {
   setShowPage: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,13 +21,15 @@ const Intro: React.FC<IntroProps> = ({ setShowPage }) => {
       setVideoEnded(true);
     };
 
-    if (videoPlayer.current) {
-      videoPlayer.current.addEventListener("ended", handleVideoEnded);
+    const player = videoPlayer.current;
+
+    if (player) {
+      player.addEventListener('ended', handleVideoEnded);
     }
 
     return () => {
-      if (videoPlayer.current) {
-        videoPlayer.current.removeEventListener("ended", handleVideoEnded);
+      if (player) {
+        player.removeEventListener('ended', handleVideoEnded);
       }
     };
   }, []);
@@ -36,22 +37,23 @@ const Intro: React.FC<IntroProps> = ({ setShowPage }) => {
   useEffect(() => {
     const handleUserInteraction = () => {
       if (audioPlayer.current) {
-        audioPlayer.current.play().catch(error => {
-          console.error("Audio play failed:", error);
+        audioPlayer.current.play().catch((error) => {
+          console.error('Audio play failed:', error);
         });
       }
       setShowPage(true);
       router.push(pathname);
-      document.removeEventListener("click", handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
     };
 
     if (videoEnded) {
-      document.addEventListener("click", handleUserInteraction);
+      document.addEventListener('click', handleUserInteraction);
     }
 
     return () => {
-      document.removeEventListener("click", handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoEnded]);
 
   return (
@@ -70,7 +72,7 @@ const Intro: React.FC<IntroProps> = ({ setShowPage }) => {
         </video>
 
         {videoEnded && (
-          <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black bg-opacity-50 text-xl text-white">
+          <div className="bg-opacity/50 absolute inset-0 flex cursor-pointer items-center justify-center bg-black text-xl text-white">
             Click to start
           </div>
         )}

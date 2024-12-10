@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface IntroState {
   hasSeenIntro: boolean;
@@ -8,12 +8,12 @@ interface IntroState {
 
 export const useIntroStore = create<IntroState>()(
   persist(
-    set => ({
+    (set) => ({
       hasSeenIntro: false,
-      setHasSeenIntro: value => set({ hasSeenIntro: value }),
+      setHasSeenIntro: (value) => set({ hasSeenIntro: value }),
     }),
     {
-      name: "intro-storage",
-    },
-  ),
+      name: 'intro-storage',
+    }
+  )
 );

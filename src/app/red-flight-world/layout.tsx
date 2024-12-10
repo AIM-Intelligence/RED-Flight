@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -8,16 +8,17 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (audioRef.current) {
       // 페이지 로드시 자동 재생
-      audioRef.current.play().catch(error => {
-        console.error("Audio playback failed:", error);
+      audioRef.current.play().catch((error) => {
+        console.error('Audio playback failed:', error);
       });
     }
 
     // 컴포넌트 언마운트 시 오디오 정지
+    const audio = audioRef.current;
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
       }
     };
   }, []);

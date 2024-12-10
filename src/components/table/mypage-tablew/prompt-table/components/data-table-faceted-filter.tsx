@@ -1,24 +1,23 @@
-import * as React from "react";
+import * as React from 'react';
+import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons';
+import { Column } from '@tanstack/react-table';
 
-import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import { Column } from "@tanstack/react-table";
-
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@/components/ui/Command";
+} from '@/components/ui/Command';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/Popover";
-import { Separator } from "@/components/ui/Separator";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/Popover';
+import { Separator } from '@/components/ui/Separator';
+import { cn } from '@/lib/utils';
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -70,8 +69,8 @@ export function DataTableFacetedFilter<TData, TValue>({
                   </Badge>
                 ) : (
                   options
-                    .filter(option => selectedValues.has(option.value))
-                    .map(option => (
+                    .filter((option) => selectedValues.has(option.value))
+                    .map((option) => (
                       <Badge
                         variant="destructive"
                         key={option.value}
@@ -95,7 +94,7 @@ export function DataTableFacetedFilter<TData, TValue>({
           <CommandList className="text-white">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup className="text-white">
-              {options.map(option => {
+              {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
@@ -108,20 +107,20 @@ export function DataTableFacetedFilter<TData, TValue>({
                       }
                       const filterValues = Array.from(selectedValues);
                       column?.setFilterValue(
-                        filterValues.length ? filterValues : undefined,
+                        filterValues.length ? filterValues : undefined
                       );
                     }}
                   >
                     <div
                       className={cn(
-                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-red-500",
+                        'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-red-500',
                         isSelected
-                          ? "bg-black text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible",
+                          ? 'bg-black text-primary-foreground'
+                          : 'opacity-50 [&_svg]:invisible'
                       )}
                     >
                       <CheckIcon
-                        className={cn("h-4 w-4 border border-red-500")}
+                        className={cn('h-4 w-4 border border-red-500')}
                       />
                     </div>
                     {option.icon && (

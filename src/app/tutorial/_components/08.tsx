@@ -1,32 +1,30 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { FaDiscord } from 'react-icons/fa';
+import { FaXTwitter } from 'react-icons/fa6';
+import { RiInstagramLine } from 'react-icons/ri';
 
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import { motion } from "framer-motion";
-import { FaDiscord } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { RiInstagramLine } from "react-icons/ri";
-
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { Button, buttonVariants } from "@/components/ui/Button";
-import { cn } from "@/lib/utils";
-import { useCount } from "@/store/tutorial-store";
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { Button, buttonVariants } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+import { useCount } from '@/store/tutorial-store';
 
 const FirstImage = ({ onComplete }: any) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const texts = [
-    "I knew you could do it.",
+    'I knew you could do it.',
     "But we're just getting started...",
     "It's time to get out the door",
   ];
   const audioFiles = [
-    "/tutorial/08/first.mp3",
-    "/tutorial/08/second.mp3",
-    "/tutorial/08/third.mp3",
+    '/tutorial/08/first.mp3',
+    '/tutorial/08/second.mp3',
+    '/tutorial/08/third.mp3',
   ];
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -40,27 +38,28 @@ const FirstImage = ({ onComplete }: any) => {
         audioRef.current = null;
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentTextIndex]);
 
-  const handleArrowClick = () => {
+  const handleArrowClick = useCallback(() => {
     if (currentTextIndex === texts.length - 1) {
       onComplete();
     } else {
-      setCurrentTextIndex(prevIndex => (prevIndex + 1) % texts.length);
+      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
     }
-  };
+  }, [currentTextIndex, texts.length, onComplete]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         handleArrowClick();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleArrowClick]);
 
@@ -120,7 +119,7 @@ const ThirdImage = () => {
 
   const handleGoHome = () => {
     setCount(1);
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -157,7 +156,7 @@ const ThirdImage = () => {
             <div className="flex flex-col gap-4">
               <p className="max-w-md text-center text-white">
                 Join us on Red Flight&apos;s journey toward a humanity
-                coexisting with AI.{" "}
+                coexisting with AI.{' '}
               </p>
 
               <Button
@@ -204,8 +203,8 @@ const ThirdImage = () => {
             <div className="grid w-full grid-cols-2 items-center gap-4">
               <Button
                 className={cn(
-                  buttonVariants({ variant: "outline" }),
-                  "w-full bg-transparent",
+                  buttonVariants({ variant: 'outline' }),
+                  'w-full bg-transparent'
                 )}
                 onClick={handleGoHome}
               >

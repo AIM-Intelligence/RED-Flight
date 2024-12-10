@@ -1,18 +1,17 @@
-import Image from "next/image";
-import { redirect } from "next/navigation";
+import { Metadata } from 'next';
+import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
-import { Metadata } from "next";
-
-import { isLoggedIn } from "@/server/auth/auth";
+import { isLoggedIn } from '@/server/auth/auth';
 
 export const metadata: Metadata = {
-  title: "Red Flight NFT Market",
-  description: "AI Jailbreaking NFT Game",
+  title: 'Red Flight NFT Market',
+  description: 'AI Jailbreaking NFT Game',
 };
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!(await isLoggedIn())) {
-    redirect("/");
+    redirect('/');
   }
 
   return (
@@ -21,7 +20,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         src="/background/02.png"
         alt="Background"
         fill
-        style={{ objectFit: "cover" }}
+        style={{ objectFit: 'cover' }}
       />
       <div className="relative z-10 pb-20">{children}</div>
     </main>

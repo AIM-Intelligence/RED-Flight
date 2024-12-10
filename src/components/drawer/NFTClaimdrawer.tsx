@@ -1,36 +1,35 @@
-import * as React from "react";
-
-import { Input } from "../ui/AnimateButton";
-import { toast } from "../ui/use-toast";
-import { Minus, Plus } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { toEther } from "thirdweb";
+import * as React from 'react';
+import { Minus, Plus } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { toEther } from 'thirdweb';
 import {
   claimTo,
   getActiveClaimCondition,
   getTotalClaimedSupply,
   nextTokenIdToMint,
-} from "thirdweb/extensions/erc721";
+} from 'thirdweb/extensions/erc721';
 import {
   TransactionButton,
   useActiveAccount,
   useActiveWalletChain,
   useReadContract,
-} from "thirdweb/react";
+} from 'thirdweb/react';
 
-import { Button } from "@/components/ui/Button";
+import { Button } from '@/components/ui/Button';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-} from "@/components/ui/Drawer";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/Form";
-import { useNFTEnroll } from "@/hooks/prompt/useNFTEnroll";
-import { useDrawer } from "@/store/use-drawer-store";
-import { useModal } from "@/store/use-modal-store";
-import { getAllContracts } from "@/utils/contract";
+} from '@/components/ui/Drawer';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/Form';
+import { useNFTEnroll } from '@/hooks/prompt/useNFTEnroll';
+import { useDrawer } from '@/store/use-drawer-store';
+import { useModal } from '@/store/use-modal-store';
+import { getAllContracts } from '@/utils/contract';
+import { Input } from '../ui/AnimateButton';
+import { toast } from '../ui/use-toast';
 
 type FormData = {
   title: string;
@@ -46,17 +45,17 @@ export function NFTClaimDrawer() {
 
   const { enrollNFT, isEnrolling, enrollError } = useNFTEnroll();
 
-  console.log("enrollError", enrollError);
+  console.log('enrollError', enrollError);
   //! Make error call Admin
 
   const form = useForm<FormData>({
     defaultValues: {
-      title: "",
-      description: "",
+      title: '',
+      description: '',
     },
   });
 
-  const isDrawerOpen = isOpen && type === "showNFTClaimDrawer";
+  const isDrawerOpen = isOpen && type === 'showNFTClaimDrawer';
 
   const handleCloseDrawer = () => {
     if (loading || isEnrolling) {
@@ -95,25 +94,25 @@ export function NFTClaimDrawer() {
 
   const getPrice = (quantity: number) => {
     const total =
-      quantity * parseInt(claimCondition?.pricePerToken.toString() || "0");
+      quantity * parseInt(claimCondition?.pricePerToken.toString() || '0');
     return toEther(BigInt(total));
   };
 
   const remainingSupply = Number(totalNFTSupply) - Number(claimedSupply);
 
   function onQuantityChange(adjustment: number) {
-    setQuantity(prevQuantity =>
-      Math.max(1, Math.min(remainingSupply, prevQuantity + adjustment)),
+    setQuantity((prevQuantity) =>
+      Math.max(1, Math.min(remainingSupply, prevQuantity + adjustment))
     );
   }
 
-  console.log("quantity", quantity);
+  console.log('quantity', quantity);
 
   if (!activeAccount || !data.red_prompt) return;
   return (
     <Drawer
       open={isDrawerOpen}
-      onOpenChange={open => {
+      onOpenChange={(open) => {
         if (!open) handleCloseDrawer();
       }}
     >
@@ -182,8 +181,8 @@ export function NFTClaimDrawer() {
             <div className="mt-3 text-center">
               <p className="text-white">Price: {getPrice(quantity)} ETH</p>
               <p className="text-white">
-                Remaining: {remainingSupply} /{" "}
-                {totalNFTSupply?.toString() || "N/A"}
+                Remaining: {remainingSupply} /{' '}
+                {totalNFTSupply?.toString() || 'N/A'}
               </p>
             </div>
           </div>
@@ -199,27 +198,27 @@ export function NFTClaimDrawer() {
               onTransactionSent={() => {
                 setLoading(true);
                 toast({
-                  title: "Claiming NFT",
-                  description: "Please wait for a moment...",
+                  title: 'Claiming NFT',
+                  description: 'Please wait for a moment...',
                 });
               }}
-              onTransactionConfirmed={async tx => {
-                alert("NFT Claimed!");
+              onTransactionConfirmed={async (tx) => {
+                alert('NFT Claimed!');
                 toast({
-                  title: "Processing claim results",
-                  description: "Please wait for a moment...",
+                  title: 'Processing claim results',
+                  description: 'Please wait for a moment...',
                 });
 
                 setQuantity(0);
                 const formData = form.getValues();
 
-                console.log("Title:", formData.title);
-                console.log("Description:", formData.description);
-                console.log("TransactionHash:", tx.transactionHash);
-                console.log("chainId:", chainId);
-                console.log("promptId:", data.red_prompt!.id);
+                console.log('Title:', formData.title);
+                console.log('Description:', formData.description);
+                console.log('TransactionHash:', tx.transactionHash);
+                console.log('chainId:', chainId);
+                console.log('promptId:', data.red_prompt!.id);
 
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise((resolve) => setTimeout(resolve, 1000));
 
                 await enrollNFT({
                   transactionHash: tx.transactionHash,
@@ -234,7 +233,7 @@ export function NFTClaimDrawer() {
                 modalClose();
                 // router.refresh();
               }}
-              onError={err => {
+              onError={(err) => {
                 alert(err.message);
               }}
               unstyled

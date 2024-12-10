@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface PromptNFTInput {
   level: number;
@@ -14,10 +14,10 @@ const initialNFT: PromptNFTInput = {
   level: 1,
 };
 
-const useNFTStore = create<InputPromptNFTStore>(set => ({
+const useNFTStore = create<InputPromptNFTStore>((set) => ({
   inputNFT: initialNFT,
-  updateInputNFT: updates =>
-    set(state => ({ inputNFT: { ...state.inputNFT, ...updates } })),
+  updateInputNFT: (updates) =>
+    set((state) => ({ inputNFT: { ...state.inputNFT, ...updates } })),
   resetInputNFT: () => set({ inputNFT: initialNFT }),
 }));
 

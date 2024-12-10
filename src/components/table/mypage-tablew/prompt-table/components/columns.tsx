@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { DataTableColumnHeader } from "./data-table-column-header";
 //import { DataTableRowActions } from "./data-table-row-actions";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef } from '@tanstack/react-table';
 
-import { formatDateToLocal } from "@/utils/date-to-local";
+import { formatDateToLocal } from '@/utils/date-to-local';
 //import { Checkbox } from "@/components/ui/Checkbox";
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
+import { DataTableColumnHeader } from './data-table-column-header';
 
-type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type PromptNFT = Database['public']['Tables']['red prompt nft']['Row'];
 
 export const columns: ColumnDef<PromptNFT>[] = [
   {
-    id: "rowNumber",
+    id: 'rowNumber',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="No." />
     ),
@@ -23,12 +23,12 @@ export const columns: ColumnDef<PromptNFT>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Target Name" />
     ),
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
+      const name = row.getValue('name') as string;
 
       if (!name) {
         return null;
@@ -41,38 +41,38 @@ export const columns: ColumnDef<PromptNFT>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      const name = (row.getValue(id) as string) ?? "";
+      const name = (row.getValue(id) as string) ?? '';
       const filterValue = value.toLowerCase();
       return name.toLowerCase().includes(filterValue);
     },
   },
   {
-    accessorKey: "level",
+    accessorKey: 'level',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Level" />
     ),
     cell: ({ row }) => {
-      const level = row.getValue("level") as number;
+      const level = row.getValue('level') as number;
       let levelLabel: string;
 
       switch (level) {
         case 1:
-          levelLabel = "Easy";
+          levelLabel = 'Easy';
           break;
         case 2:
-          levelLabel = "Normal";
+          levelLabel = 'Normal';
           break;
         case 3:
-          levelLabel = "Hard";
+          levelLabel = 'Hard';
           break;
         case 4:
-          levelLabel = "Extreme";
+          levelLabel = 'Extreme';
           break;
         case 5:
-          levelLabel = "Custom";
+          levelLabel = 'Custom';
           break;
         default:
-          levelLabel = "Unknown";
+          levelLabel = 'Unknown';
       }
 
       return (
@@ -83,52 +83,52 @@ export const columns: ColumnDef<PromptNFT>[] = [
     },
     filterFn: (row, id, value) => {
       const levelMap = {
-        1: "easy",
-        2: "normal",
-        3: "hard",
-        4: "extreme",
-        5: "custom",
+        1: 'easy',
+        2: 'normal',
+        3: 'hard',
+        4: 'extreme',
+        5: 'custom',
       };
       const levelValue =
-        levelMap[row.getValue(id) as keyof typeof levelMap] || "unknown";
+        levelMap[row.getValue(id) as keyof typeof levelMap] || 'unknown';
       return value.includes(levelValue);
     },
   },
 
   {
-    accessorKey: "conversation",
+    accessorKey: 'conversation',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Conv" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("conversation")}
+          {row.getValue('conversation')}
         </span>
       );
     },
   },
   {
-    accessorKey: "length",
+    accessorKey: 'length',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Length" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("length")}
+          {row.getValue('length')}
         </span>
       );
     },
   },
   {
-    accessorKey: "created_at",
+    accessorKey: 'created_at',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Created At" />
     ),
     cell: ({ row }) => {
-      const dateValue = row.getValue("created_at") as string;
-      const formattedDate = dateValue ? formatDateToLocal(dateValue) : "";
+      const dateValue = row.getValue('created_at') as string;
+      const formattedDate = dateValue ? formatDateToLocal(dateValue) : '';
 
       return (
         <span className="max-w-[500px] truncate font-medium">

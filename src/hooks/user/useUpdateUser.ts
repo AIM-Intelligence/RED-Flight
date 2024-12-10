@@ -1,13 +1,12 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import { useMutation } from '@tanstack/react-query';
 
-import { useMutation } from "@tanstack/react-query";
+import { toast } from '@/components/ui/use-toast';
+import { updateUserProfile } from '@/server/auth/update-user';
+import { useWeb3UserStore } from '@/store/user-store';
+import { Tables } from '@/validation/types/supabase';
 
-import { toast } from "@/components/ui/use-toast";
-import { updateUserProfile } from "@/server/auth/update-user";
-import { useWeb3UserStore } from "@/store/user-store";
-import { Tables } from "@/validation/types/supabase";
-
-type User = Tables<"user">;
+type User = Tables<'user'>;
 
 type UpdateUserParams = {
   name: string | null;
@@ -24,16 +23,16 @@ export function useUpdateWeb3User() {
     onSuccess: (data: User) => {
       setUser(data);
       toast({
-        title: "Success",
-        description: "User profile updated successfully",
+        title: 'Success',
+        description: 'User profile updated successfully',
       });
     },
     onError: (error: Error) => {
       console.error(error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to update user profile",
-        variant: "destructive",
+        title: 'Error',
+        description: error.message || 'Failed to update user profile',
+        variant: 'destructive',
       });
     },
   });
@@ -42,7 +41,7 @@ export function useUpdateWeb3User() {
     async (params: UpdateUserParams): Promise<void> => {
       await updateMutation.mutateAsync(params);
     },
-    [updateMutation],
+    [updateMutation]
   );
 
   return {

@@ -1,14 +1,13 @@
-"use client";
+'use client';
 
 //import { useMemo } from "react";
-import UserInfo from "./_components/UserInfo";
-
-import NFTTable from "@/components/table/mypage-tablew/nft-table/page";
-import PromptPageTable from "@/components/table/mypage-tablew/prompt-table/page";
-import { useNFTs, useSelectNFT } from "@/hooks/prompt/useSelectNFT";
-import { usePrompts, useSelectPrompt } from "@/hooks/prompt/useSelectPrompt";
-import { useWeb3User } from "@/hooks/user/useSignIn";
-import { useWeb3UserStore } from "@/store/user-store";
+import NFTTable from '@/components/table/mypage-tablew/nft-table/page';
+import PromptPageTable from '@/components/table/mypage-tablew/prompt-table/page';
+import { useNFTs, useSelectNFT } from '@/hooks/prompt/useSelectNFT';
+import { usePrompts, useSelectPrompt } from '@/hooks/prompt/useSelectPrompt';
+import { useWeb3User } from '@/hooks/user/useSignIn';
+import { useWeb3UserStore } from '@/store/user-store';
+import UserInfo from './_components/UserInfo';
 
 //import { Database } from "@/validation/types/supabase";
 

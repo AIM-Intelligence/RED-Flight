@@ -1,4 +1,4 @@
-import { defineChain } from "thirdweb";
+import { defineChain } from 'thirdweb';
 
 //const zetaT = defineChain(7001);
 //const mantaT = defineChain(3441006);

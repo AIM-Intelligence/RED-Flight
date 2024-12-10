@@ -1,8 +1,8 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
 
-type Web3User = Database["public"]["Tables"]["user"]["Row"];
+type Web3User = Database['public']['Tables']['user']['Row'];
 
 interface Web3UserState {
   user: Web3User | null;
@@ -11,11 +11,11 @@ interface Web3UserState {
   clearUser: () => void;
 }
 
-export const useWeb3UserStore = create<Web3UserState>(set => ({
+export const useWeb3UserStore = create<Web3UserState>((set) => ({
   user: null,
-  setUser: user => set({ user }),
-  updateUser: updates =>
-    set(state => ({
+  setUser: (user) => set({ user }),
+  updateUser: (updates) =>
+    set((state) => ({
       user: state.user ? { ...state.user, ...updates } : null,
     })),
   clearUser: () => set({ user: null }),

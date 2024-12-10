@@ -1,14 +1,9 @@
-"use client";
+'use client';
 
-import * as React from "react";
-
-import { DataTablePagination } from "./data-table-pagination";
-import { DataTableToolbar } from "./data-table-toolbar";
+import * as React from 'react';
 import {
   ColumnDef,
   ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -16,8 +11,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  SortingState,
   useReactTable,
-} from "@tanstack/react-table";
+  VisibilityState,
+} from '@tanstack/react-table';
 
 import {
   Table,
@@ -26,11 +23,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/Table";
-import { useModal } from "@/store/use-modal-store";
-import { Database } from "@/validation/types/supabase";
+} from '@/components/ui/Table';
+import { useModal } from '@/store/use-modal-store';
+import { Database } from '@/validation/types/supabase';
+import { DataTablePagination } from './data-table-pagination';
+import { DataTableToolbar } from './data-table-toolbar';
 
-type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type RED_Prompt = Database['public']['Tables']['red prompt nft']['Row'];
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -48,7 +47,7 @@ export function DataTable<TData, TValue>({
       owner: false,
     });
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const { onOpen } = useModal();
@@ -79,9 +78,9 @@ export function DataTable<TData, TValue>({
     console.log(row.original);
     const red_prompt = row.original;
     if (red_prompt) {
-      onOpen("showRedPromptData", { red_prompt });
+      onOpen('showRedPromptData', { red_prompt });
     } else {
-      console.log("No prompt available");
+      console.log('No prompt available');
     }
   };
 
@@ -91,12 +90,12 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border-2 border-red-500">
         <Table>
           <TableHeader className="border-b border-red-500">
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
                 className="border-red-500 bg-black hover:bg-black"
               >
-                {headerGroup.headers.map(header => {
+                {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
@@ -107,7 +106,7 @@ export function DataTable<TData, TValue>({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -117,18 +116,18 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                   onClick={() => handleRowClick(row as any)}
                   className="border-b border-t border-red-500 hover:bg-red-600/50 data-[state=selected]:bg-red-700/50"
                 >
-                  {row.getVisibleCells().map(cell => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}

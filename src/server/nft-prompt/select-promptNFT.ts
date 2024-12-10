@@ -1,11 +1,10 @@
-"use server";
+'use server';
 
-import { getAuthStatus } from "../auth/auth";
+import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
+import { Database } from '@/validation/types/supabase';
+import { getAuthStatus } from '../auth/auth';
 
-import { createSupabaseServer } from "@/lib/supabase/createSupabaseAdmin";
-import { Database } from "@/validation/types/supabase";
-
-type PromptNFT = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type PromptNFT = Database['public']['Tables']['red prompt nft']['Row'];
 
 // user의 모든 prompt 반환
 export async function getUserPrompts(): Promise<PromptNFT[]> {
@@ -13,14 +12,14 @@ export async function getUserPrompts(): Promise<PromptNFT[]> {
   const authStatus = await getAuthStatus();
 
   if (!authStatus.isLoggedIn) {
-    throw new Error("User is not logged in");
+    throw new Error('User is not logged in');
   }
 
   const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
 
-  console.log("walletAddress", walletAddress);
+  console.log('walletAddress', walletAddress);
   if (!walletAddress) {
-    throw new Error("Wallet address not found");
+    throw new Error('Wallet address not found');
   }
 
   // Create Supabase client
@@ -28,13 +27,13 @@ export async function getUserPrompts(): Promise<PromptNFT[]> {
 
   // Fetch all red prompt nfts for the user
   const { data, error } = await supabase
-    .from("red prompt nft")
-    .select("*")
-    .eq("creator", walletAddress);
+    .from('red prompt nft')
+    .select('*')
+    .eq('creator', walletAddress);
 
   if (error) {
-    console.error("Error fetching user prompts:", error);
-    throw new Error("Failed to fetch user prompts");
+    console.error('Error fetching user prompts:', error);
+    throw new Error('Failed to fetch user prompts');
   }
 
   return data as PromptNFT[];
@@ -46,14 +45,14 @@ export async function getUserNFTs(): Promise<PromptNFT[]> {
   const authStatus = await getAuthStatus();
 
   if (!authStatus.isLoggedIn) {
-    throw new Error("User is not logged in");
+    throw new Error('User is not logged in');
   }
 
   const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
 
-  console.log("walletAddress", walletAddress);
+  console.log('walletAddress', walletAddress);
   if (!walletAddress) {
-    throw new Error("Wallet address not found");
+    throw new Error('Wallet address not found');
   }
 
   // Create Supabase client
@@ -61,13 +60,13 @@ export async function getUserNFTs(): Promise<PromptNFT[]> {
 
   // Fetch all red prompt nfts for the user
   const { data, error } = await supabase
-    .from("red prompt nft")
-    .select("*")
-    .eq("owner", walletAddress);
+    .from('red prompt nft')
+    .select('*')
+    .eq('owner', walletAddress);
 
   if (error) {
-    console.error("Error fetching user prompts:", error);
-    throw new Error("Failed to fetch user prompts");
+    console.error('Error fetching user prompts:', error);
+    throw new Error('Failed to fetch user prompts');
   }
 
   return data as PromptNFT[];

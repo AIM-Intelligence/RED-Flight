@@ -1,16 +1,15 @@
-"use client";
+'use client';
 
-import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
-
-import { useAllPrompt, useAllPrompts } from "@/hooks/prompt/useAllPrompts";
-import { useWeb3UserStore } from "@/store/user-store";
+import { useAllPrompt, useAllPrompts } from '@/hooks/prompt/useAllPrompts';
+import { useWeb3UserStore } from '@/store/user-store';
+import { columns } from './components/columns';
+import { DataTable } from './components/data-table';
 
 export default function PromptLeaderBoardPageTable() {
   const prompts = useAllPrompts();
   const { user } = useWeb3UserStore();
   const { status } = useAllPrompt();
-  console.log("all prompts", prompts);
+  console.log('all prompts', prompts);
 
   if (!user) {
     return (
@@ -22,7 +21,7 @@ export default function PromptLeaderBoardPageTable() {
     );
   }
 
-  if (status === "pending") {
+  if (status === 'pending') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">
@@ -32,7 +31,7 @@ export default function PromptLeaderBoardPageTable() {
     );
   }
 
-  if (status === "error") {
+  if (status === 'error') {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
         <h2 className="text-3xl font-bold tracking-tight text-red-600">

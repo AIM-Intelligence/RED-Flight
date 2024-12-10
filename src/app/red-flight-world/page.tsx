@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useRouter } from "next/navigation";
-
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { Button } from "@/components/ui/Button";
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { Button } from '@/components/ui/Button';
 
 const Page = () => {
   const router = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
   const [scrollDirection, setScrollDirection] = useState<
-    "horizontal" | "vertical"
-  >("horizontal");
+    'horizontal' | 'vertical'
+  >('horizontal');
 
   useEffect(() => {
     const container = containerRef.current;
@@ -20,42 +19,42 @@ const Page = () => {
 
     const handleScroll = () => {
       if (
-        scrollDirection === "horizontal" &&
+        scrollDirection === 'horizontal' &&
         container.scrollLeft + container.clientWidth >=
           container.scrollWidth - 10
       ) {
-        setScrollDirection("vertical");
-      } else if (scrollDirection === "vertical" && container.scrollTop === 0) {
-        setScrollDirection("horizontal");
+        setScrollDirection('vertical');
+      } else if (scrollDirection === 'vertical' && container.scrollTop === 0) {
+        setScrollDirection('horizontal');
       }
     };
 
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault();
 
-      if (scrollDirection === "horizontal") {
+      if (scrollDirection === 'horizontal') {
         container.scrollLeft += event.deltaY;
         if (
           container.scrollLeft + container.clientWidth >=
           container.scrollWidth - 10
         ) {
-          setScrollDirection("vertical");
+          setScrollDirection('vertical');
         }
       } else {
         if (container.scrollTop === 0 && event.deltaY < 0) {
-          setScrollDirection("horizontal");
+          setScrollDirection('horizontal');
         } else {
           container.scrollTop += event.deltaY;
         }
       }
     };
 
-    container.addEventListener("scroll", handleScroll);
-    container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener('scroll', handleScroll);
+    container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      container.removeEventListener("scroll", handleScroll);
-      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener('wheel', handleWheel);
     };
   }, [scrollDirection]);
 
@@ -63,15 +62,15 @@ const Page = () => {
     <div
       ref={containerRef}
       className={`relative h-screen w-full ${
-        scrollDirection === "horizontal"
-          ? "overflow-x-auto overflow-y-hidden"
-          : "overflow-y-auto overflow-x-hidden"
+        scrollDirection === 'horizontal'
+          ? 'overflow-x-auto overflow-y-hidden'
+          : 'overflow-y-auto overflow-x-hidden'
       } scrollbar-hide`}
-      style={{ scrollBehavior: "auto" }}
+      style={{ scrollBehavior: 'auto' }}
     >
       <Button
         className="fixed right-6 top-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
-        onClick={() => router.push("/")}
+        onClick={() => router.push('/')}
       >
         go main page
         <ArrowAnimation />
@@ -94,7 +93,7 @@ const Page = () => {
           />
           <Button
             className="absolute bottom-6 right-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
-            onClick={() => router.push("/red-flight-world/member")}
+            onClick={() => router.push('/red-flight-world/member')}
           >
             go next page
             <ArrowAnimation />

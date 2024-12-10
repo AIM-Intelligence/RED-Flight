@@ -1,21 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-
-import { nextTokenIdToMint } from "thirdweb/extensions/erc721";
+import { useState } from 'react';
+import { nextTokenIdToMint } from 'thirdweb/extensions/erc721';
 import {
   MediaRenderer,
   useActiveWalletChain,
   useReadContract,
-} from "thirdweb/react";
-import { upload } from "thirdweb/storage";
+} from 'thirdweb/react';
+import { upload } from 'thirdweb/storage';
 
-import ThirdwebConnectButton from "@/components/thirdweb/ConnectButton";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Textarea } from "@/components/ui/Textarea";
-import { client } from "@/lib/client";
-import { getAllContracts } from "@/utils/contract";
+import ThirdwebConnectButton from '@/components/thirdweb/ConnectButton';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Textarea } from '@/components/ui/Textarea';
+import { client } from '@/lib/client';
+import { getAllContracts } from '@/utils/contract';
 
 interface GeneratedImage {
   url: string;
@@ -23,7 +22,7 @@ interface GeneratedImage {
 }
 
 const Page = () => {
-  const [imagePrompt, setImagePrompt] = useState("");
+  const [imagePrompt, setImagePrompt] = useState('');
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -50,9 +49,9 @@ const Page = () => {
     const newImages: GeneratedImage[] = [];
     try {
       for (let i = 0; i < makeCount; i++) {
-        const res = await fetch("/api/generate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ imagePrompt }),
         });
 
@@ -62,7 +61,7 @@ const Page = () => {
         newImages.push(data);
       }
       setGeneratedImages(newImages);
-      setImagePrompt("");
+      setImagePrompt('');
     } catch (error) {
       console.error(error);
     } finally {
@@ -71,19 +70,19 @@ const Page = () => {
   };
 
   const handleBatchUpload = async () => {
-    console.log("totalNFTSupply", totalNFTSupply);
+    console.log('totalNFTSupply', totalNFTSupply);
 
     setIsUploading(true);
     try {
       const files = generatedImages.map(
         (img, index) =>
           new File(
-            [Buffer.from(img.blob, "base64")],
+            [Buffer.from(img.blob, 'base64')],
             `${Number(totalNFTSupply)! + index}.png`,
             {
-              type: "image/png",
-            },
-          ),
+              type: 'image/png',
+            }
+          )
       );
 
       const imageUri = await upload({
@@ -91,7 +90,7 @@ const Page = () => {
         files: files,
       });
 
-      if (!imageUri) throw new Error("Error uploading images to IPFS");
+      if (!imageUri) throw new Error('Error uploading images to IPFS');
       setUploadedImages(Array.isArray(imageUri) ? imageUri : [imageUri]);
     } catch (error) {
       console.error(error);
@@ -103,20 +102,20 @@ const Page = () => {
   const handleDownloadJSON = () => {
     const metadata = uploadedImages.map((uri, index) => {
       const imageNumber =
-        uri.split("/").pop()?.split(".")[0] || (index + 1).toString();
+        uri.split('/').pop()?.split('.')[0] || (index + 1).toString();
       return {
         name: `RED Flight Prompt NFT No.${imageNumber}`,
-        description: "AI Jailbreaking NFT made by RED Flight",
+        description: 'AI Jailbreaking NFT made by RED Flight',
         image: uri,
       };
     });
 
     const jsonString = JSON.stringify(metadata, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
+    const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    const link = document.createElement('a');
     link.href = url;
-    link.download = "metadata.json";
+    link.download = 'metadata.json';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -147,7 +146,7 @@ const Page = () => {
         <Textarea
           placeholder="Enter image prompt..."
           value={imagePrompt}
-          onChange={e => setImagePrompt(e.target.value)}
+          onChange={(e) => setImagePrompt(e.target.value)}
           className="w-full rounded-md border border-gray-300 px-3"
         />
         <div className="flex w-full items-center gap-2">
@@ -156,9 +155,9 @@ const Page = () => {
             min="1"
             max="10"
             value={makeCount}
-            onChange={e =>
+            onChange={(e) =>
               setMakeCount(
-                Math.max(1, Math.min(10, parseInt(e.target.value) || 1)),
+                Math.max(1, Math.min(10, parseInt(e.target.value) || 1))
               )
             }
             className="w-24 rounded-md border border-gray-300 px-3"
@@ -166,7 +165,7 @@ const Page = () => {
           <Button
             type="submit"
             disabled={!imagePrompt || isGenerating}
-            className="h-10 flex-grow rounded-md bg-gray-800 text-white disabled:opacity-50"
+            className="h-10 grow rounded-md bg-gray-800 text-white disabled:opacity-50"
           >
             {isGenerating
               ? `Generating ${makeCount} images...`

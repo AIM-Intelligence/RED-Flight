@@ -1,10 +1,10 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import { isLoggedIn } from "@/server/auth/auth";
+import { isLoggedIn } from '@/server/auth/auth';
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!(await isLoggedIn())) {
-    redirect("/");
+    redirect('/');
   }
   return (
     <main className="flex h-screen items-center justify-center bg-black">

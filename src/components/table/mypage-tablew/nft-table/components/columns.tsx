@@ -1,23 +1,22 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
+import { ColumnDef } from '@tanstack/react-table';
+import { MediaRenderer } from 'thirdweb/react';
 
-import { chainIds, levels } from "./criteria";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import { ColumnDef } from "@tanstack/react-table";
-import { MediaRenderer } from "thirdweb/react";
-
-import { client } from "@/lib/client";
-import { Database } from "@/validation/types/supabase";
+import { client } from '@/lib/client';
+import { Database } from '@/validation/types/supabase';
+import { chainIds, levels } from './criteria';
+import { DataTableColumnHeader } from './data-table-column-header';
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["red prompt nft"]["Row"],
-  "id" | "prompt"
+  Database['public']['Tables']['red prompt nft']['Row'],
+  'id' | 'prompt'
 >;
 
 export const columns: ColumnDef<PromptNFT>[] = [
   {
-    id: "rowNumber",
+    id: 'rowNumber',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="No." />
     ),
@@ -28,12 +27,12 @@ export const columns: ColumnDef<PromptNFT>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "image_url",
+    accessorKey: 'image_url',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Image" />
     ),
     cell: ({ row }) => {
-      const url = row.getValue("image_url") as string;
+      const url = row.getValue('image_url') as string;
       if (!url) {
         return (
           <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-lg bg-black">
@@ -47,7 +46,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
         );
       }
 
-      console.log("url", url[0].slice(-1));
+      console.log('url', url[0].slice(-1));
 
       return (
         <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-sm bg-black">
@@ -64,12 +63,12 @@ export const columns: ColumnDef<PromptNFT>[] = [
   },
   // creator address
   {
-    accessorKey: "creator",
+    accessorKey: 'creator',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Creator Address" />
     ),
     cell: ({ row }) => {
-      const creator = row.getValue("creator") as string;
+      const creator = row.getValue('creator') as string;
       const truncated = creator.slice(0, 7);
       return (
         <span className="max-w-[500px] truncate font-medium">
@@ -86,16 +85,16 @@ export const columns: ColumnDef<PromptNFT>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "name",
+    accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Target Name" />
     ),
     cell: ({ row }) => {
-      const name = row.getValue("name") as string;
+      const name = row.getValue('name') as string;
 
       return (
         <div className="flex w-[100px] items-center">
-          <span>{name ? name : "Nanobytes"}</span>
+          <span>{name ? name : 'Nanobytes'}</span>
         </div>
       );
     },
@@ -105,13 +104,13 @@ export const columns: ColumnDef<PromptNFT>[] = [
   },
   // level
   {
-    accessorKey: "level",
+    accessorKey: 'level',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Level" />
     ),
     cell: ({ row }) => {
       const level = levels.find(
-        level => Number(level.value) === row.getValue("level"),
+        (level) => Number(level.value) === row.getValue('level')
       );
 
       if (!level) {
@@ -130,41 +129,41 @@ export const columns: ColumnDef<PromptNFT>[] = [
   },
   // conversation
   {
-    accessorKey: "conversation",
+    accessorKey: 'conversation',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Conv" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("conversation")}
+          {row.getValue('conversation')}
         </span>
       );
     },
   },
   // length
   {
-    accessorKey: "length",
+    accessorKey: 'length',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Length" />
     ),
     cell: ({ row }) => {
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {row.getValue("length")}
+          {row.getValue('length')}
         </span>
       );
     },
   },
   // chainID
   {
-    accessorKey: "chain_id",
+    accessorKey: 'chain_id',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ChainID" />
     ),
     cell: ({ row }) => {
       const chainId = chainIds.find(
-        chain => chain.value === row.getValue("chain_id"),
+        (chain) => chain.value === row.getValue('chain_id')
       );
 
       // const chainIdValue = row.getValue("chain_id");

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 /**
  *  UI: border magic from tailwind css btns
@@ -25,7 +25,7 @@ const MagicButton = ({
 }) => {
   return (
     <button
-      className={`relative inline-flex h-12 w-full overflow-hidden rounded-lg ${disabled ? "cursor-not-allowed" : "cursor-pointer"} p-[1px] focus:outline-none`}
+      className={`relative inline-flex h-12 w-full overflow-hidden rounded-lg ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'} p-[1px] focus:outline-none`}
       onClick={handleClick}
       disabled={disabled}
     >
@@ -35,9 +35,9 @@ const MagicButton = ({
       <span
         className={`inline-flex h-full w-full items-center justify-center gap-2 rounded-lg bg-slate-950 px-7 text-sm font-medium text-white backdrop-blur-3xl ${otherClasses}`}
       >
-        {position === "left" && icon}
+        {position === 'left' && icon}
         {title}
-        {position === "right" && icon}
+        {position === 'right' && icon}
       </span>
     </button>
   );

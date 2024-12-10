@@ -1,22 +1,22 @@
 export const levels = [
   {
-    label: "Easy",
+    label: 'Easy',
     value: 1,
   },
   {
-    label: "Normal",
+    label: 'Normal',
     value: 2,
   },
   {
-    label: "Hard",
+    label: 'Hard',
     value: 3,
   },
   {
-    label: "Extreme",
+    label: 'Extreme',
     value: 4,
   },
   {
-    label: "Custom",
+    label: 'Custom',
     value: 5,
   },
 ];

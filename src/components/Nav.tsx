@@ -1,35 +1,34 @@
-"use client";
+'use client';
 
-import { usePathname, useRouter } from "next/navigation";
-
-import { Award, GalleryHorizontal, Home, Trophy, User } from "lucide-react";
-import { useActiveWallet } from "thirdweb/react";
+import { usePathname, useRouter } from 'next/navigation';
+import { Award, GalleryHorizontal, Home, Trophy, User } from 'lucide-react';
+import { useActiveWallet } from 'thirdweb/react';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/Tooltip";
-import { useWeb3UserStore } from "@/store/user-store";
+} from '@/components/ui/Tooltip';
+import { useWeb3UserStore } from '@/store/user-store';
 
 // nav data
 export const navData = [
-  { name: "Home", path: "/", icon: <Home /> },
-  { name: "My RED Page", path: "/my-red-page", icon: <User /> },
+  { name: 'Home', path: '/', icon: <Home /> },
+  { name: 'My RED Page', path: '/my-red-page', icon: <User /> },
   {
-    name: "RED Prompt Leaderboard",
-    path: "/red-prompt-leaderboard",
+    name: 'RED Prompt Leaderboard',
+    path: '/red-prompt-leaderboard',
     icon: <Award />,
   },
   {
-    name: "RED User Leaderboard",
-    path: "/red-user-leaderboard",
+    name: 'RED User Leaderboard',
+    path: '/red-user-leaderboard',
     icon: <Trophy />,
   },
   {
-    name: "Red Flight Story",
-    path: "/red-flight-world",
+    name: 'Red Flight Story',
+    path: '/red-flight-world',
     icon: <GalleryHorizontal />,
   },
 ];
@@ -41,10 +40,10 @@ const Nav = () => {
   const { user } = useWeb3UserStore();
 
   const handleButtonClick = async (path: string) => {
-    if (path === "/" || (user && activeWallet)) {
+    if (path === '/' || (user && activeWallet)) {
       router.push(path);
     } else {
-      alert("Login first");
+      alert('Login first');
       // const currentPath = encodeURIComponent(path);
       // router.push(`/?redirect=${currentPath}`);
     }
@@ -61,7 +60,7 @@ const Nav = () => {
                   <button
                     onClick={() => handleButtonClick(link.path)}
                     className={`${
-                      link.path === pathname && "text-accent1"
+                      link.path === pathname && 'text-accent1'
                     } group relative flex items-center transition-all duration-300 hover:text-accent1`}
                   >
                     <div>{link.icon}</div>

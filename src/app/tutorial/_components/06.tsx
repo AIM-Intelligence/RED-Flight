@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-import Image from "next/image";
-
-import { motion } from "framer-motion";
-
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { useCount } from "@/store/tutorial-store";
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { useCount } from '@/store/tutorial-store';
 
 const FirstImage = () => {
   return (
@@ -35,9 +33,9 @@ const SecondImage = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [showNextButton, setShowNextButton] = useState(false);
   const audioRefs = useRef([
-    new Audio("/tutorial/06/first_dial.mp3"),
-    new Audio("/tutorial/06/second_dial.mp3"),
-    new Audio("/tutorial/06/third_dial.mp3"),
+    new Audio('/tutorial/06/first_dial.mp3'),
+    new Audio('/tutorial/06/second_dial.mp3'),
+    new Audio('/tutorial/06/third_dial.mp3'),
   ]);
   const texts = [
     "I hate to spring this on you, but I'm in a bit of a time crunch.",
@@ -47,16 +45,16 @@ const SecondImage = () => {
 
   useEffect(() => {
     // Play the first audio when the component mounts
-    audioRefs.current[0].play();
+    const audios = audioRefs.current;
+    audios[0].play();
 
     // Cleanup function to pause all audios when component unmounts
     return () => {
-      audioRefs.current.forEach(audio => audio.pause());
+      audios.forEach((audio) => audio.pause());
     };
   }, []);
 
-  const handleArrowClick = () => {
-    // Pause the current audio
+  const handleArrowClick = useCallback(() => {
     audioRefs.current[currentTextIndex].pause();
     audioRefs.current[currentTextIndex].currentTime = 0;
 
@@ -71,19 +69,20 @@ const SecondImage = () => {
     } else if (showNextButton) {
       increment();
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTextIndex, texts.length]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         handleArrowClick();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleArrowClick]);
 
@@ -112,7 +111,7 @@ const SecondImage = () => {
             className="absolute bottom-10 right-[60px] z-20 w-[40px] cursor-pointer text-xl text-white"
             onClick={handleArrowClick}
           >
-            {showNextButton ? "O..Okay.." : <ArrowAnimation />}
+            {showNextButton ? 'O..Okay..' : <ArrowAnimation />}
           </div>
         </div>
       </motion.div>

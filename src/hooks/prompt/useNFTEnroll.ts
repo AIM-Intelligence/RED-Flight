@@ -1,9 +1,8 @@
-import { useCallback } from "react";
+import { useCallback } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-import { toast } from "@/components/ui/use-toast";
-import { updateREDPrompt } from "@/server/nft-prompt/enroll-nft";
+import { toast } from '@/components/ui/use-toast';
+import { updateREDPrompt } from '@/server/nft-prompt/enroll-nft';
 
 type NFTClaim = {
   transactionHash: string;
@@ -18,28 +17,28 @@ export function useNFTEnroll() {
 
   const enrollMutation = useMutation({
     mutationFn: updateREDPrompt,
-    onSuccess: data => {
+    onSuccess: (data) => {
       if (data.success) {
         toast({
-          title: "Success",
-          description: "NFT enrolled successfully",
+          title: 'Success',
+          description: 'NFT enrolled successfully',
         });
-        queryClient.invalidateQueries({ queryKey: ["userNFTs"] });
-        queryClient.invalidateQueries({ queryKey: ["userPrompts"] });
+        queryClient.invalidateQueries({ queryKey: ['userNFTs'] });
+        queryClient.invalidateQueries({ queryKey: ['userPrompts'] });
       } else {
         toast({
-          title: "Warning",
-          description: "NFT enrollment completed, but with issues",
-          variant: "destructive",
+          title: 'Warning',
+          description: 'NFT enrollment completed, but with issues',
+          variant: 'destructive',
         });
       }
     },
     onError: (error: Error) => {
-      console.error("NFT enrollment error:", error);
+      console.error('NFT enrollment error:', error);
       toast({
-        title: "Error",
-        description: error.message || "Failed to enroll NFT",
-        variant: "destructive",
+        title: 'Error',
+        description: error.message || 'Failed to enroll NFT',
+        variant: 'destructive',
       });
     },
   });
@@ -48,7 +47,7 @@ export function useNFTEnroll() {
     async (params: NFTClaim): Promise<void> => {
       await enrollMutation.mutateAsync(params);
     },
-    [enrollMutation],
+    [enrollMutation]
   );
 
   return {
