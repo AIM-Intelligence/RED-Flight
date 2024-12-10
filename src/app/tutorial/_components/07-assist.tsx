@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect } from 'react';
 
-import { MessagesContext } from "@/context/Messages";
+import { MessagesContext } from '@/context/Messages';
 import useAssistGPTServer, {
   ContextMessage,
-} from "@/hooks/getAIChatServer.tsx/useAssistGPTServer";
-import useAssistGPTStore from "@/store/prompt/assist-prompt-store";
+} from '@/hooks/getAIChatServer.tsx/useAssistGPTServer';
+import useAssistGPTStore from '@/store/prompt/assist-prompt-store';
 
 const AsisstAI = () => {
   const { messages: contextMessages } = useContext(MessagesContext);
@@ -16,7 +16,7 @@ const AsisstAI = () => {
       contextMessages.length >= 2 &&
       !contextMessages[contextMessages.length - 1].isUserMessage
     ) {
-      console.log("check");
+      console.log('check');
       mutate(contextMessages as ContextMessage[]);
     }
   }, [contextMessages, mutate]);

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
+import { Suspense } from 'react';
 
-import Socials from "./Socials";
-import ThirdwebConnectButton from "./thirdweb/ConnectButton";
+import Socials from './Socials';
+import ThirdwebConnectButton from './thirdweb/ConnectButton';
 
 const HeaderPage = () => {
   return (

@@ -1,10 +1,9 @@
-import Image from "next/image";
-
-import { Metadata } from "next";
+import { Metadata } from 'next';
+import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: "Red Flight Leaderboard",
-  description: "AI Jailbreaking NFT Game",
+  title: 'Red Flight Leaderboard',
+  description: 'AI Jailbreaking NFT Game',
 };
 
 const layout = ({ children }: { children: React.ReactNode }) => {

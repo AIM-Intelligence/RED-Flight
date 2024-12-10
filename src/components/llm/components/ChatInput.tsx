@@ -1,16 +1,15 @@
-"use client";
+'use client';
 
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from 'react';
+import { CornerDownLeft, Loader2 } from 'lucide-react';
+import { nanoid } from 'nanoid';
 
-import { CornerDownLeft, Loader2 } from "lucide-react";
-import { nanoid } from "nanoid";
-
-import { Textarea } from "@/components/ui/Textarea";
-import { MessagesContext } from "@/context/Messages";
-import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
-import { cn } from "@/lib/utils";
-import useAssistGPTStore from "@/store/prompt/assist-prompt-store";
-import { Message } from "@/validation/message";
+import { Textarea } from '@/components/ui/Textarea';
+import { cn } from '@/lib/utils';
+import { MessagesContext } from '@/context/Messages';
+import useAIChatServer from '@/hooks/getAIChatServer.tsx/useGPTChatServer';
+import useAssistGPTStore from '@/store/prompt/assist-prompt-store';
+import { Message } from '@/validation/message';
 
 interface ChatInputProps {
   isPendingParent: boolean;
@@ -24,7 +23,7 @@ const ChatInput = ({
   onPendingChange,
   ...props
 }: ChatInputProps) => {
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>('');
   const textareaRef = useRef<null | HTMLTextAreaElement>(null);
   const { codeFound } = useContext(MessagesContext);
   const { isLoading } = useAssistGPTStore();
@@ -34,7 +33,7 @@ const ChatInput = ({
   const { mutate: sendMessage, isPending } = useAIChatServer(
     firstTouch,
     textareaRef,
-    setInput,
+    setInput
   );
 
   useEffect(() => {
@@ -42,14 +41,14 @@ const ChatInput = ({
   }, [isPending, onPendingChange]);
 
   return (
-    <div {...props} className={cn("border-t border-red-500", className)}>
+    <div {...props} className={cn('border-t border-red-500', className)}>
       <div className="relative mt-4 flex-1 overflow-hidden rounded-lg border-none outline-none">
         <Textarea
           ref={textareaRef}
           disabled={isLoading || isPending || isPendingParent || codeFound}
           rows={3}
-          onKeyDown={e => {
-            if (e.key === "Enter" && !e.shiftKey) {
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
               e.preventDefault();
 
               const message: Message = {
@@ -63,10 +62,10 @@ const ChatInput = ({
           }}
           autoFocus
           value={input}
-          onChange={e => setInput(e.target.value)}
+          onChange={(e) => setInput(e.target.value)}
           placeholder={
             isPending || isPendingParent || isLoading
-              ? "Waiting for an answer from AI."
+              ? 'Waiting for an answer from AI.'
               : "Launch crafty, creative attacks that security filters can't catch."
           }
           className="peer block w-full resize-none border-0 bg-black py-1.5 text-sm text-gray-200 placeholder:text-gray-400 focus:ring-0 disabled:opacity-50 sm:leading-6"

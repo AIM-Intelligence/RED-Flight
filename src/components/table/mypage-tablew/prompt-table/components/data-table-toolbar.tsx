@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { levels } from "./criteria";
-import { DataTableFacetedFilter } from "./data-table-faceted-filter";
-import { DataTableViewOptions } from "./data-table-view-options";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
+import { Cross2Icon } from '@radix-ui/react-icons';
+import { Table } from '@tanstack/react-table';
 
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { levels } from './criteria';
+import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import { DataTableViewOptions } from './data-table-view-options';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -23,15 +23,15 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Search by Target Name..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={event =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+          onChange={(event) =>
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] border border-red-500 bg-black lg:w-[250px]"
         />
-        {table.getColumn("level") && (
+        {table.getColumn('level') && (
           <DataTableFacetedFilter
-            column={table.getColumn("level")}
+            column={table.getColumn('level')}
             title="Level"
             options={levels}
           />

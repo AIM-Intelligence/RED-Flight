@@ -1,10 +1,10 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import { Button } from "@/components/ui/Button";
-import { useModal } from "@/store/use-modal-store";
-import { Database } from "@/validation/types/supabase";
+import { Button } from '@/components/ui/Button';
+import { useModal } from '@/store/use-modal-store';
+import { Database } from '@/validation/types/supabase';
 
-type User = Database["public"]["Tables"]["user"]["Row"];
+type User = Database['public']['Tables']['user']['Row'];
 
 interface UserInfoProps {
   user: User | null;
@@ -16,13 +16,13 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
 
   const getTierName = (score: number) => {
     if (score > 0 && score <= 3000) {
-      return "bronze";
+      return 'bronze';
     } else if (score > 3000 && score <= 10000) {
-      return "silver";
+      return 'silver';
     } else if (score > 10000) {
-      return "gold";
+      return 'gold';
     }
-    return "bronze";
+    return 'bronze';
   };
 
   return (
@@ -44,7 +44,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
 
                 <Button
                   onClick={() =>
-                    onOpen("showUserInfoEdit", { user_info: user })
+                    onOpen('showUserInfoEdit', { user_info: user })
                   }
                 >
                   Edit
@@ -60,9 +60,9 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
                 />
                 <div>
                   <p className="text-xl font-semibold text-white">
-                    {user.name ? user.name : "no name"}
+                    {user.name ? user.name : 'no name'}
                   </p>
-                  <p>{user.email ? user.email : "no email"}</p>
+                  <p>{user.email ? user.email : 'no email'}</p>
                 </div>
               </div>
 
@@ -83,7 +83,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
 
                 <p className="text-sm font-medium text-gray-400">Description</p>
                 <p className="mt-1 text-lg font-semibold text-white">
-                  {user.description ? user.description : "empty"}
+                  {user.description ? user.description : 'empty'}
                 </p>
               </div>
               <div className="my-6 h-[2px] w-full bg-gradient-to-r from-transparent via-red-500 to-transparent" />
@@ -157,7 +157,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ user, isLoading }) => {
                         alt="rank"
                       />
                     ) : (
-                      "start game first!"
+                      'start game first!'
                     )}
                   </div>
                 </div>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { DataTableViewOptions } from "./data-table-view-options";
-import { Cross2Icon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
+import { Cross2Icon } from '@radix-ui/react-icons';
+import { Table } from '@tanstack/react-table';
 
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { DataTableViewOptions } from './data-table-view-options';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -21,8 +21,8 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Search by creator..."
-          value={table.getState().globalFilter || ""}
-          onChange={event => {
+          value={table.getState().globalFilter || ''}
+          onChange={(event) => {
             const filterValue = event.target.value;
             table.setGlobalFilter(filterValue);
           }}

@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { cn } from '@/lib/utils';
 
-import { cn } from "@/lib/utils";
-
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
@@ -28,7 +26,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         style={{
           background: useMotionTemplate`
         radial-gradient(
-          ${visible ? radius + "px" : "0px"} circle at ${mouseX}px ${mouseY}px,
+          ${visible ? radius + 'px' : '0px'} circle at ${mouseX}px ${mouseY}px,
           var(--rose-500),
           transparent 80%
         )
@@ -43,15 +41,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           type={type}
           className={cn(
             `duration-400 flex h-10 w-full rounded-md border-none bg-gray-50 px-3 py-2 text-sm text-black shadow-input transition file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-neutral-400 focus-visible:outline-none focus-visible:ring-[2px] focus-visible:ring-rose-400 disabled:cursor-not-allowed disabled:opacity-50 group-hover/input:shadow-none`,
-            className,
+            className
           )}
           ref={ref}
           {...props}
         />
       </motion.div>
     );
-  },
+  }
 );
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 // export { Input };

@@ -1,20 +1,18 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActiveAccount } from 'thirdweb/react';
 
-import { useRouter } from "next/navigation";
-
-import First from "./_components/01";
-import Second from "./_components/02";
-import ThirdFourth from "./_components/03-04";
-import Fifth from "./_components/05";
-import Sixth from "./_components/06";
-import Seventh from "./_components/07";
-import Eighth from "./_components/08";
-import { useActiveAccount } from "thirdweb/react";
-
-import { MessagesProvider } from "@/context/Messages";
-import { useCount } from "@/store/tutorial-store";
+import { MessagesProvider } from '@/context/Messages';
+import { useCount } from '@/store/tutorial-store';
+import First from './_components/01';
+import Second from './_components/02';
+import ThirdFourth from './_components/03-04';
+import Fifth from './_components/05';
+import Sixth from './_components/06';
+import Seventh from './_components/07';
+import Eighth from './_components/08';
 
 const Page = () => {
   const router = useRouter();
@@ -23,7 +21,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!activeAccount) {
-      router.push("/");
+      router.push('/');
     }
   }, [activeAccount, router, count]);
 

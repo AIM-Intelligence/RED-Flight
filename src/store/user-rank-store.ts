@@ -1,8 +1,8 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
 
-type User = Database["public"]["Tables"]["user"]["Row"];
+type User = Database['public']['Tables']['user']['Row'];
 
 interface UserRankStore {
   topThreeArr: User[];
@@ -12,10 +12,10 @@ interface UserRankStore {
   setUserRankArr: (userRankArr: User[]) => void;
 }
 
-export const useUserRankStore = create<UserRankStore>(set => ({
+export const useUserRankStore = create<UserRankStore>((set) => ({
   topThreeArr: [],
-  setTopThreeArr: topThreeArr => set({ topThreeArr }),
+  setTopThreeArr: (topThreeArr) => set({ topThreeArr }),
 
   userRankArr: [],
-  setUserRankArr: userRankArr => set({ userRankArr }),
+  setUserRankArr: (userRankArr) => set({ userRankArr }),
 }));

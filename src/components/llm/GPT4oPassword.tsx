@@ -1,18 +1,17 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-
-import ChatHeader from "./components/ChatHeader";
-import ChatInput from "./components/ChatInput";
-import ChatMessages from "./components/ChatMessages";
+import { useEffect, useState } from 'react';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/Accordion";
-import useAIChatServer from "@/hooks/getAIChatServer.tsx/useGPTChatServer";
+} from '@/components/ui/Accordion';
+import useAIChatServer from '@/hooks/getAIChatServer.tsx/useGPTChatServer';
+import ChatHeader from './components/ChatHeader';
+import ChatInput from './components/ChatInput';
+import ChatMessages from './components/ChatMessages';
 
 export function GPT4oPasswordAccordion({ onToggle }: any) {
   const [close, setClose] = useState(0);
@@ -28,7 +27,7 @@ export function GPT4oPasswordAccordion({ onToggle }: any) {
 
   const handleAccordionClick = () => {
     if (!hasBeenOpened) {
-      setClose(prevClose => (prevClose ? 0 : 1));
+      setClose((prevClose) => (prevClose ? 0 : 1));
       setHasBeenOpened(true); // Set the state to true after the first click
     }
   };

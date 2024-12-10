@@ -1,14 +1,14 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
 
-type REDUser = Database["public"]["Tables"]["user"]["Row"];
-type RED_Prompt = Database["public"]["Tables"]["red prompt nft"]["Row"];
+type REDUser = Database['public']['Tables']['user']['Row'];
+type RED_Prompt = Database['public']['Tables']['red prompt nft']['Row'];
 
 export type ModalType =
-  | "showRedPromptData"
-  | "showRedNFTPromptData"
-  | "showUserInfoEdit";
+  | 'showRedPromptData'
+  | 'showRedNFTPromptData'
+  | 'showUserInfoEdit';
 
 interface ModalData {
   user_info?: REDUser;
@@ -23,7 +23,7 @@ interface ModalStore {
   onClose: () => void;
 }
 
-export const useModal = create<ModalStore>(set => ({
+export const useModal = create<ModalStore>((set) => ({
   type: null,
   data: {},
   isOpen: false,

@@ -1,10 +1,10 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-import { Database } from "@/validation/types/supabase";
+import { Database } from '@/validation/types/supabase';
 
 type PromptNFT = Omit<
-  Database["public"]["Tables"]["red prompt nft"]["Row"],
-  "id" | "prompt"
+  Database['public']['Tables']['red prompt nft']['Row'],
+  'id' | 'prompt'
 >;
 
 interface PromptStore {
@@ -12,7 +12,7 @@ interface PromptStore {
   setAllPrompts: (allPrompts: PromptNFT[]) => void;
 }
 
-export const useAllPromptStore = create<PromptStore>(set => ({
+export const useAllPromptStore = create<PromptStore>((set) => ({
   allPrompts: [],
-  setAllPrompts: allPrompts => set({ allPrompts }),
+  setAllPrompts: (allPrompts) => set({ allPrompts }),
 }));

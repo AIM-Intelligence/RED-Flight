@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { NFTClaimDrawer } from "@/components/drawer/NFTClaimdrawer";
+import { NFTClaimDrawer } from '@/components/drawer/NFTClaimdrawer';
 
 export const DrawerProvider = () => {
   const [isMounted, setIsMounted] = useState(false);

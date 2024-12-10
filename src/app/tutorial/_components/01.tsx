@@ -1,14 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-import Image from "next/image";
-
-import ArrowAnimation from "../../../components/lottie/Arrow";
-import { Button } from "../../../components/ui/Button";
-import { motion } from "framer-motion";
-
-import { useCount } from "@/store/tutorial-store";
+import { useCount } from '@/store/tutorial-store';
+import ArrowAnimation from '../../../components/lottie/Arrow';
+import { Button } from '../../../components/ui/Button';
 
 const First = () => {
   const { count, increment } = useCount();
@@ -18,21 +16,21 @@ const First = () => {
     if (count === 1 && audioRef.current) {
       audioRef.current
         .play()
-        .catch(error => console.error("Audio play failed:", error));
+        .catch((error) => console.error('Audio play failed:', error));
     }
 
     // Add event listener for keydown
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         increment();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     // Cleanup function to remove event listener
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [count, increment]);
 
@@ -65,7 +63,7 @@ const First = () => {
         <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black opacity-50 shadow-lg" />
 
         {/* 대화 */}
-        <div className="absolute h-1/3 w-[60%] p-8 text-3xl text-white">
+        <div className="absolute h-1/3 w-3/5 p-8 text-3xl text-white">
           (Ugh, what a day... I&apos;m totally beat.)
         </div>
 
@@ -83,7 +81,7 @@ const First = () => {
         <div className="absolute z-10 flex h-1/3 items-end p-8">
           <Button
             variant="outline"
-            className="bg-transparent text-black text-white hover:bg-white"
+            className="bg-transparent text-white hover:bg-white"
             onClick={() => useCount.setState({ count: 6 })}
           >
             Skip

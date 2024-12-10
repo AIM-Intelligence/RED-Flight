@@ -1,13 +1,11 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
-import { useRouter } from "next/navigation";
-
-import { motion } from "framer-motion";
-
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { Button } from "@/components/ui/Button";
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { Button } from '@/components/ui/Button';
 
 const Page = () => {
   const router = useRouter();
@@ -25,10 +23,10 @@ const Page = () => {
       container.scrollLeft += event.deltaY * scrollSpeed;
     };
 
-    container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener('wheel', handleWheel, { passive: false });
 
     return () => {
-      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener('wheel', handleWheel);
     };
   }, []);
 
@@ -38,8 +36,8 @@ const Page = () => {
         ref={containerRef}
         className="scrollbar-hide relative h-full w-full overflow-y-hidden overflow-x-scroll"
         style={{
-          whiteSpace: "nowrap",
-          scrollBehavior: "auto", // 'smooth'에서 'auto'로 변경
+          whiteSpace: 'nowrap',
+          scrollBehavior: 'auto', // 'smooth'에서 'auto'로 변경
         }}
       >
         <img
@@ -52,7 +50,7 @@ const Page = () => {
 
         <Button
           className="fixed bottom-6 right-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
-          onClick={() => router.push("/")}
+          onClick={() => router.push('/')}
         >
           go main page
           <ArrowAnimation />

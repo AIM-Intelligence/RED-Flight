@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import UserLeaderBoardPageTable from "@/components/table/user-leaderboard-table/page";
+import UserLeaderBoardPageTable from '@/components/table/user-leaderboard-table/page';
 
 const page = () => {
   return (

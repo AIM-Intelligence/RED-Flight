@@ -1,14 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
 
-import Image from "next/image";
-
-import { motion } from "framer-motion";
-
-import ArrowAnimation from "@/components/lottie/Arrow";
-import { Button } from "@/components/ui/Button";
-import { useCount } from "@/store/tutorial-store";
+import ArrowAnimation from '@/components/lottie/Arrow';
+import { Button } from '@/components/ui/Button';
+import { useCount } from '@/store/tutorial-store';
 
 const FirstImage = () => {
   return (
@@ -38,7 +36,7 @@ const SecondImage = () => {
     if (audioRef.current) {
       audioRef.current
         .play()
-        .catch(error => console.error("Audio play failed:", error));
+        .catch((error) => console.error('Audio play failed:', error));
     }
   }, []);
 
@@ -92,7 +90,7 @@ const ThirdImage = () => {
     if (audioRef.current) {
       audioRef.current
         .play()
-        .catch(error => console.error("Audio play failed:", error));
+        .catch((error) => console.error('Audio play failed:', error));
     }
   }, []);
 
@@ -121,13 +119,13 @@ const FourthImage = () => {
   const { increment } = useCount();
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === 'Enter') {
         increment();
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [increment]);
 
@@ -141,7 +139,7 @@ const FourthImage = () => {
       >
         <div className="relative flex h-1/3 w-full cursor-pointer items-center justify-center bg-black opacity-50 shadow-lg" />
 
-        <div className="absolute z-10 h-1/3 w-[60%] p-8 text-3xl text-white">
+        <div className="absolute z-10 h-1/3 w-3/5 p-8 text-3xl text-white">
           (Wha.. What..?)
         </div>
 
@@ -197,7 +195,7 @@ const ThirdFourth = () => {
       <div className="absolute z-20 flex h-full items-end p-8">
         <Button
           variant="outline"
-          className="bg-transparent text-black text-white hover:bg-white"
+          className="bg-transparent text-white hover:bg-white"
           onClick={() => useCount.setState({ count: 6 })}
         >
           Skip

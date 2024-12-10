@@ -1,8 +1,8 @@
-import { getContract } from "thirdweb";
-import { avalancheFuji } from "thirdweb/chains";
-import { balanceOf as balanceOfERC721 } from "thirdweb/extensions/erc721";
+import { getContract } from 'thirdweb';
+import { avalancheFuji } from 'thirdweb/chains';
+import { balanceOf as balanceOfERC721 } from 'thirdweb/extensions/erc721';
 
-import { client } from "@/lib/client";
+import { client } from '@/lib/client';
 
 // import { balanceOf as balanceOfERC20 } from "thirdweb/extensions/erc20";
 
@@ -36,7 +36,7 @@ async function hasSomeErc721Tokens(address: string) {
 
   const erc721Contract = getContract({
     // replace with your own NFT contract address
-    address: "0x0896Db00D8987Fba2152aa7c14c4255eBC7354cE",
+    address: '0x0896Db00D8987Fba2152aa7c14c4255eBC7354cE',
 
     // replace with the chain that your nft contract was deployed on
     // if that chain isn't included in our default list, use `defineChain`

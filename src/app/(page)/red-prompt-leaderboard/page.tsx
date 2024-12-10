@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
+import React from 'react';
 
-import PromptLeaderBoardPageTable from "@/components/table/prompt-leaderboard-table/page";
+import PromptLeaderBoardPageTable from '@/components/table/prompt-leaderboard-table/page';
 
 const page = () => {
   return (
