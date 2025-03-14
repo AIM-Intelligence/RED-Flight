@@ -9,7 +9,7 @@ import { Message } from '@/validation/message';
 
 const useAIChatServer = (
   firstTouch: boolean,
-  textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined,
+  textareaRef?: React.RefObject<HTMLTextAreaElement | null> | undefined,
   setInput?: (input: string) => void | undefined
 ) => {
   const { inputNFT } = useNFTStore();

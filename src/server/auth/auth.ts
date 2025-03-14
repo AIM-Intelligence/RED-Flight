@@ -25,12 +25,12 @@ export async function login(payload: VerifyLoginPayloadParams) {
     const jwt = await thirdwebAuth.generateJWT({
       payload: verifiedPayload.payload,
     });
-    cookies().set('jwt', jwt);
+    (await cookies()).set('jwt', jwt);
   }
 }
 
 export async function isLoggedIn() {
-  const jwt = cookies().get('jwt');
+  const jwt = (await cookies()).get('jwt');
   if (!jwt?.value) {
     return false;
   }
@@ -43,11 +43,11 @@ export async function isLoggedIn() {
 }
 
 export async function logout() {
-  cookies().delete('jwt');
+  (await cookies()).delete('jwt');
 }
 
 export async function getAuthStatus() {
-  const jwt = cookies().get('jwt');
+  const jwt = (await cookies()).get('jwt');
   if (!jwt?.value) {
     return { isLoggedIn: false, walletAddress: null };
   }
