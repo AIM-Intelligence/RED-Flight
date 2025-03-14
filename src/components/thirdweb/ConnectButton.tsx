@@ -1,13 +1,17 @@
 'use client';
 
-import { useEffect } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import {
-  ConnectButton,
-  useActiveWallet,
-  useActiveWalletChain,
-} from 'thirdweb/react';
-import { createWallet, inAppWallet } from 'thirdweb/wallets';
+// import { useEffect } from 'react';
+// import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+// import {
+//   ConnectButton,
+//   useActiveWallet,
+//   useActiveWalletChain,
+// } from 'thirdweb/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ConnectButton, useActiveWalletChain } from 'thirdweb/react';
+import { inAppWallet } from 'thirdweb/wallets';
+
+// import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
 import { client } from '@/lib/client';
 import { useWeb3User } from '@/hooks/user/useSignIn';
@@ -18,11 +22,11 @@ import { chainList } from '@/utils/chain';
 const ThirdwebConnectButton: React.FC = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const { refreshUser } = useWeb3User();
   const { user: currentUser, clearUser } = useWeb3UserStore();
   const chainId = useActiveWalletChain();
-  const activeWallet = useActiveWallet();
+  // const activeWallet = useActiveWallet();
 
   const appMetadata = {
     name: 'RED Flight',
@@ -34,41 +38,32 @@ const ThirdwebConnectButton: React.FC = () => {
   const wallets = [
     inAppWallet({
       auth: {
-        options: [
-          'google',
-          'discord',
-          'telegram',
-          'email',
-          'facebook',
-          'passkey',
-          'phone',
-        ],
+        options: ['google', 'discord'],
       },
     }),
-    createWallet('io.metamask'),
   ];
 
-  useEffect(() => {
-    const handleAuth = async () => {
-      if (!activeWallet) {
-        await logout();
-        clearUser();
-        const currentPath = window.location.pathname;
-        router.push(`/?redirect=${encodeURIComponent(currentPath)}`);
-      }
-    };
+  // useEffect(() => {
+  //   const handleAuth = async () => {
+  //     if (!activeWallet) {
+  //       await logout();
+  //       clearUser();
+  //       const currentPath = window.location.pathname;
+  //       router.push(`/?redirect=${encodeURIComponent(currentPath)}`);
+  //     }
+  //   };
 
-    if (!activeWallet && pathname !== '/' && pathname !== '/') {
-      handleAuth();
-    }
+  //   if (!activeWallet && pathname !== '/' && pathname !== '/') {
+  //     handleAuth();
+  //   }
 
-    // Check for redirect parameter on component mount
-    const redirectPath = searchParams.get('redirect');
-    if (redirectPath && currentUser) {
-      router.push(redirectPath);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser, router, searchParams, activeWallet]);
+  //   // Check for redirect parameter on component mount
+  //   const redirectPath = searchParams.get('redirect');
+  //   if (redirectPath && currentUser) {
+  //     router.push(redirectPath);
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [currentUser, router, searchParams, activeWallet]);
 
   return (
     <ConnectButton
