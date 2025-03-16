@@ -1,11 +1,10 @@
 'use client';
 
-import { ConnectButton } from 'thirdweb/react';
-import { inAppWallet } from 'thirdweb/wallets';
+import { ConnectEmbed, darkTheme } from 'thirdweb/react';
+import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
 import { client } from '@/lib/client';
 import { generatePayload, isLoggedIn, login, logout } from '@/server/auth/auth';
-import { getOrCreateWeb3User } from '@/server/auth/sign-in';
 
 const ThirdwebConnectButton: React.FC = () => {
   const appMetadata = {
@@ -21,28 +20,29 @@ const ThirdwebConnectButton: React.FC = () => {
         options: ['google', 'discord'],
       },
     }),
-    // createWallet('io.metamask'),
+    createWallet('io.metamask'),
   ];
 
   return (
-    <ConnectButton
+    <ConnectEmbed
       client={client}
       appMetadata={appMetadata}
       wallets={wallets}
-      connectModal={{ size: 'compact' }}
+      theme={darkTheme({
+        colors: {
+          accentText: 'hsl(0, 84%, 49%)',
+        },
+      })}
       auth={{
         isLoggedIn: async (address) => {
           console.log('checking if logged in!', { address });
           return await isLoggedIn();
         },
         doLogin: async (params) => {
-          console.log('logging in!');
           await login(params);
-          await getOrCreateWeb3User();
         },
         getLoginPayload: async ({ address }) => generatePayload({ address }),
         doLogout: async () => {
-          console.log('logging out!');
           await logout();
         },
       }}

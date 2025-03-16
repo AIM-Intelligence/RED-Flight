@@ -4,7 +4,7 @@ import { isLoggedIn } from '@/server/auth/auth';
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   if (!(await isLoggedIn())) {
-    redirect('/');
+    redirect('/login');
   }
   return (
     <main className="flex h-screen items-center justify-center bg-black">

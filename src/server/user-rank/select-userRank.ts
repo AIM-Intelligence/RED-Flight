@@ -2,17 +2,10 @@
 
 import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
 import { Database } from '@/validation/types/supabase';
-import { getAuthStatus } from '../auth/auth';
 
 type User = Database['public']['Tables']['user']['Row'];
 
 export async function getUserRank(): Promise<User[]> {
-  const authStatus = await getAuthStatus();
-
-  if (!authStatus.isLoggedIn) {
-    throw new Error('User is not logged in');
-  }
-
   const supabase = createSupabaseServer();
 
   const { data, error } = await supabase

@@ -8,7 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/Dialog';
 import { cn } from '@/lib/utils';
-import { useDrawer } from '@/store/use-drawer-store';
+// import { useDrawer } from '@/store/use-drawer-store';
 import { useModal } from '@/store/use-modal-store';
 import MarkdownLite from '../llm/components/MarkdownLite';
 import { Button } from '../ui/Button';
@@ -21,7 +21,7 @@ interface Message {
 
 const RedPromptModal = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const { onOpen } = useDrawer();
+  //const { onOpen } = useDrawer();
   const [parsedMessages, setParsedMessages] = useState<Message[]>([]);
   const isModalOpen = isOpen && type === 'showRedPromptData';
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -115,7 +115,7 @@ const RedPromptModal = () => {
         <DialogFooter>
           <Button
             className="w-full bg-red-600 hover:bg-red-700"
-            onClick={() => onOpen('showNFTClaimDrawer', data)}
+            //onClick={() => onOpen('showNFTClaimDrawer', data)}
           >
             Claim NFT
           </Button>

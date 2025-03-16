@@ -28,7 +28,6 @@ export function useUpdateWeb3User() {
       });
     },
     onError: (error: Error) => {
-      console.error(error);
       toast({
         title: 'Error',
         description: error.message || 'Failed to update user profile',
