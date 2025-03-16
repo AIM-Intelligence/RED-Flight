@@ -5,7 +5,6 @@ import {
   useUserRank,
   useUserRanks,
 } from '@/hooks/userRank/useUserRank';
-import { useWeb3UserStore } from '@/store/user-store';
 import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
 import { TopThreePlace } from './components/top-three';
@@ -14,18 +13,7 @@ export default function UserLeaderBoardPageTable() {
   const topThreeArr = useTopThree();
   const userRankArr = useUserRanks();
 
-  const { user } = useWeb3UserStore();
   const { status } = useUserRank();
-
-  if (!user) {
-    return (
-      <div className="flex items-center justify-between space-y-2 p-8">
-        <h2 className="text-3xl font-bold tracking-tight text-red-600">
-          Red User Leaderboard
-        </h2>
-      </div>
-    );
-  }
 
   if (status === 'pending') {
     return (

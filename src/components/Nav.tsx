@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { Award, GalleryHorizontal, Home, Trophy, User } from 'lucide-react';
+import { GalleryHorizontal, Home, Trophy, User } from 'lucide-react';
 import { useActiveWallet } from 'thirdweb/react';
 
 import {
@@ -10,17 +10,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/Tooltip';
-import { useWeb3UserStore } from '@/store/user-store';
 
 // nav data
 export const navData = [
   { name: 'Home', path: '/', icon: <Home /> },
   { name: 'My RED Page', path: '/my-red-page', icon: <User /> },
-  {
-    name: 'RED Prompt Leaderboard',
-    path: '/red-prompt-leaderboard',
-    icon: <Award />,
-  },
+  // {
+  //   name: 'RED Prompt Leaderboard',
+  //   path: '/red-prompt-leaderboard',
+  //   icon: <Award />,
+  // },
   {
     name: 'RED User Leaderboard',
     path: '/red-user-leaderboard',
@@ -37,15 +36,12 @@ const Nav = () => {
   const pathname = usePathname();
   const router = useRouter();
   const activeWallet = useActiveWallet();
-  const { user } = useWeb3UserStore();
 
   const handleButtonClick = async (path: string) => {
-    if (path === '/' || (user && activeWallet)) {
+    if (activeWallet) {
       router.push(path);
     } else {
-      alert('Login first');
-      // const currentPath = encodeURIComponent(path);
-      // router.push(`/?redirect=${currentPath}`);
+      router.push('/auth');
     }
   };
 

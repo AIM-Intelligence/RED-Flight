@@ -5,8 +5,6 @@ import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
 import { getAuthStatus } from '@/server/auth/auth';
 import { MessageArraySchema } from '@/validation/message';
 
-export const maxDuration = 30;
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });

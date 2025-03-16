@@ -15,6 +15,7 @@ if (!privateKey) {
 const thirdwebAuth = createAuth({
   domain: process.env.NEXT_PUBLIC_THIRDWEB_AUTH_DOMAIN || '',
   adminAccount: privateKeyToAccount({ client, privateKey }),
+  client: client,
 });
 
 export const generatePayload = thirdwebAuth.generatePayload;
@@ -36,10 +37,8 @@ export async function isLoggedIn() {
   }
 
   const authResult = await thirdwebAuth.verifyJWT({ jwt: jwt.value });
-  if (!authResult.valid) {
-    return false;
-  }
-  return true;
+
+  return authResult.valid;
 }
 
 export async function logout() {
@@ -56,6 +55,13 @@ export async function getAuthStatus() {
   if (!authResult.valid) {
     return { isLoggedIn: false, walletAddress: null };
   }
+
+  // const profiles = await getProfiles({
+  //   client,
+  // });
+
+  // console.log('user', profiles);
+
   return {
     isLoggedIn: true,
     walletAddress: authResult,

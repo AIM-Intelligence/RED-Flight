@@ -46,12 +46,20 @@ export async function updateUserProfile(
     .select()
     .single();
 
-  console.log('user update error', error);
-
-  if (error && error.code === '23505') {
-    throw new Error('This name already exists');
-  } else if (error) {
-    throw new Error('Failed to update user profile');
+  if (error) {
+    switch (error.code) {
+      case '23505':
+        throw new Error('This name already exists');
+      case '23503':
+        throw new Error('Referenced record does not exist');
+      case '23502':
+        throw new Error('Required field is missing');
+      default:
+        console.error('User update error:', error);
+        throw new Error(
+          `Failed to update user profile: ${error.message || 'Unknown error'}`
+        );
+    }
   }
 
   return data as User;
