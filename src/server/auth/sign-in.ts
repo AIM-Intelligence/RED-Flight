@@ -1,21 +1,22 @@
 'use server';
 
-// Adjust the import path as needed
+import { getUser } from 'thirdweb/wallets';
+
+import { client } from '@/lib/client';
 import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
 import { Database } from '@/validation/types/supabase';
 import { getAuthStatus } from './auth';
 
 type User = Database['public']['Tables']['user']['Row'];
 
-// Adjust the import path as needed
-
 export async function getOrCreateWeb3User(): Promise<User> {
-  // Check authentication status
   const authStatus = await getAuthStatus();
 
   if (!authStatus.isLoggedIn) {
     throw new Error('User is not logged in');
   }
+
+  console.log('authStatus', authStatus);
 
   const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
 
@@ -24,6 +25,14 @@ export async function getOrCreateWeb3User(): Promise<User> {
   }
 
   console.log('walletAddress', walletAddress);
+
+  // Get user profiles using thirdweb
+  const user = await getUser({
+    client,
+    walletAddress: walletAddress,
+  });
+
+  console.log('user', user?.profiles);
 
   // Create Supabase client
   const supabase = createSupabaseServer();
@@ -42,11 +51,14 @@ export async function getOrCreateWeb3User(): Promise<User> {
     return data as User;
   }
 
+  //! Need to check data properly set
   // If user doesn't exist, create a new one
   const { data: newUser, error: insertError } = await supabase
     .from('user')
     .insert({
+      login_profiles: user?.profiles ? user.profiles : null,
       wallet_address: walletAddress,
+      email: user?.email && user.email.length > 0 ? user.email : null,
     })
     .select()
     .single();

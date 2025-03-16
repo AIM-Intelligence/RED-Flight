@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { NFTClaimDrawer } from '@/components/drawer/NFTClaimdrawer';
+// import { NFTClaimDrawer } from '@/components/drawer/NFTClaimdrawer';
 
 export const DrawerProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -15,9 +15,5 @@ export const DrawerProvider = () => {
     return null;
   }
 
-  return (
-    <>
-      <NFTClaimDrawer />
-    </>
-  );
+  return <>{/* <NFTClaimDrawer /> */}</>;
 };

@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { getUserRank } from '@/server/user-rank/select-userRank';
 import { useUserRankStore } from '@/store/user-rank-store';
-import { useWeb3UserStore } from '@/store/user-store';
 import { Database } from '@/validation/types/supabase';
 
 type User = Database['public']['Tables']['user']['Row'];
@@ -11,7 +10,6 @@ type User = Database['public']['Tables']['user']['Row'];
 export function useUserRank() {
   const { toast } = useToast();
   const { setTopThreeArr, setUserRankArr } = useUserRankStore();
-  const { user } = useWeb3UserStore();
 
   return useQuery<User[], Error>({
     queryKey: ['userRanks'],
@@ -41,8 +39,6 @@ export function useUserRank() {
         throw error;
       }
     },
-    retry: false,
-    enabled: !!user,
   });
 }
 
