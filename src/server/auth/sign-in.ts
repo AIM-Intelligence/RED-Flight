@@ -16,23 +16,17 @@ export async function getOrCreateWeb3User(): Promise<User> {
     throw new Error('User is not logged in');
   }
 
-  console.log('authStatus', authStatus);
-
   const walletAddress = authStatus.walletAddress?.parsedJWT.sub;
 
   if (!walletAddress) {
     throw new Error('Wallet address not found');
   }
 
-  console.log('walletAddress', walletAddress);
-
   // Get user profiles using thirdweb
   const user = await getUser({
     client,
     walletAddress: walletAddress,
   });
-
-  console.log('user', user?.profiles);
 
   // Create Supabase client
   const supabase = createSupabaseServer();
@@ -56,6 +50,7 @@ export async function getOrCreateWeb3User(): Promise<User> {
   const { data: newUser, error: insertError } = await supabase
     .from('user')
     .insert({
+      // name: user.profiles
       login_profiles: user?.profiles ? user.profiles : null,
       wallet_address: walletAddress,
       email: user?.email && user.email.length > 0 ? user.email : null,

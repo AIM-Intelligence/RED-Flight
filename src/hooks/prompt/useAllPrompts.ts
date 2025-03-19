@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { getAllPrompts } from '@/server/nft-prompt/select-allPrompt';
 import { useAllPromptStore } from '@/store/prompt/prompt-all-store';
-import { useWeb3UserStore } from '@/store/user-store';
 import { Database } from '@/validation/types/supabase';
 
 type PromptNFT = Omit<
@@ -14,7 +13,6 @@ type PromptNFT = Omit<
 export function useAllPrompt() {
   const { toast } = useToast();
   const { setAllPrompts } = useAllPromptStore();
-  const { user } = useWeb3UserStore();
 
   return useQuery<PromptNFT[], Error>({
     queryKey: ['allPrompts'],
@@ -41,7 +39,6 @@ export function useAllPrompt() {
       }
     },
     retry: false,
-    enabled: !!user,
   });
 }
 

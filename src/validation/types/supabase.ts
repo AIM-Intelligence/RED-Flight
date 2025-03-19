@@ -54,6 +54,44 @@ export type Database = {
             foreignKeyName: 'blue prompt nft_creator_fkey';
             columns: ['creator'];
             isOneToOne: false;
+            referencedRelation: 'user_p';
+            referencedColumns: ['wallet_address'];
+          },
+        ];
+      };
+      'first red': {
+        Row: {
+          conversation: Json[];
+          created_at: string;
+          creator: string | null;
+          embedding: string;
+          id: string;
+          image_url: string;
+          result: boolean;
+        };
+        Insert: {
+          conversation: Json[];
+          created_at?: string;
+          creator?: string | null;
+          embedding: string;
+          id?: string;
+          image_url: string;
+          result: boolean;
+        };
+        Update: {
+          conversation?: Json[];
+          created_at?: string;
+          creator?: string | null;
+          embedding?: string;
+          id?: string;
+          image_url?: string;
+          result?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'first red_creator_fkey';
+            columns: ['creator'];
+            isOneToOne: false;
             referencedRelation: 'user';
             referencedColumns: ['wallet_address'];
           },
@@ -122,19 +160,55 @@ export type Database = {
             foreignKeyName: 'prompt nft_creator_fkey';
             columns: ['creator'];
             isOneToOne: false;
-            referencedRelation: 'user';
+            referencedRelation: 'user_p';
             referencedColumns: ['wallet_address'];
           },
           {
             foreignKeyName: 'prompt nft_owner_fkey';
             columns: ['owner'];
             isOneToOne: false;
-            referencedRelation: 'user';
+            referencedRelation: 'user_p';
             referencedColumns: ['wallet_address'];
           },
         ];
       };
       user: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          email: string | null;
+          id: string;
+          image_url: string | null;
+          login_profiles: Json[] | null;
+          name: string | null;
+          score: number;
+          wallet_address: string;
+        };
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          email?: string | null;
+          id?: string;
+          image_url?: string | null;
+          login_profiles?: Json[] | null;
+          name?: string | null;
+          score?: number;
+          wallet_address: string;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          email?: string | null;
+          id?: string;
+          image_url?: string | null;
+          login_profiles?: Json[] | null;
+          name?: string | null;
+          score?: number;
+          wallet_address?: string;
+        };
+        Relationships: [];
+      };
+      user_p: {
         Row: {
           created_at: string;
           description: string | null;
@@ -187,6 +261,67 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      binary_quantize:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: unknown;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          };
+      halfvec_avg: {
+        Args: {
+          '': number[];
+        };
+        Returns: unknown;
+      };
+      halfvec_out: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      halfvec_send: {
+        Args: {
+          '': unknown;
+        };
+        Returns: string;
+      };
+      halfvec_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
+      hnsw_bit_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnsw_halfvec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnsw_sparsevec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnswhandler: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
       insert_nft_and_update_score:
         | {
             Args: {
@@ -211,6 +346,135 @@ export type Database = {
             };
             Returns: undefined;
           };
+      ivfflat_bit_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      ivfflat_halfvec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      ivfflathandler: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      l2_norm:
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          };
+      l2_normalize:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: string;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          };
+      match_images: {
+        Args: {
+          query_embedding: string;
+          similarity_threshold: number;
+          match_count: number;
+        };
+        Returns: {
+          id: string;
+          image_url: string;
+          creator: string;
+          created_at: string;
+          similarity: number;
+        }[];
+      };
+      sparsevec_out: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      sparsevec_send: {
+        Args: {
+          '': unknown;
+        };
+        Returns: string;
+      };
+      sparsevec_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
+      update_vector_statistics: {
+        Args: Record<PropertyKey, never>;
+        Returns: undefined;
+      };
+      vector_avg: {
+        Args: {
+          '': number[];
+        };
+        Returns: string;
+      };
+      vector_dims:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: number;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          };
+      vector_norm: {
+        Args: {
+          '': string;
+        };
+        Returns: number;
+      };
+      vector_out: {
+        Args: {
+          '': string;
+        };
+        Returns: unknown;
+      };
+      vector_send: {
+        Args: {
+          '': string;
+        };
+        Returns: string;
+      };
+      vector_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
     };
     Enums: {
       [_ in never]: never;
