@@ -1,6 +1,6 @@
 import { Sora } from 'next/font/google';
 
-import '../styles/globals.css';
+import './globals.css';
 
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/react';

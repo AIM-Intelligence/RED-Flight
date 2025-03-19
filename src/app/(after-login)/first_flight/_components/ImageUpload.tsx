@@ -7,7 +7,7 @@ import { Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { cn } from '@/lib/utils';
-import { useProcessImage } from '@/hooks/image/useProcessImage';
+import { useProcessImage } from '@/hooks/first-flight/useProcessImage';
 import { useImageStore } from '@/store/use-first-flight-store';
 
 export const ImageUpload = () => {

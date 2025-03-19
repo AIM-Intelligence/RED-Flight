@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { MediaRenderer } from 'thirdweb/react';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { Database } from '@/validation/types/supabase';
 
 type User = Database['public']['Tables']['user']['Row'];
@@ -24,7 +24,11 @@ const placeText = {
   3: '3rd',
 };
 
-export const TopThreePlace: React.FC<TopThreeProps> = ({ user, place }) => {
+export const TopThreePlace = ({ user, place }: TopThreeProps) => {
+  if (!user) {
+    return null; // Don't render anything if no user
+  }
+
   const name = user.name || 'Anonymity';
   const wallet_address = user.wallet_address.slice(0, 12);
 
@@ -63,7 +67,7 @@ export const TopThreePlace: React.FC<TopThreeProps> = ({ user, place }) => {
       <p
         className={`mt-2 text-xl font-semibold ${isFirstPlace ? 'text-[rgb(255,215,0)]' : 'text-white'}`}
       >
-        Score: {user.score}
+        Score: {user.score || 0}
       </p>
     </div>
   );

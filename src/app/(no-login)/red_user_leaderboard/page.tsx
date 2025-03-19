@@ -10,7 +10,7 @@ import { getUserRank } from '@/server/user-rank/select-userRank'; // Make sure t
 const Page = () => {
   // Use the prefetched data from the server
   const {
-    data: userRankData,
+    data: userRankData = [], // Provide default empty array
     error,
     isLoading,
   } = useQuery({

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ColumnDef } from '@tanstack/react-table';
 import { MediaRenderer } from 'thirdweb/react';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { Database } from '@/validation/types/supabase';
 import { DataTableColumnHeader } from './data-table-column-header';
 

@@ -24,9 +24,9 @@ export default function UserLeaderBoardPageTable({
     );
   }
 
-  // Extract top three users and remaining users
-  const topThreeArr = userData.slice(0, 3);
-  const userRankArr = userData.slice(3);
+  // Extract top three users and remaining users (safely)
+  const topThreeArr = userData.slice(0, Math.min(3, userData.length));
+  const userRankArr = userData.length > 3 ? userData.slice(3) : [];
 
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
@@ -36,9 +36,16 @@ export default function UserLeaderBoardPageTable({
         </h2>
       </div>
       <div className="flex justify-center gap-4">
-        <TopThreePlace user={topThreeArr[1]} place={2} />
-        <TopThreePlace user={topThreeArr[0]} place={1} />
-        <TopThreePlace user={topThreeArr[2]} place={3} />
+        {/* Only render if we have enough users */}
+        {topThreeArr.length > 1 && (
+          <TopThreePlace user={topThreeArr[1]} place={2} />
+        )}
+        {topThreeArr.length > 0 && (
+          <TopThreePlace user={topThreeArr[0]} place={1} />
+        )}
+        {topThreeArr.length > 2 && (
+          <TopThreePlace user={topThreeArr[2]} place={3} />
+        )}
       </div>
 
       <DataTable data={userRankArr} columns={columns} />

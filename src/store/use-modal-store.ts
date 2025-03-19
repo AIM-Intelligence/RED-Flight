@@ -3,16 +3,11 @@ import { create } from 'zustand';
 import { Database } from '@/validation/types/supabase';
 
 type REDUser = Database['public']['Tables']['user']['Row'];
-type RED_Prompt = Database['public']['Tables']['red prompt nft']['Row'];
 
-export type ModalType =
-  | 'showRedPromptData'
-  | 'showRedNFTPromptData'
-  | 'showUserInfoEdit';
+export type ModalType = 'showRedPromptData' | 'showUserInfoEdit';
 
 interface ModalData {
   user_info?: REDUser;
-  red_prompt?: RED_Prompt;
 }
 
 interface ModalStore {

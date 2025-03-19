@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import RedPromptModal from '@/components/modal/PromptModal';
 import UserInfoEditModal from '@/components/modal/UserInfoEdit';
 
 export const ModalProvider = () => {
@@ -19,7 +18,6 @@ export const ModalProvider = () => {
   return (
     <>
       <UserInfoEditModal />
-      <RedPromptModal />
     </>
   );
 };

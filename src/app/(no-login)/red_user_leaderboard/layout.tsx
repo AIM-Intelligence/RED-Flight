@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 
 import { getUserRank } from '@/server/user-rank/select-userRank';
-import getQueryClient from '@/utils/getQueryClient';
+import getQueryClient from '@/utils/get-query-client';
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const queryClient = getQueryClient();

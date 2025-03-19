@@ -9,56 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      'blue prompt nft': {
-        Row: {
-          code: string;
-          created_at: string;
-          creator: string;
-          id: string;
-          image_url: string | null;
-          length: number;
-          lose: number;
-          name: string;
-          prompt: string;
-          token_id: number | null;
-          win: number;
-        };
-        Insert: {
-          code: string;
-          created_at?: string;
-          creator: string;
-          id?: string;
-          image_url?: string | null;
-          length?: number;
-          lose?: number;
-          name: string;
-          prompt: string;
-          token_id?: number | null;
-          win?: number;
-        };
-        Update: {
-          code?: string;
-          created_at?: string;
-          creator?: string;
-          id?: string;
-          image_url?: string | null;
-          length?: number;
-          lose?: number;
-          name?: string;
-          prompt?: string;
-          token_id?: number | null;
-          win?: number;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'blue prompt nft_creator_fkey';
-            columns: ['creator'];
-            isOneToOne: false;
-            referencedRelation: 'user_p';
-            referencedColumns: ['wallet_address'];
-          },
-        ];
-      };
       'first red': {
         Row: {
           conversation: Json[];
@@ -97,81 +47,6 @@ export type Database = {
           },
         ];
       };
-      'red prompt nft': {
-        Row: {
-          chain_id: string;
-          conversation: number;
-          created_at: string;
-          creator: string;
-          desc: string | null;
-          id: string;
-          image_url: string[] | null;
-          length: number;
-          level: number;
-          name: string | null;
-          nft_address: string | null;
-          owner: string | null;
-          prompt: Json;
-          target: string;
-          title: string | null;
-          token_id: string[] | null;
-          transaction_hash: string | null;
-        };
-        Insert: {
-          chain_id?: string;
-          conversation?: number;
-          created_at?: string;
-          creator: string;
-          desc?: string | null;
-          id?: string;
-          image_url?: string[] | null;
-          length?: number;
-          level: number;
-          name?: string | null;
-          nft_address?: string | null;
-          owner?: string | null;
-          prompt: Json;
-          target: string;
-          title?: string | null;
-          token_id?: string[] | null;
-          transaction_hash?: string | null;
-        };
-        Update: {
-          chain_id?: string;
-          conversation?: number;
-          created_at?: string;
-          creator?: string;
-          desc?: string | null;
-          id?: string;
-          image_url?: string[] | null;
-          length?: number;
-          level?: number;
-          name?: string | null;
-          nft_address?: string | null;
-          owner?: string | null;
-          prompt?: Json;
-          target?: string;
-          title?: string | null;
-          token_id?: string[] | null;
-          transaction_hash?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'prompt nft_creator_fkey';
-            columns: ['creator'];
-            isOneToOne: false;
-            referencedRelation: 'user_p';
-            referencedColumns: ['wallet_address'];
-          },
-          {
-            foreignKeyName: 'prompt nft_owner_fkey';
-            columns: ['owner'];
-            isOneToOne: false;
-            referencedRelation: 'user_p';
-            referencedColumns: ['wallet_address'];
-          },
-        ];
-      };
       user: {
         Row: {
           created_at: string;
@@ -203,54 +78,6 @@ export type Database = {
           image_url?: string | null;
           login_profiles?: Json[] | null;
           name?: string | null;
-          score?: number;
-          wallet_address?: string;
-        };
-        Relationships: [];
-      };
-      user_p: {
-        Row: {
-          created_at: string;
-          description: string | null;
-          easy: number;
-          email: string | null;
-          extreme: number;
-          hard: number;
-          id: string;
-          image_url: string | null;
-          login_profiles: Json[] | null;
-          name: string | null;
-          normal: number;
-          score: number;
-          wallet_address: string;
-        };
-        Insert: {
-          created_at?: string;
-          description?: string | null;
-          easy?: number;
-          email?: string | null;
-          extreme?: number;
-          hard?: number;
-          id?: string;
-          image_url?: string | null;
-          login_profiles?: Json[] | null;
-          name?: string | null;
-          normal?: number;
-          score?: number;
-          wallet_address: string;
-        };
-        Update: {
-          created_at?: string;
-          description?: string | null;
-          easy?: number;
-          email?: string | null;
-          extreme?: number;
-          hard?: number;
-          id?: string;
-          image_url?: string | null;
-          login_profiles?: Json[] | null;
-          name?: string | null;
-          normal?: number;
           score?: number;
           wallet_address?: string;
         };
@@ -410,6 +237,20 @@ export type Database = {
           similarity: number;
         }[];
       };
+      match_images_backup: {
+        Args: {
+          query_embedding: string;
+          similarity_threshold: number;
+          match_count: number;
+        };
+        Returns: {
+          id: string;
+          image_url: string;
+          creator: string;
+          created_at: string;
+          similarity: number;
+        }[];
+      };
       sparsevec_out: {
         Args: {
           '': unknown;
@@ -427,10 +268,6 @@ export type Database = {
           '': unknown[];
         };
         Returns: number;
-      };
-      update_vector_statistics: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
       };
       vector_avg: {
         Args: {

@@ -1,14 +1,8 @@
 import { create } from 'zustand';
 
-import { Database } from '@/validation/types/supabase';
-
-type RED_Prompt = Database['public']['Tables']['red prompt nft']['Row'];
-
 export type DrawerType = 'showNFTClaimDrawer';
 
-interface DrawerData {
-  red_prompt?: RED_Prompt;
-}
+interface DrawerData {}
 
 interface DrawerStore {
   type: DrawerType | null;
