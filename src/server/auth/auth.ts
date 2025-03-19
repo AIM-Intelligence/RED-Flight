@@ -56,12 +56,6 @@ export async function getAuthStatus() {
     return { isLoggedIn: false, walletAddress: null };
   }
 
-  // const profiles = await getProfiles({
-  //   client,
-  // });
-
-  // console.log('user', profiles);
-
   return {
     isLoggedIn: true,
     walletAddress: authResult,

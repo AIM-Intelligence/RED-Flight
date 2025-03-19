@@ -14,7 +14,7 @@ import {
 // nav data
 export const navData = [
   { name: 'Home', path: '/', icon: <Home /> },
-  { name: 'My RED Page', path: '/my-red-page', icon: <User /> },
+  { name: 'My RED Page', path: '/my_red_page', icon: <User /> },
   // {
   //   name: 'RED Prompt Leaderboard',
   //   path: '/red-prompt-leaderboard',
@@ -22,12 +22,12 @@ export const navData = [
   // },
   {
     name: 'RED User Leaderboard',
-    path: '/red-user-leaderboard',
+    path: '/red_user_leaderboard',
     icon: <Trophy />,
   },
   {
     name: 'Red Flight Story',
-    path: '/red-flight-world',
+    path: '/red_flight_world',
     icon: <GalleryHorizontal />,
   },
 ];

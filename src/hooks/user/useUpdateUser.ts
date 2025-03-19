@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query';
 
 import { toast } from '@/components/ui/use-toast';
 import { updateUserProfile } from '@/server/auth/update-user';
-import { useWeb3UserStore } from '@/store/user-store';
 import { Tables } from '@/validation/types/supabase';
 
 type User = Tables<'user'>;
@@ -16,12 +15,9 @@ type UpdateUserParams = {
 };
 
 export function useUpdateWeb3User() {
-  const { setUser } = useWeb3UserStore();
-
   const updateMutation = useMutation({
     mutationFn: updateUserProfile,
-    onSuccess: (data: User) => {
-      setUser(data);
+    onSuccess: (_: User) => {
       toast({
         title: 'Success',
         description: 'User profile updated successfully',
