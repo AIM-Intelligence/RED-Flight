@@ -3,6 +3,7 @@ import { Sora } from 'next/font/google';
 import '../styles/globals.css';
 
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
 import { ThirdwebProvider } from 'thirdweb/react';
 
 import { Toaster } from '@/components/ui/Toaster';
@@ -33,6 +34,7 @@ export default function RootLayout({
             <Toaster />
           </ThirdwebProvider>
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );
