@@ -14,8 +14,8 @@ export async function getUserRank(): Promise<User[]> {
     .order('score', { ascending: false });
 
   if (error) {
-    console.error('Error fetching user prompts:', error);
-    throw new Error('Failed to fetch user prompts');
+    console.error('Error fetching user ranks:', error);
+    throw new Error('Failed to fetch user rankings');
   }
 
   return data as User[];

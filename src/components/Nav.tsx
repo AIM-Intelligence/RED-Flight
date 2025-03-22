@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { GalleryHorizontal, Home, Trophy, User } from 'lucide-react';
+import { GalleryHorizontal, Home, Plane, Trophy, User } from 'lucide-react';
 import { useActiveWallet } from 'thirdweb/react';
 
 import {
@@ -14,7 +14,8 @@ import {
 // nav data
 export const navData = [
   { name: 'Home', path: '/', icon: <Home /> },
-  { name: 'My RED Page', path: '/my-red-page', icon: <User /> },
+  { name: 'First Flight', path: '/first_flight', icon: <Plane /> },
+  { name: 'My RED Page', path: '/my_red_page', icon: <User /> },
   // {
   //   name: 'RED Prompt Leaderboard',
   //   path: '/red-prompt-leaderboard',
@@ -22,12 +23,12 @@ export const navData = [
   // },
   {
     name: 'RED User Leaderboard',
-    path: '/red-user-leaderboard',
+    path: '/red_user_leaderboard',
     icon: <Trophy />,
   },
   {
     name: 'Red Flight Story',
-    path: '/red-flight-world',
+    path: '/red_flight_world',
     icon: <GalleryHorizontal />,
   },
 ];
@@ -46,7 +47,7 @@ const Nav = () => {
   };
 
   return (
-    <nav className="fixed bottom-0 top-0 z-50 mt-auto flex h-max w-full flex-col items-center gap-y-4 xl:right-[2%] xl:h-screen xl:w-16 xl:max-w-md xl:justify-center">
+    <nav className="fixed bottom-0 top-0 z-50 mt-auto flex h-max w-full flex-col items-center gap-y-4 text-white xl:right-[2%] xl:h-screen xl:w-16 xl:max-w-md xl:justify-center">
       <div className="flex h-[80px] w-full items-center justify-between gap-y-10 bg-white/10 px-4 py-8 text-3xl backdrop-blur-sm md:px-40 xl:h-max xl:flex-col xl:justify-center xl:rounded-full xl:px-0 xl:text-xl">
         <TooltipProvider>
           {navData.map((link, index) => {

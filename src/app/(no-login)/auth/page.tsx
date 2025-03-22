@@ -1,12 +1,18 @@
 'use client';
 
+//! 여기서는 createWallet가 없어도 auth가 정상적으로 작동한다.
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ConnectEmbed, darkTheme } from 'thirdweb/react';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { generatePayload, isLoggedIn, login, logout } from '@/server/auth/auth';
+import { getOrCreateWeb3User } from '@/server/auth/sign-in';
 
 const ThirdwebConnectButton: React.FC = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const appMetadata = {
     name: 'RED Flight',
     url: 'https://www.redflight.io',
@@ -39,10 +45,19 @@ const ThirdwebConnectButton: React.FC = () => {
           return await isLoggedIn();
         },
         doLogin: async (params) => {
+          console.log('logging in!');
           await login(params);
+          await getOrCreateWeb3User();
+
+          // Check for redirect parameter and navigate if present
+          const redirectPath = searchParams.get('redirect');
+          if (redirectPath) {
+            router.push(redirectPath);
+          }
         },
         getLoginPayload: async ({ address }) => generatePayload({ address }),
         doLogout: async () => {
+          console.log('logging out!');
           await logout();
         },
       }}

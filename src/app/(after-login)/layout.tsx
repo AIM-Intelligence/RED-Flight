@@ -2,8 +2,8 @@ import { redirect } from 'next/navigation';
 
 import HeaderPage from '@/components/HeaderPage';
 import Nav from '@/components/Nav';
-import { DrawerProvider } from '@/lib/providers/drawer-provider';
 import { ModalProvider } from '@/lib/providers/modal-provider';
+import { SheetProvider } from '@/lib/providers/sheet-provider';
 import { isLoggedIn } from '@/server/auth/auth';
 
 export default async function Layout({
@@ -16,12 +16,12 @@ export default async function Layout({
   }
 
   return (
-    <main className="page relative bg-black font-sora text-white">
+    <main className="page relative bg-black text-white">
       <Nav />
       <HeaderPage />
       {children}
       <ModalProvider />
-      <DrawerProvider />
+      <SheetProvider />
     </main>
   );
 }

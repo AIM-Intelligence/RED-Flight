@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 import { createAuth, VerifyLoginPayloadParams } from 'thirdweb/auth';
 import { privateKeyToAccount } from 'thirdweb/wallets';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 
 const privateKey = process.env.THIRDWEB_ADMIN_PRIVATE_KEY || '';
 
@@ -55,12 +55,6 @@ export async function getAuthStatus() {
   if (!authResult.valid) {
     return { isLoggedIn: false, walletAddress: null };
   }
-
-  // const profiles = await getProfiles({
-  //   client,
-  // });
-
-  // console.log('user', profiles);
 
   return {
     isLoggedIn: true,

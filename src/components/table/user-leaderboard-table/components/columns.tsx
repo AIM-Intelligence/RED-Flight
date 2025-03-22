@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ColumnDef } from '@tanstack/react-table';
 import { MediaRenderer } from 'thirdweb/react';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { Database } from '@/validation/types/supabase';
 import { DataTableColumnHeader } from './data-table-column-header';
 
@@ -119,61 +119,7 @@ export const columns: ColumnDef<User>[] = [
         </span>
       );
     },
-  },
-  // extreme
-  {
-    accessorKey: 'extreme',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Extreme" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('extreme')}
-        </span>
-      );
-    },
-  },
-  // hard
-  {
-    accessorKey: 'hard',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Hard" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('hard')}
-        </span>
-      );
-    },
-  },
-  // normal
-  {
-    accessorKey: 'normal',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Normal" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('normal')}
-        </span>
-      );
-    },
-  },
-  // easy
-  {
-    accessorKey: 'easy',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Easy" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <span className="max-w-[500px] truncate font-medium">
-          {row.getValue('easy')}
-        </span>
-      );
-    },
+    sortingFn: 'basic',
+    sortDescFirst: true,
   },
 ];

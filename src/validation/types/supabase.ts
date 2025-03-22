@@ -9,49 +9,43 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      'blue prompt nft': {
+      'first-red': {
         Row: {
-          code: string;
+          conversation: Json[];
           created_at: string;
-          creator: string;
+          creator: string | null;
+          embedding: string;
           id: string;
-          image_url: string | null;
-          length: number;
-          lose: number;
-          name: string;
-          prompt: string;
-          token_id: number | null;
-          win: number;
+          image_url: string;
+          response: string;
+          result: boolean;
+          similarity: number | null;
         };
         Insert: {
-          code: string;
+          conversation: Json[];
           created_at?: string;
-          creator: string;
+          creator?: string | null;
+          embedding: string;
           id?: string;
-          image_url?: string | null;
-          length?: number;
-          lose?: number;
-          name: string;
-          prompt: string;
-          token_id?: number | null;
-          win?: number;
+          image_url: string;
+          response: string;
+          result: boolean;
+          similarity?: number | null;
         };
         Update: {
-          code?: string;
+          conversation?: Json[];
           created_at?: string;
-          creator?: string;
+          creator?: string | null;
+          embedding?: string;
           id?: string;
-          image_url?: string | null;
-          length?: number;
-          lose?: number;
-          name?: string;
-          prompt?: string;
-          token_id?: number | null;
-          win?: number;
+          image_url?: string;
+          response?: string;
+          result?: boolean;
+          similarity?: number | null;
         };
         Relationships: [
           {
-            foreignKeyName: 'blue prompt nft_creator_fkey';
+            foreignKeyName: 'first red_creator_fkey';
             columns: ['creator'];
             isOneToOne: false;
             referencedRelation: 'user';
@@ -59,75 +53,41 @@ export type Database = {
           },
         ];
       };
-      'red prompt nft': {
+      'red-criteria': {
         Row: {
-          chain_id: string;
-          conversation: number;
+          conversation: Json[];
           created_at: string;
-          creator: string;
-          desc: string | null;
+          creator: string | null;
+          embedding: string;
           id: string;
-          image_url: string[] | null;
-          length: number;
-          level: number;
-          name: string | null;
-          nft_address: string | null;
-          owner: string | null;
-          prompt: Json;
-          target: string;
-          title: string | null;
-          token_id: string[] | null;
-          transaction_hash: string | null;
+          image_url: string;
+          response: string;
+          result: boolean;
         };
         Insert: {
-          chain_id?: string;
-          conversation?: number;
+          conversation: Json[];
           created_at?: string;
-          creator: string;
-          desc?: string | null;
+          creator?: string | null;
+          embedding: string;
           id?: string;
-          image_url?: string[] | null;
-          length?: number;
-          level: number;
-          name?: string | null;
-          nft_address?: string | null;
-          owner?: string | null;
-          prompt: Json;
-          target: string;
-          title?: string | null;
-          token_id?: string[] | null;
-          transaction_hash?: string | null;
+          image_url: string;
+          response: string;
+          result: boolean;
         };
         Update: {
-          chain_id?: string;
-          conversation?: number;
+          conversation?: Json[];
           created_at?: string;
-          creator?: string;
-          desc?: string | null;
+          creator?: string | null;
+          embedding?: string;
           id?: string;
-          image_url?: string[] | null;
-          length?: number;
-          level?: number;
-          name?: string | null;
-          nft_address?: string | null;
-          owner?: string | null;
-          prompt?: Json;
-          target?: string;
-          title?: string | null;
-          token_id?: string[] | null;
-          transaction_hash?: string | null;
+          image_url?: string;
+          response?: string;
+          result?: boolean;
         };
         Relationships: [
           {
-            foreignKeyName: 'prompt nft_creator_fkey';
+            foreignKeyName: 'red-criteria_creator_fkey';
             columns: ['creator'];
-            isOneToOne: false;
-            referencedRelation: 'user';
-            referencedColumns: ['wallet_address'];
-          },
-          {
-            foreignKeyName: 'prompt nft_owner_fkey';
-            columns: ['owner'];
             isOneToOne: false;
             referencedRelation: 'user';
             referencedColumns: ['wallet_address'];
@@ -138,45 +98,33 @@ export type Database = {
         Row: {
           created_at: string;
           description: string | null;
-          easy: number;
           email: string | null;
-          extreme: number;
-          hard: number;
           id: string;
           image_url: string | null;
           login_profiles: Json[] | null;
           name: string | null;
-          normal: number;
           score: number;
           wallet_address: string;
         };
         Insert: {
           created_at?: string;
           description?: string | null;
-          easy?: number;
           email?: string | null;
-          extreme?: number;
-          hard?: number;
           id?: string;
           image_url?: string | null;
           login_profiles?: Json[] | null;
           name?: string | null;
-          normal?: number;
           score?: number;
           wallet_address: string;
         };
         Update: {
           created_at?: string;
           description?: string | null;
-          easy?: number;
           email?: string | null;
-          extreme?: number;
-          hard?: number;
           id?: string;
           image_url?: string | null;
           login_profiles?: Json[] | null;
           name?: string | null;
-          normal?: number;
           score?: number;
           wallet_address?: string;
         };
@@ -187,6 +135,91 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      binary_quantize:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: unknown;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          };
+      calculate_similarity_and_add_to_score:
+        | {
+            Args: {
+              query_embedding: string;
+              target_id: string;
+              user_wallet: string;
+            };
+            Returns: {
+              similarity_percentage: number;
+              updated_score: number;
+            }[];
+          }
+        | {
+            Args: {
+              query_embedding: string;
+              target_id: string;
+              user_wallet: string;
+              inserteddata_id: string;
+            };
+            Returns: {
+              similarity_percentage: number;
+              updated_score: number;
+            }[];
+          };
+      halfvec_avg: {
+        Args: {
+          '': number[];
+        };
+        Returns: unknown;
+      };
+      halfvec_out: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      halfvec_send: {
+        Args: {
+          '': unknown;
+        };
+        Returns: string;
+      };
+      halfvec_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
+      hnsw_bit_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnsw_halfvec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnsw_sparsevec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      hnswhandler: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
       insert_nft_and_update_score:
         | {
             Args: {
@@ -211,6 +244,131 @@ export type Database = {
             };
             Returns: undefined;
           };
+      ivfflat_bit_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      ivfflat_halfvec_support: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      ivfflathandler: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      l2_norm:
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          };
+      l2_normalize:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: string;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: unknown;
+          };
+      match_images: {
+        Args: {
+          query_embedding: string;
+          similarity_threshold: number;
+          match_count: number;
+        };
+        Returns: {
+          id: string;
+          image_url: string;
+          creator: string;
+          created_at: string;
+          similarity: number;
+        }[];
+      };
+      sparsevec_out: {
+        Args: {
+          '': unknown;
+        };
+        Returns: unknown;
+      };
+      sparsevec_send: {
+        Args: {
+          '': unknown;
+        };
+        Returns: string;
+      };
+      sparsevec_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
+      vector_avg: {
+        Args: {
+          '': number[];
+        };
+        Returns: string;
+      };
+      vector_dims:
+        | {
+            Args: {
+              '': string;
+            };
+            Returns: number;
+          }
+        | {
+            Args: {
+              '': unknown;
+            };
+            Returns: number;
+          };
+      vector_norm: {
+        Args: {
+          '': string;
+        };
+        Returns: number;
+      };
+      vector_out: {
+        Args: {
+          '': string;
+        };
+        Returns: unknown;
+      };
+      vector_send: {
+        Args: {
+          '': string;
+        };
+        Returns: string;
+      };
+      vector_typmod_in: {
+        Args: {
+          '': unknown[];
+        };
+        Returns: number;
+      };
     };
     Enums: {
       [_ in never]: never;

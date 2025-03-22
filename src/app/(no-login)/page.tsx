@@ -66,18 +66,15 @@ export default function Home() {
   const activeWallet = useActiveWallet();
 
   const handleButtonClick = async () => {
-    console.log('activeWallet', activeWallet);
     if (activeWallet) {
-      router.push('/first-flight');
+      router.push('/first_flight');
     } else {
-      router.push('/auth');
+      router.push('/auth?redirect=/first_flight');
     }
   };
 
   return (
     <>
-      {/* {!showPage && <Intro setShowPage={setShowPage} />} */}
-
       <motion.div
         key="main"
         initial={{ opacity: 0 }}
@@ -132,16 +129,16 @@ export default function Home() {
                     </span>
                   </VideoHoverButton>
 
-                  <div className="mt-4 flex gap-2">
+                  <div className="mt-4 flex items-center gap-2">
                     <ThirdwebConnectButton />
 
                     <Link href="https://aim-intelligence.com" target="_blank">
                       <Image
                         src="/aim_intelligence.png"
                         width={150}
-                        height={120}
+                        height={56}
                         alt="aim intelligence"
-                        className="rounded-xl hover:cursor-pointer"
+                        className="h-14 rounded-xl object-contain hover:cursor-pointer"
                       />
                     </Link>
                   </div>
