@@ -28,7 +28,6 @@ export async function getOrCreateWeb3User(): Promise<User> {
     walletAddress: walletAddress,
   });
 
-  console.log('user', user);
   // Create Supabase client
   const supabase = createSupabaseServer();
 

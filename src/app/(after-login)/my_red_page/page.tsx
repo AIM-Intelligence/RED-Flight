@@ -36,8 +36,6 @@ const ClientPage = () => {
       />
     );
 
-  console.log('promptData', promptData);
-
   // Extract prompts and status from the prompt data
   const prompts = promptData || [];
 
