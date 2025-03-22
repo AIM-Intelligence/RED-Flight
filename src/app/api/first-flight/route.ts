@@ -240,7 +240,7 @@ export async function POST(request: Request) {
     let similarityPercentage: number | null = null;
     let updatedScore: number | null = null;
 
-    if (!shouldGoStraight) {
+    if (shouldGoStraight) {
       // Use a single RPC function to calculate similarity and update user score
       const { data: similarityResult, error: similarityError } =
         await supabase.rpc('calculate_similarity_and_add_to_score', {
