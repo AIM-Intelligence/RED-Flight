@@ -7,7 +7,7 @@ import { Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
 import { cn } from '@/lib/utils';
-import { useProcessImage } from '@/hooks/image/useProcessImage';
+import { useProcessImage } from '@/hooks/first-flight/useProcessImage';
 import { useImageStore } from '@/store/use-first-flight-store';
 
 export const ImageUpload = () => {
@@ -15,6 +15,7 @@ export const ImageUpload = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Use the store instead of local state for imageUrl
@@ -23,6 +24,7 @@ export const ImageUpload = () => {
     setImageUrl,
     isProcessing,
     error: processingError,
+    setError: setProcessingError,
   } = useImageStore();
   const mutation = useProcessImage();
 
@@ -45,10 +47,7 @@ export const ImageUpload = () => {
     }
   }, [selectedFile]);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFile = (file: File) => {
     // File format validation
     if (!supportedFormats.includes(file.type)) {
       setError(
@@ -57,8 +56,7 @@ export const ImageUpload = () => {
       return;
     }
 
-    // Check file size (10MB limit)
-    if (file.size > 10 * 1024 * 1024) {
+    if (file.size > 5 * 1024 * 1024) {
       setError('File size exceeds 10MB limit');
       return;
     }
@@ -67,11 +65,49 @@ export const ImageUpload = () => {
     setError(null);
   };
 
+  // Modify handleFileSelect to use the processFile function
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    processFile(file);
+  };
+
+  // Drag & Drop handlers
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    if (isUploading || isProcessing || imageUrl || previewUrl) return;
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+    processFile(file);
+  };
+
   const handleUpload = async () => {
     if (!selectedFile) return;
 
     setIsUploading(true);
     setError(null);
+    setProcessingError(null); // Reset processing error when uploading
 
     try {
       const formData = new FormData();
@@ -95,6 +131,8 @@ export const ImageUpload = () => {
     setImageUrl(null); // Update the store
     setSelectedFile(null);
     setPreviewUrl(null);
+    setError(null); // Reset local error state
+    setProcessingError(null); // Reset store error state
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -115,10 +153,15 @@ export const ImageUpload = () => {
                 ? handleClick
                 : undefined
             }
+            onDragOver={handleDragOver}
+            onDragEnter={handleDragEnter}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
             className={cn(
-              'relative flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-red-500 bg-black/50 p-4 text-white transition hover:opacity-75',
+              'relative flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-red-500 bg-black/50 p-4 text-white transition hover:opacity-75',
               (isUploading || isProcessing || imageUrl || previewUrl) &&
-                'cursor-default hover:opacity-100'
+                'cursor-default hover:opacity-100',
+              isDragging && 'border-white bg-black/70'
             )}
           >
             <input
@@ -179,7 +222,7 @@ export const ImageUpload = () => {
                       ? 'Processing...'
                       : 'Drag & drop or click to upload'}
                 </p>
-                <p className="text-xs text-gray-400">Max file size: 10MB</p>
+                <p className="text-xs text-gray-400">Max file size: 5MB</p>
                 <p className="text-xs text-gray-400">
                   Supported formats: JPG, PNG, WEBP
                 </p>
@@ -187,27 +230,32 @@ export const ImageUpload = () => {
             )}
           </div>
 
-          {/* Action Buttons and Error Messages */}
           <div className="flex flex-col space-y-2">
+            {!selectedFile && !imageUrl && (
+              <div className="flex justify-center">
+                <p className="text-center text-white">Upload an image first</p>
+              </div>
+            )}
+
             {selectedFile && !imageUrl && (
               <div className="flex justify-between gap-2">
                 <div>
-                  <p className="text-sm font-medium text-white">
-                    Selected: {selectedFile.name}
-                  </p>
+                  {displayError && (
+                    <p className="text-sm text-red-500">{displayError}</p>
+                  )}
                 </div>
-                <div className="flex gap-2">
+                <div className="flex w-full gap-2">
                   <Button
                     onClick={handleUpload}
-                    className="bg-red-600 text-white hover:bg-red-700"
+                    className="flex-1 bg-red-600 text-white hover:bg-red-700"
                     disabled={isUploading || isProcessing}
                     type="button"
                   >
-                    {isUploading ? 'Uploading...' : 'Upload Image'}
+                    {isUploading ? 'Attack in progress...' : 'Attack'}
                   </Button>
                   <Button
                     onClick={handleRemove}
-                    className="bg-gray-700 text-white hover:bg-gray-800"
+                    className="flex-1 bg-gray-700 text-white hover:bg-gray-800"
                     disabled={isUploading || isProcessing}
                     type="button"
                   >
@@ -217,12 +265,17 @@ export const ImageUpload = () => {
               </div>
             )}
 
-            {displayError && (
-              <p className="text-sm text-red-500">{displayError}</p>
-            )}
-
-            {isProcessing && !imageUrl && (
-              <p className="text-sm text-white">Processing your image...</p>
+            {imageUrl && (
+              <div className="flex w-full justify-center">
+                <Button
+                  onClick={handleRemove}
+                  className="w-full bg-red-600 text-white hover:bg-red-700"
+                  disabled={isProcessing}
+                  type="button"
+                >
+                  Restart
+                </Button>
+              </div>
             )}
           </div>
         </div>

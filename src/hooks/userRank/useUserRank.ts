@@ -16,6 +16,7 @@ export function useUserRank() {
     queryFn: async () => {
       try {
         const userArr = await getUserRank();
+
         const topThree = userArr.slice(0, 3);
         const remain = userArr.slice(3);
 
@@ -23,22 +24,21 @@ export function useUserRank() {
         setUserRankArr(remain);
         return userArr;
       } catch (error) {
-        if (error instanceof Error) {
-          toast({
-            title: 'Error',
-            description: error.message,
-            variant: 'destructive',
-          });
-        } else {
-          toast({
-            title: 'Error',
-            description: 'An unknown error occurred',
-            variant: 'destructive',
-          });
-        }
+        const errorMessage =
+          error instanceof Error ? error.message : 'An unknown error occurred';
+
+        toast({
+          title: 'Error',
+          description: errorMessage,
+          variant: 'destructive',
+        });
+
         throw error;
       }
     },
+    staleTime: 0,
+    refetchOnMount: true,
+    refetchOnWindowFocus: true,
   });
 }
 

@@ -75,8 +75,6 @@ export default function Home() {
 
   return (
     <>
-      {/* {!showPage && <Intro setShowPage={setShowPage} />} */}
-
       <motion.div
         key="main"
         initial={{ opacity: 0 }}

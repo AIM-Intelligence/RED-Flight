@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 const Loading = () => {
-  const staticText = 'loading';
+  const staticText = 'Loading';
   const animatedText = '...';
 
   const container = {

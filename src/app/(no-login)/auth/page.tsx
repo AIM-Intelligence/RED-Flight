@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ConnectEmbed, darkTheme } from 'thirdweb/react';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { generatePayload, isLoggedIn, login, logout } from '@/server/auth/auth';
 import { getOrCreateWeb3User } from '@/server/auth/sign-in';
 

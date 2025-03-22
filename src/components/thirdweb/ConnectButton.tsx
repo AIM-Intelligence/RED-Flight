@@ -10,11 +10,13 @@
 import { ConnectButton, darkTheme } from 'thirdweb/react';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
+import { useGetOrCreateWeb3User } from '@/hooks/user/useGetOrCreateUser';
 import { generatePayload, isLoggedIn, login, logout } from '@/server/auth/auth';
-import { getOrCreateWeb3User } from '@/server/auth/sign-in';
 
 const ThirdwebConnectButton: React.FC = () => {
+  const { syncUserProfile } = useGetOrCreateWeb3User();
+
   const appMetadata = {
     name: 'RED Flight',
     url: 'https://www.redflight.io',
@@ -51,7 +53,7 @@ const ThirdwebConnectButton: React.FC = () => {
         doLogin: async (params) => {
           console.log('logging in!');
           await login(params);
-          await getOrCreateWeb3User();
+          await syncUserProfile();
         },
         getLoginPayload: async ({ address }) => generatePayload({ address }),
         doLogout: async () => {

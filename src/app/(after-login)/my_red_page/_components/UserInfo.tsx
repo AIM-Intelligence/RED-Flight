@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/Button';
 import { useModal } from '@/store/use-modal-store';
@@ -6,8 +7,15 @@ import { Database } from '@/validation/types/supabase';
 
 type User = Database['public']['Tables']['user']['Row'];
 
-const UserInfo = ({ user }: { user: User }) => {
+const UserInfo = ({ user: initialUser }: { user: User }) => {
   const { onOpen } = useModal();
+
+  // Use React Query to get the latest user data from cache
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    initialData: initialUser,
+    staleTime: Infinity, // Use provided data until explicitly invalidated
+  });
 
   const getTierName = (score: number) => {
     if (score > 0 && score <= 3000) {
@@ -31,6 +39,7 @@ const UserInfo = ({ user }: { user: User }) => {
               </h2>
 
               <Button
+                className="transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/70"
                 onClick={() => onOpen('showUserInfoEdit', { user_info: user })}
               >
                 Edit
@@ -39,7 +48,7 @@ const UserInfo = ({ user }: { user: User }) => {
             <div className="flex items-center gap-4">
               <Image
                 alt="profile"
-                src="/asset/1.png"
+                src={user.image_url ? user.image_url : '/asset/1.png'}
                 height={150}
                 width={150}
                 className="max-h-[140px] max-w-[140px] rounded-full border-2 border-red-500"

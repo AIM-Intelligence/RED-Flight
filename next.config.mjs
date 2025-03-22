@@ -11,7 +11,16 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['mnkjdyduuwruvaokqowr.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'mnkjdyduuwruvaokqowr.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+    ],
   },
 };
 

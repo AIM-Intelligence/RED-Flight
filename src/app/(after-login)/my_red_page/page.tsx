@@ -1,39 +1,34 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-
-import PromptPageTable from '@/components/table/mypage-table/prompt-table/page';
+import PromptPageTable from '@/components/table/mypage-table/prompt-table';
 import Error from '@/app/error';
 import Loading from '@/app/loading';
-import { useGetMyFirstRed } from '@/hooks/prompt/useGetMyFirstRed';
-import { getOrCreateWeb3User } from '@/server/auth/sign-in';
+import { useGetMyFirstRed } from '@/hooks/my-prompt/useGetMyFirstRed';
+import { useGetUser } from '@/hooks/user/useGetUser';
 import UserInfo from './_components/UserInfo';
 
 const ClientPage = () => {
-  // Get user's first red prompts
+  // Get user's first-red prompts
   const {
     data: promptData,
     isLoading: promptLoading,
     error: promptError,
   } = useGetMyFirstRed();
 
-  // 서버에서 prefetch된 데이터 사용
+  // Use the new useGetUser hook
   const {
     data: userData,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ['userData'],
-    queryFn: getOrCreateWeb3User,
-  });
+    isLoading: userLoading,
+    error: userError,
+  } = useGetUser();
 
-  if (isLoading || promptLoading) return <Loading />;
-  if (error || promptError)
+  if (userLoading || promptLoading) return <Loading />;
+  if (userError || promptError)
     return (
       <Error
         message={
-          error instanceof Error
-            ? error.message
+          userError instanceof Error
+            ? userError.message
             : promptError instanceof Error
               ? promptError.message
               : 'Error has occurred'

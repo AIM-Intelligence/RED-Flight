@@ -2,7 +2,7 @@
 
 import { getUser } from 'thirdweb/wallets';
 
-import { client } from '@/lib/client';
+import { client } from '@/lib/supabase/client';
 import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
 import { Database } from '@/validation/types/supabase';
 import { getAuthStatus } from './auth';
@@ -28,6 +28,7 @@ export async function getOrCreateWeb3User(): Promise<User> {
     walletAddress: walletAddress,
   });
 
+  console.log('user', user);
   // Create Supabase client
   const supabase = createSupabaseServer();
 
@@ -50,7 +51,48 @@ export async function getOrCreateWeb3User(): Promise<User> {
   const { data: newUser, error: insertError } = await supabase
     .from('user')
     .insert({
-      // name: user.profiles
+      name: user?.profiles
+        ? (() => {
+            // Look for Google profile first
+            const googleProfile = user.profiles.find(
+              (p) => p.type === 'google'
+            )?.details;
+            if (googleProfile && 'name' in googleProfile) {
+              return googleProfile.name;
+            }
+
+            // Then try Discord
+            const discordProfile = user.profiles.find(
+              (p) => p.type === 'discord'
+            )?.details;
+            if (discordProfile && 'username' in discordProfile) {
+              return discordProfile.username;
+            }
+
+            return null;
+          })()
+        : null,
+      image_url: user?.profiles
+        ? (() => {
+            // Look for Google profile first
+            const googleProfile = user.profiles.find(
+              (p) => p.type === 'google'
+            )?.details;
+            if (googleProfile && 'picture' in googleProfile) {
+              return googleProfile.picture;
+            }
+
+            // Then try Discord
+            const discordProfile = user.profiles.find(
+              (p) => p.type === 'discord'
+            )?.details;
+            if (discordProfile && 'avatar' in discordProfile) {
+              return discordProfile.avatar;
+            }
+
+            return null;
+          })()
+        : null,
       login_profiles: user?.profiles ? user.profiles : null,
       wallet_address: walletAddress,
       email: user?.email && user.email.length > 0 ? user.email : null,

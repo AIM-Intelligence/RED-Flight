@@ -6,8 +6,8 @@ const layout = ({ children }: { children: React.ReactNode }) => {
       <Image
         src="/background/06.png"
         alt="Background"
-        layout="fill"
-        objectFit="cover"
+        fill
+        className="object-cover"
         quality={100}
       />
       {children}
