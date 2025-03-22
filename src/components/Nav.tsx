@@ -1,7 +1,14 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { GalleryHorizontal, Home, Plane, Trophy, User } from 'lucide-react';
+import {
+  GalleryHorizontal,
+  //GalleryHorizontalEnd,
+  Home,
+  Plane,
+  Trophy,
+  User,
+} from 'lucide-react';
 import { useActiveWallet } from 'thirdweb/react';
 
 import {
@@ -16,6 +23,11 @@ export const navData = [
   { name: 'Home', path: '/', icon: <Home /> },
   { name: 'First Flight', path: '/first_flight', icon: <Plane /> },
   { name: 'My RED Page', path: '/my_red_page', icon: <User /> },
+  // {
+  //   name: 'Similarity Leaderboard',
+  //   path: '/similarity_leaderboard',
+  //   icon: <GalleryHorizontalEnd />,
+  // },
   // {
   //   name: 'RED Prompt Leaderboard',
   //   path: '/red-prompt-leaderboard',
