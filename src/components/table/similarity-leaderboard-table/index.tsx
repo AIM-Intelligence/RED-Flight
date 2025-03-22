@@ -12,7 +12,7 @@ interface UserLeaderBoardPageTableProps {
   userRanks: User[];
 }
 
-export default function SimilarityLeaderBoardPageTable({
+export default function UserLeaderBoardPageTable({
   topThree = [],
   userRanks = [],
 }: UserLeaderBoardPageTableProps) {

@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const MAX_FILE_SIZE = 3 * 1024 * 1024;
   if (file.size > MAX_FILE_SIZE) {
     return NextResponse.json(
       { error: 'File size exceeds 10MB limit' },
@@ -189,17 +189,42 @@ export async function POST(request: Request) {
       },
     ];
 
-    const completion = await openai.chat.completions.create({
-      model: azureModelName,
-      messages,
-      temperature: 1,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      max_tokens: 300,
-      n: 1,
-      response_format: { type: 'json_object' },
-    });
+    let completion;
+    try {
+      completion = await openai.chat.completions.create({
+        model: azureModelName,
+        messages,
+        temperature: 1,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        max_tokens: 300,
+        n: 1,
+        response_format: { type: 'json_object' },
+      });
+    } catch (aiError: any) {
+      if (
+        aiError.message &&
+        aiError.message.includes('content management policy')
+      ) {
+        console.error(
+          'Azure OpenAI content policy violation:',
+          aiError.message
+        );
+
+        return NextResponse.json(
+          {
+            error:
+              "This image violates Azure OpenAI's content policy. Please use a different image.",
+            details: 'The image was blocked due to content filtering policies.',
+          },
+          { status: 400 }
+        );
+      }
+
+      // Re-throw other errors to be caught by the outer catch block
+      throw aiError;
+    }
 
     const result = completion.choices[0].message.content;
 

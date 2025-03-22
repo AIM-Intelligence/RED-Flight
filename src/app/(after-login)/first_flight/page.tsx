@@ -2,6 +2,7 @@
 'use client';
 
 import Image from 'next/image';
+import { DownloadIcon } from 'lucide-react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { useImageStore } from '@/store/use-first-flight-store';
@@ -82,6 +83,38 @@ const FirstFlightPage = () => {
               height={600}
               className="rounded-md"
             />
+
+            {/* Download button */}
+            <button
+              className="absolute bottom-3 right-3 rounded-md bg-black/70 px-2 py-1 text-xs text-white transition-all hover:bg-black/90"
+              onClick={() => {
+                const imageUrl =
+                  'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image//car-ai.png';
+
+                fetch(imageUrl)
+                  .then((response) => response.blob())
+                  .then((blob) => {
+                    const blobUrl = URL.createObjectURL(blob);
+
+                    const link = document.createElement('a');
+                    link.href = blobUrl;
+                    link.download = 'car-ai.png';
+                    link.style.display = 'none';
+
+                    document.body.appendChild(link);
+                    link.click();
+
+                    setTimeout(() => {
+                      document.body.removeChild(link);
+                      URL.revokeObjectURL(blobUrl);
+                    }, 100);
+                  })
+                  .catch((error) => console.error('Error:', error));
+              }}
+            >
+              <DownloadIcon className="h-4 w-4" />
+            </button>
+
             {isProcessing ? (
               <div className="absolute inset-0 flex items-center justify-center bg-black/70">
                 <p className="animate-pulse-brightness text-center text-red-600">
@@ -139,14 +172,14 @@ const FirstFlightPage = () => {
 
                   <div className="mt-4 flex w-full items-center justify-around text-lg">
                     {similarityPercentage && (
-                      <p className="mb-2 text-center font-bold text-red-600">
+                      <p className="mb-2 text-center font-bold text-black">
                         Similarity: {similarityPercentage.toFixed(2)}% (
                         {Math.round(similarityPercentage)}+)
                       </p>
                     )}
 
                     {updatedScore && (
-                      <p className="mb-2 text-center font-bold text-red-600">
+                      <p className="mb-2 text-center font-bold text-black">
                         Now Your Score: {updatedScore}
                       </p>
                     )}
