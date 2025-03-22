@@ -4,10 +4,16 @@ import { Database } from '@/validation/types/supabase';
 
 type REDUser = Database['public']['Tables']['user']['Row'];
 
-export type ModalType = 'showRedPromptData' | 'showUserInfoEdit';
+export type ModalType =
+  | 'showRedPromptData'
+  | 'showUserInfoEdit'
+  | 'showPromptDetail'
+  | 'showImageZoom'
+  | 'showInputFormat';
 
 interface ModalData {
   user_info?: REDUser;
+  imageUrl?: string;
 }
 
 interface ModalStore {

@@ -24,12 +24,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-// import { useModal } from '@/store/use-modal-store';
-import { Database } from '@/validation/types/supabase';
+import { useSheet } from '@/store/use-sheet-store';
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
-
-type RED_Prompt = Database['public']['Tables']['first red']['Row'];
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,7 +47,7 @@ export function DataTable<TData, TValue>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  // const { onOpen } = useModal();
+  const { onOpen } = useSheet();
 
   const table = useReactTable({
     data,
@@ -74,13 +71,11 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const handleRowClick = (row: { original: RED_Prompt }) => {
-    console.log(row.original);
-    const red_prompt = row.original;
-    if (red_prompt) {
-      // onOpen('showRedPromptData', { red_prompt });
-    } else {
-      console.log('No prompt available');
+  const handleRowClick = (row: { original: any }) => {
+    const prompt = row.original;
+    if (prompt) {
+      // Open the modal with the prompt data
+      onOpen('showPromptDetail', { prompt });
     }
   };
 

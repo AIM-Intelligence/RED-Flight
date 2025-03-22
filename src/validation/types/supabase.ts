@@ -9,7 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      'first red': {
+      'first-red': {
         Row: {
           conversation: Json[];
           created_at: string;
@@ -17,6 +17,51 @@ export type Database = {
           embedding: string;
           id: string;
           image_url: string;
+          response: string;
+          result: boolean;
+          similarity: number | null;
+        };
+        Insert: {
+          conversation: Json[];
+          created_at?: string;
+          creator?: string | null;
+          embedding: string;
+          id?: string;
+          image_url: string;
+          response: string;
+          result: boolean;
+          similarity?: number | null;
+        };
+        Update: {
+          conversation?: Json[];
+          created_at?: string;
+          creator?: string | null;
+          embedding?: string;
+          id?: string;
+          image_url?: string;
+          response?: string;
+          result?: boolean;
+          similarity?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'first red_creator_fkey';
+            columns: ['creator'];
+            isOneToOne: false;
+            referencedRelation: 'user';
+            referencedColumns: ['wallet_address'];
+          },
+        ];
+      };
+      'red-criteria': {
+        Row: {
+          conversation: Json[];
+          created_at: string;
+          creator: string | null;
+          embedding: string;
+          id: string;
+          image_url: string;
+          response: string;
           result: boolean;
         };
         Insert: {
@@ -26,6 +71,7 @@ export type Database = {
           embedding: string;
           id?: string;
           image_url: string;
+          response: string;
           result: boolean;
         };
         Update: {
@@ -35,11 +81,12 @@ export type Database = {
           embedding?: string;
           id?: string;
           image_url?: string;
+          response?: string;
           result?: boolean;
         };
         Relationships: [
           {
-            foreignKeyName: 'first red_creator_fkey';
+            foreignKeyName: 'red-criteria_creator_fkey';
             columns: ['creator'];
             isOneToOne: false;
             referencedRelation: 'user';
@@ -100,6 +147,30 @@ export type Database = {
               '': unknown;
             };
             Returns: unknown;
+          };
+      calculate_similarity_and_add_to_score:
+        | {
+            Args: {
+              query_embedding: string;
+              target_id: string;
+              user_wallet: string;
+            };
+            Returns: {
+              similarity_percentage: number;
+              updated_score: number;
+            }[];
+          }
+        | {
+            Args: {
+              query_embedding: string;
+              target_id: string;
+              user_wallet: string;
+              inserteddata_id: string;
+            };
+            Returns: {
+              similarity_percentage: number;
+              updated_score: number;
+            }[];
           };
       halfvec_avg: {
         Args: {
@@ -224,20 +295,6 @@ export type Database = {
             Returns: unknown;
           };
       match_images: {
-        Args: {
-          query_embedding: string;
-          similarity_threshold: number;
-          match_count: number;
-        };
-        Returns: {
-          id: string;
-          image_url: string;
-          creator: string;
-          created_at: string;
-          similarity: number;
-        }[];
-      };
-      match_images_backup: {
         Args: {
           query_embedding: string;
           similarity_threshold: number;

@@ -11,7 +11,7 @@ import { ConnectButton, darkTheme } from 'thirdweb/react';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 
 import { client } from '@/lib/supabase/client';
-import { useGetOrCreateWeb3User } from '@/hooks/user/useGetOrCreateWeb3User';
+import { useGetOrCreateWeb3User } from '@/hooks/user/useGetOrCreateUser';
 import { generatePayload, isLoggedIn, login, logout } from '@/server/auth/auth';
 
 const ThirdwebConnectButton: React.FC = () => {

@@ -1,22 +1,32 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '@/components/ui/use-toast';
 import { useImageStore } from '@/store/use-first-flight-store';
 
 interface ProcessImageResponse {
   result: string;
-  hasBird: boolean;
+  goStraight: boolean;
   imageUrl?: string;
+  similarityPercentage?: number;
+  updatedScore?: number;
 }
 
 export function useProcessImage() {
-  const { setImageUrl, setResult, setHasBird, setProcessing, setError } =
-    useImageStore();
+  const {
+    setImageUrl,
+    setResult,
+    setGoStraight,
+    setProcessing,
+    setError,
+    setSimilarityPercentage,
+    setUpdatedScore,
+  } = useImageStore();
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (formData: FormData): Promise<ProcessImageResponse> => {
       setProcessing(true);
-      const response = await fetch('/api/image-openai', {
+      const response = await fetch('/api/first-flight', {
         method: 'POST',
         body: formData,
       });
@@ -31,10 +41,19 @@ export function useProcessImage() {
     onSuccess: (data) => {
       console.log('Response:', data);
       setResult(data.result);
-      setHasBird(data.hasBird);
+      setGoStraight(data.goStraight);
       if (data.imageUrl) {
         setImageUrl(data.imageUrl);
       }
+      if (data.similarityPercentage !== undefined) {
+        setSimilarityPercentage(data.similarityPercentage);
+      }
+      if (data.updatedScore !== undefined) {
+        setUpdatedScore(data.updatedScore);
+      }
+
+      queryClient.invalidateQueries({ queryKey: ['userFirstRed'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
 
       toast({
         title: 'Success',

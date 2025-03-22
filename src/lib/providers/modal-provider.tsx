@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import ImageZoomModal from '@/components/modal/ImageZoomModal';
+import InputFormatModal from '@/components/modal/InputFormatModal';
 import UserInfoEditModal from '@/components/modal/UserInfoEdit';
 
 export const ModalProvider = () => {
@@ -18,6 +20,8 @@ export const ModalProvider = () => {
   return (
     <>
       <UserInfoEditModal />
+      <ImageZoomModal />
+      <InputFormatModal />
     </>
   );
 };

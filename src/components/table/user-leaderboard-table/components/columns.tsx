@@ -119,5 +119,7 @@ export const columns: ColumnDef<User>[] = [
         </span>
       );
     },
+    sortingFn: 'basic',
+    sortDescFirst: true,
   },
 ];

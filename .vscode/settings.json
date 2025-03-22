@@ -18,5 +18,7 @@
   ],
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  "cSpell.ignoreRegExpList": ["LONG_ENV_VARIABLES_.*"],
+  "cSpell.includePatterns": ["**/.env"]
 }
