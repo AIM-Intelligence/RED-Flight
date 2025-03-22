@@ -52,9 +52,8 @@ export const ImageUpload = ({
       return;
     }
 
-    // Check file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('File size exceeds 5MB limit');
+    if (file.size > 3 * 1024 * 1024) {
+      setError('File size exceeds 3MB limit');
       return;
     }
 
@@ -126,7 +125,7 @@ export const ImageUpload = ({
             <p className="text-sm font-medium">
               Drag & drop or click to upload profile image
             </p>
-            <p className="text-xs text-gray-400">Max file size: 5MB</p>
+            <p className="text-xs text-gray-400">Max file size: 3MB</p>
             <p className="text-xs text-gray-400">
               Supported formats: JPG, PNG, WEBP
             </p>

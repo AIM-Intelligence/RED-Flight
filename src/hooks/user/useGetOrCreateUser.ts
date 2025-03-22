@@ -17,10 +17,10 @@ export function useGetOrCreateWeb3User() {
 
       queryClient.invalidateQueries({ queryKey: ['userFirstRed'] });
 
-      toast({
-        title: 'Success',
-        description: 'User profile synced successfully',
-      });
+      // toast({
+      //   title: 'Success',
+      //   description: 'User profile synced successfully',
+      // });
 
       return user;
     },

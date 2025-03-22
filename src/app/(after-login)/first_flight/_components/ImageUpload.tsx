@@ -56,7 +56,7 @@ export const ImageUpload = () => {
       return;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
+    if (file.size > 3 * 1024 * 1024) {
       setError('File size exceeds 10MB limit');
       return;
     }
@@ -222,7 +222,7 @@ export const ImageUpload = () => {
                       ? 'Processing...'
                       : 'Drag & drop or click to upload'}
                 </p>
-                <p className="text-xs text-gray-400">Max file size: 5MB</p>
+                <p className="text-xs text-gray-400">Max file size: 3MB</p>
                 <p className="text-xs text-gray-400">
                   Supported formats: JPG, PNG, WEBP
                 </p>

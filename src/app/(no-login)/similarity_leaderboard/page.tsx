@@ -1,6 +1,6 @@
 'use client';
 
-import UserLeaderBoardPageTable from '@/components/table/user-leaderboard-table';
+import SimilarityLeaderBoardPageTable from '@/components/table/user-leaderboard-table';
 import Error from '@/app/error';
 import Loading from '@/app/loading';
 import {
@@ -30,7 +30,10 @@ const Page = () => {
   return (
     <div className="custom-scrollbar mx-auto flex h-screen w-screen flex-col justify-start gap-8 overflow-y-auto py-20">
       <div className="mx-auto w-full max-w-7xl rounded-lg border border-red-600 bg-gray-800/60">
-        <UserLeaderBoardPageTable topThree={topThree} userRanks={userRanks} />
+        <SimilarityLeaderBoardPageTable
+          topThree={topThree}
+          userRanks={userRanks}
+        />
       </div>
     </div>
   );
