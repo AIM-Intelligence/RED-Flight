@@ -39,7 +39,6 @@ export function useProcessImage() {
       return response.json();
     },
     onSuccess: (data) => {
-      console.log('Response:', data);
       setResult(data.result);
       setGoStraight(data.goStraight);
       if (data.imageUrl) {
