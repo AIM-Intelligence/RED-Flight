@@ -28,7 +28,7 @@ export default function SimilarityLeaderboardTable({
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-2xl font-bold tracking-tight text-red-600">
-          Image Similarity Leaderboard
+          TOP 50 Image Similarity Leaderboard
         </h2>
       </div>
       <div className="flex justify-center gap-4">
