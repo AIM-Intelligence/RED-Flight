@@ -1,10 +1,143 @@
 import { NextResponse } from 'next/server';
 import OpenAI, { AzureOpenAI } from 'openai';
 import Replicate from 'replicate';
+import sharp from 'sharp';
 
 import { createSupabaseServer } from '@/lib/supabase/createSupabaseAdmin';
 import { getAuthStatus } from '@/server/auth/auth';
 import { Json, TablesInsert } from '@/validation/types/supabase';
+
+/**
+ * Calculate the normalized RMSE between two images
+ * @param {Buffer} imageBuffer1 - The first image buffer
+ * @param {Buffer} imageBuffer2 - The second image buffer
+ * @returns {Promise<number>} The normalized RMSE value (0: completely same, 1: completely different)
+ */
+async function calculateNormalizedRMSE(
+  imageBuffer1: Buffer,
+  imageBuffer2: Buffer
+) {
+  try {
+    // Get the size information of the first image (reference image)
+    const metadata = await sharp(imageBuffer1).metadata();
+    const refWidth = metadata.width || 300;
+    const refHeight = metadata.height || 300;
+
+    // Process the first image (reference image)
+    const img1 = await sharp(imageBuffer1)
+      .removeAlpha() // Remove the alpha channel
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    // Resize the second image to match the size of the reference image (without cropping)
+    const img2 = await sharp(imageBuffer2)
+      .resize(refWidth, refHeight, {
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255 },
+      })
+      .removeAlpha() // Remove the alpha channel
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    const data1 = img1.data;
+    const data2 = img2.data;
+
+    // Initialize the sum of squared differences
+    let sumSquaredDiff = 0;
+
+    // Compare pixels (RGB, 3 channels)
+    for (let i = 0; i < data1.length; i += 3) {
+      // Consider only RGB channels
+      for (let c = 0; c < 3; c++) {
+        const diff = data1[i + c] - data2[i + c];
+        sumSquaredDiff += diff * diff;
+      }
+    }
+
+    // Total pixel values (width × height × 3 RGB channels)
+    const totalValues = img1.info.width * img1.info.height * 3;
+
+    // Calculate MSE
+    const mse = sumSquaredDiff / totalValues;
+
+    // Calculate RMSE
+    const rmse = Math.sqrt(mse);
+
+    // Normalize (0-255 range → 0-1 range)
+    const normalizedRMSE = rmse / 255;
+
+    return normalizedRMSE;
+  } catch (error) {
+    throw new Error(`Image comparison error: ${error}`);
+  }
+}
+
+/**
+ * Calculate the similarity score between two images (1: completely same, 0: completely different)
+ * @param {Buffer} imageBuffer1 - The first image buffer
+ * @param {Buffer} imageBuffer2 - The second image buffer
+ * @returns {Promise<number>} The normalized similarity score
+ */
+async function calculateSimilarityScore(
+  imageBuffer1: Buffer,
+  imageBuffer2: Buffer
+) {
+  const normalizedRMSE = await calculateNormalizedRMSE(
+    imageBuffer1,
+    imageBuffer2
+  );
+  return 1 - normalizedRMSE;
+}
+
+/**
+ * Fetch an image from a URL and return it as a buffer
+ * @param {string} imageUrl - The URL of the image to fetch
+ * @returns {Promise<Buffer>} The image as a buffer
+ */
+async function fetchImageAsBuffer(imageUrl: string): Promise<Buffer> {
+  try {
+    const response = await fetch(imageUrl);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch image: ${response.status} ${response.statusText}`
+      );
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  } catch (error) {
+    throw new Error(`Image fetching error: ${error}`);
+  }
+}
+
+/**
+ * Compare an image with the reference AI-generated car image
+ * @param {Buffer} imageBuffer - The image buffer to compare
+ * @returns {Promise<{similarityScore: number}>} The comparison result
+ */
+async function compareWithReferenceImage(imageBuffer: Buffer) {
+  try {
+    // Reference image URL
+    const referenceImageUrl =
+      'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image//car-ai.png';
+
+    // Fetch the reference image
+    const referenceImageBuffer = await fetchImageAsBuffer(referenceImageUrl);
+
+    // Calculate the similarity score
+    const similarityScore = await calculateSimilarityScore(
+      imageBuffer,
+      referenceImageBuffer
+    );
+
+    return {
+      similarityScore,
+    };
+  } catch (error) {
+    throw new Error(`Reference image comparison error: ${error}`);
+  }
+}
 
 // Azure OpenAI configuration
 const azureEndpoint = process.env.AZURE_OPENAI_ENDPOINT || '';
@@ -61,7 +194,7 @@ export async function POST(request: Request) {
   const MAX_FILE_SIZE = 3 * 1024 * 1024;
   if (file.size > MAX_FILE_SIZE) {
     return NextResponse.json(
-      { error: 'File size exceeds 10MB limit' },
+      { error: 'File size exceeds 3MB limit' },
       { status: 400 }
     );
   }
@@ -264,15 +397,28 @@ export async function POST(request: Request) {
     // Initialize similarity data variables
     let similarityPercentage: number | null = null;
     let updatedScore: number | null = null;
+    let pixelSimilarityPercentage: number | null = null;
 
     if (shouldGoStraight) {
       // Use a single RPC function to calculate similarity and update user score
+
+      // Perform pixel-based image comparison
+      const pixelComparisonResult = await compareWithReferenceImage(buffer);
+
+      // Convert similarity score to percentage for display
+      pixelSimilarityPercentage = Number(
+        (pixelComparisonResult.similarityScore * 100).toFixed(2)
+      );
+
+      console.log(`Pixel-based similarity: ${pixelSimilarityPercentage}%`);
+
       const { data: similarityResult, error: similarityError } =
         await supabase.rpc('calculate_similarity_and_add_to_score', {
           query_embedding: JSON.stringify(newImageEmbedding),
           target_id: '6c762283-a3db-427d-8c21-68f3c2482a09',
           user_wallet: walletAddress,
           inserteddata_id: insertedData_id?.id,
+          pixel_similarity_percentage: pixelSimilarityPercentage,
         });
 
       if (similarityError) {
@@ -298,6 +444,7 @@ export async function POST(request: Request) {
       goStraight: shouldGoStraight,
       similarityPercentage,
       updatedScore,
+      pixelSimilarityPercentage,
     });
   } catch (error) {
     console.error('Error:', error);

@@ -2,8 +2,8 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import {
+  Crown,
   GalleryHorizontal,
-  //GalleryHorizontalEnd,
   Home,
   Plane,
   Trophy,
@@ -23,11 +23,11 @@ export const navData = [
   { name: 'Home', path: '/', icon: <Home /> },
   { name: 'First Flight', path: '/first_flight', icon: <Plane /> },
   { name: 'My RED Page', path: '/my_red_page', icon: <User /> },
-  // {
-  //   name: 'Similarity Leaderboard',
-  //   path: '/similarity_leaderboard',
-  //   icon: <GalleryHorizontalEnd />,
-  // },
+  {
+    name: 'Similarity Leaderboard',
+    path: '/similarity_leaderboard',
+    icon: <Trophy />,
+  },
   // {
   //   name: 'RED Prompt Leaderboard',
   //   path: '/red-prompt-leaderboard',
@@ -36,7 +36,7 @@ export const navData = [
   {
     name: 'RED User Leaderboard',
     path: '/red_user_leaderboard',
-    icon: <Trophy />,
+    icon: <Crown />,
   },
   {
     name: 'Red Flight Story',

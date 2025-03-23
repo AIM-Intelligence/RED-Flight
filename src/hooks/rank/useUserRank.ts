@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { useToast } from '@/components/ui/use-toast';
-import { getUserRank } from '@/server/user-rank/select-userRank';
+import { getUserRank } from '@/server/rank/select-userRank';
 import { useUserRankStore } from '@/store/user-rank-store';
 import { Database } from '@/validation/types/supabase';
 

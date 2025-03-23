@@ -80,13 +80,28 @@ export const columns: ColumnDef<PromptNFT>[] = [
       }
     },
   },
+  // {
+  //   accessorKey: 'vector_similarity',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Vector Similarity (%)" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const similarity = row.getValue('vector_similarity') as number;
+
+  //     return (
+  //       <div className="w-[100px]">
+  //         <span className="font-medium">{similarity?.toFixed(2) || 'N/A'}</span>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
-    accessorKey: 'similarity',
+    accessorKey: 'pixel_similarity',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Similarity (%)" />
+      <DataTableColumnHeader column={column} title="Pixel Similarity (%)" />
     ),
     cell: ({ row }) => {
-      const similarity = row.getValue('similarity') as number;
+      const similarity = row.getValue('pixel_similarity') as number;
 
       return (
         <div className="w-[100px]">
