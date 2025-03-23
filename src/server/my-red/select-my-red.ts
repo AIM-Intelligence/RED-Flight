@@ -33,7 +33,7 @@ export async function getUserFirstRedPrompts(): Promise<FirstRed[]> {
   const { data, error } = await supabaseClient
     .from('first-red')
     .select(
-      'id, created_at, creator, image_url, response, result, similarity, conversation'
+      'id, created_at, creator, image_url, response, result, pixel_similarity, conversation'
     )
     .eq('creator', walletAddress)
     .order('created_at', { ascending: false }); // Add order for consistent results

@@ -1,14 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
-import { MediaRenderer } from 'thirdweb/react';
 
-import { client } from '@/lib/supabase/client';
-import { Database } from '@/validation/types/supabase';
-
-type User = Database['public']['Tables']['user']['Row'];
+import { ImageRankWithUser } from '@/server/rank/select-imageRank';
 
 interface TopThreeProps {
-  user: User;
+  image: ImageRankWithUser;
   place: 1 | 2 | 3;
 }
 
@@ -24,19 +20,22 @@ const placeText = {
   3: '3rd',
 };
 
-export const TopThreePlace = ({ user, place }: TopThreeProps) => {
-  if (!user) {
-    return null; // Don't render anything if no user
+export const TopThreePlace = ({ image, place }: TopThreeProps) => {
+  if (!image) {
+    return null;
   }
 
-  const name = user.name || 'Anonymity';
-  const wallet_address = user.wallet_address.slice(0, 12);
+  const userName = image.user?.name || 'Anonymous';
+  const explanation = JSON.parse(image.response).explanation;
+  const similarity = image.pixel_similarity
+    ? `${image.pixel_similarity.toFixed(2)}%`
+    : 'N/A';
 
   const isFirstPlace = place === 1;
 
   return (
     <div
-      key={user.id}
+      key={image.id}
       className={`flex w-[30%] flex-col items-center rounded-md border-2 p-4 text-white ${
         isFirstPlace ? 'border-red-500 bg-black/50' : 'border-transparent'
       }`}
@@ -45,29 +44,33 @@ export const TopThreePlace = ({ user, place }: TopThreeProps) => {
         {placeEmoji[place]} {placeText[place]} Place
       </p>
 
-      <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black">
-        {user.image_url ? (
-          <MediaRenderer
-            client={client}
-            src={user.image_url}
-            className="rounded-full"
+      {/* User Profile */}
+      <div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black">
+        {image.user?.image_url ? (
+          <Image
+            width={64}
+            height={64}
+            src={image.user.image_url}
+            alt="profile image"
+            className="object-cover"
           />
         ) : (
           <Image
-            width={130}
-            height={130}
+            width={64}
+            height={64}
             src="/asset/1.png"
             alt="default profile"
           />
         )}
       </div>
 
-      <h2 className="text-xl">{name}</h2>
-      <p className="text-sm">{wallet_address}...</p>
+      <h2 className="text-xl">{userName}</h2>
+      <p className="text-sm">{explanation?.substring(0, 20)}...</p>
+
       <p
         className={`mt-2 text-xl font-semibold ${isFirstPlace ? 'text-[rgb(255,215,0)]' : 'text-white'}`}
       >
-        Score: {user.score || 0}
+        Similarity: {similarity}
       </p>
     </div>
   );

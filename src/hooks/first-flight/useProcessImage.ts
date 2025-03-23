@@ -8,6 +8,7 @@ interface ProcessImageResponse {
   goStraight: boolean;
   imageUrl?: string;
   similarityPercentage?: number;
+  pixelSimilarityPercentage?: number;
   updatedScore?: number;
 }
 
@@ -19,6 +20,7 @@ export function useProcessImage() {
     setProcessing,
     setError,
     setSimilarityPercentage,
+    setPixelSimilarityPercentage,
     setUpdatedScore,
   } = useImageStore();
   const queryClient = useQueryClient();
@@ -26,17 +28,39 @@ export function useProcessImage() {
   return useMutation({
     mutationFn: async (formData: FormData): Promise<ProcessImageResponse> => {
       setProcessing(true);
-      const response = await fetch('/api/first-flight', {
-        method: 'POST',
-        body: formData,
-      });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to process image');
-      }
+      const fetchWithRetry = async (
+        retries = 2
+      ): Promise<ProcessImageResponse> => {
+        try {
+          const response = await fetch('/api/first-flight', {
+            method: 'POST',
+            body: formData,
+          });
 
-      return response.json();
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Failed to process image');
+          }
+
+          return response.json();
+        } catch (error) {
+          if (
+            retries > 0 &&
+            error instanceof Error &&
+            error.message.includes('Unexpected token')
+          ) {
+            console.log(
+              `Retrying after unexpected token error. Attempts remaining: ${retries - 1}`
+            );
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            return fetchWithRetry(retries - 1);
+          }
+          throw error;
+        }
+      };
+
+      return fetchWithRetry();
     },
     onSuccess: (data) => {
       setResult(data.result);
@@ -46,6 +70,9 @@ export function useProcessImage() {
       }
       if (data.similarityPercentage !== undefined) {
         setSimilarityPercentage(data.similarityPercentage);
+      }
+      if (data.pixelSimilarityPercentage !== undefined) {
+        setPixelSimilarityPercentage(data.pixelSimilarityPercentage);
       }
       if (data.updatedScore !== undefined) {
         setUpdatedScore(data.updatedScore);

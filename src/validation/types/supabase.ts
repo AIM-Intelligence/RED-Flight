@@ -17,9 +17,10 @@ export type Database = {
           embedding: string;
           id: string;
           image_url: string;
+          pixel_similarity: number | null;
           response: string;
           result: boolean;
-          similarity: number | null;
+          vector_similarity: number | null;
         };
         Insert: {
           conversation: Json[];
@@ -28,9 +29,10 @@ export type Database = {
           embedding: string;
           id?: string;
           image_url: string;
+          pixel_similarity?: number | null;
           response: string;
           result: boolean;
-          similarity?: number | null;
+          vector_similarity?: number | null;
         };
         Update: {
           conversation?: Json[];
@@ -39,9 +41,10 @@ export type Database = {
           embedding?: string;
           id?: string;
           image_url?: string;
+          pixel_similarity?: number | null;
           response?: string;
           result?: boolean;
-          similarity?: number | null;
+          vector_similarity?: number | null;
         };
         Relationships: [
           {
@@ -166,6 +169,19 @@ export type Database = {
               target_id: string;
               user_wallet: string;
               inserteddata_id: string;
+            };
+            Returns: {
+              similarity_percentage: number;
+              updated_score: number;
+            }[];
+          }
+        | {
+            Args: {
+              query_embedding: string;
+              target_id: string;
+              user_wallet: string;
+              inserteddata_id: string;
+              pixel_similarity_percentage: number;
             };
             Returns: {
               similarity_percentage: number;
