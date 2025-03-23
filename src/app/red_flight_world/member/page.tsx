@@ -49,7 +49,7 @@ const Page = () => {
         />
 
         <Button
-          className="fixed bottom-6 right-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
+          className="fixed bottom-6 right-6 gap-2 bg-transparent px-4 py-2 text-red-600 hover:bg-none"
           onClick={() => router.push('/')}
         >
           go main page

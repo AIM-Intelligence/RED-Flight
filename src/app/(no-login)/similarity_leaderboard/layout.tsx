@@ -4,7 +4,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="relative min-h-screen bg-black text-white">
       <Image
-        src="/background/02.png"
+        src="/background/blue.png"
         alt="Background"
         fill
         style={{ objectFit: 'cover' }}
