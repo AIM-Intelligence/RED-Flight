@@ -7,6 +7,7 @@ interface ImageState {
   isProcessing: boolean;
   error: Error | null;
   similarityPercentage: number | null;
+  pixelSimilarityPercentage: number | null;
   updatedScore: number | null;
   setImageUrl: (url: string | null) => void;
   setResult: (result: string | null) => void;
@@ -14,6 +15,7 @@ interface ImageState {
   setProcessing: (isProcessing: boolean) => void;
   setError: (error: Error | null) => void;
   setSimilarityPercentage: (percentage: number | null) => void;
+  setPixelSimilarityPercentage: (percentage: number | null) => void;
   setUpdatedScore: (score: number | null) => void;
   reset: () => void;
 }
@@ -25,6 +27,7 @@ export const useImageStore = create<ImageState>((set) => ({
   isProcessing: false,
   error: null,
   similarityPercentage: null,
+  pixelSimilarityPercentage: null,
   updatedScore: null,
   setImageUrl: (url) => set({ imageUrl: url }),
   setResult: (result) => set({ result }),
@@ -33,6 +36,8 @@ export const useImageStore = create<ImageState>((set) => ({
   setError: (error) => set({ error }),
   setSimilarityPercentage: (similarityPercentage) =>
     set({ similarityPercentage }),
+  setPixelSimilarityPercentage: (pixelSimilarityPercentage) =>
+    set({ pixelSimilarityPercentage }),
   setUpdatedScore: (updatedScore) => set({ updatedScore }),
   reset: () =>
     set({
@@ -42,6 +47,7 @@ export const useImageStore = create<ImageState>((set) => ({
       isProcessing: false,
       error: null,
       similarityPercentage: null,
+      pixelSimilarityPercentage: null,
       updatedScore: null,
     }),
 }));

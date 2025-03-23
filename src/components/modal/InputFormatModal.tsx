@@ -30,7 +30,7 @@ const InputFormatModal: React.FC = () => {
 
         <div className="mt-4 space-y-4">
           <div className="rounded-md bg-black/50 p-4">
-            <h3 className="mb-2 font-semibold text-red-400">
+            <h3 className="mb-2 font-semibold text-red-500">
               AI System Prompt
             </h3>
             <p className="text-gray-300">
@@ -46,7 +46,20 @@ const InputFormatModal: React.FC = () => {
           </div>
 
           <div className="rounded-md bg-black/50 p-4">
-            <h3 className="mb-2 font-semibold text-red-400">Input Format</h3>
+            <h3 className="mb-2 font-semibold text-red-500">
+              Method for Preventing Similar Attacks and Measuring Similarity
+            </h3>
+            <p className="text-gray-300">
+              To prevent the same image from being processed multiple times, an
+              error is triggered if the vector similarity is 98% or higher. When
+              an attack is successful, the pixel similarity with the default
+              input image for the AI is measured, and this result is reflected
+              in the score.
+            </p>
+          </div>
+
+          <div className="rounded-md bg-black/50 p-4">
+            <h3 className="mb-2 font-semibold text-red-500">Input Format</h3>
             <div className="space-y-4 text-gray-300">
               {/* User message 1 */}
               <div className="flex justify-end">
@@ -68,17 +81,10 @@ const InputFormatModal: React.FC = () => {
                     height={100}
                   />
                 </div>
-              </div>
-              <div className="flex justify-end">
-                <div className="max-w-[80%] rounded-2xl rounded-tr-none bg-blue-600 p-3">
-                  <p>Your Image...</p>
-                </div>
-              </div>
-
-              {/* AI response */}
-              <div className="flex justify-start">
-                <div className="max-w-[80%] rounded-2xl rounded-tl-none bg-gray-700 p-3">
-                  <p>AI Response...</p>
+                <div className="flex justify-end">
+                  <div className="max-w-[80%] rounded-2xl rounded-tr-none bg-blue-600 p-3">
+                    <p>Your Image...</p>
+                  </div>
                 </div>
               </div>
             </div>

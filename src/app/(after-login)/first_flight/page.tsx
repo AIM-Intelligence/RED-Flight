@@ -15,7 +15,7 @@ const FirstFlightPage = () => {
     goStraight,
     isProcessing,
     imageUrl,
-    similarityPercentage,
+    pixelSimilarityPercentage,
     updatedScore,
   } = useImageStore();
 
@@ -64,7 +64,7 @@ const FirstFlightPage = () => {
           <div className="rounded-md bg-black/50 p-3">
             <h3 className="font-bold text-red-500">How it works?</h3>
             <span
-              className="cursor-pointer text-sm text-gray-300 transition-colors hover:text-red-400 hover:underline"
+              className="cursor-pointer text-sm text-gray-300 underline transition-colors hover:text-red-400"
               onClick={() => useModal.getState().onOpen('showInputFormat')}
             >
               Click here to see how it works.
@@ -145,21 +145,6 @@ const FirstFlightPage = () => {
                     </p>
                   )}
 
-                  {!goStraight &&
-                    JSON.parse(result).similarityPercentage !== undefined && (
-                      <p className="mb-2 text-center font-semibold text-white">
-                        Similarity:{' '}
-                        {JSON.parse(result).similarityPercentage.toFixed(2)}%
-                      </p>
-                    )}
-
-                  {!goStraight &&
-                    JSON.parse(result).updatedScore !== undefined && (
-                      <p className="mb-2 text-center font-semibold text-white">
-                        Score: {JSON.parse(result).updatedScore}
-                      </p>
-                    )}
-
                   {/* Try to parse the explanation from result if it's a string */}
                   {typeof result === 'string' &&
                   result.includes('explanation') ? (
@@ -171,10 +156,10 @@ const FirstFlightPage = () => {
                   )}
 
                   <div className="mt-4 flex w-full items-center justify-around text-lg">
-                    {similarityPercentage && (
+                    {pixelSimilarityPercentage && (
                       <p className="mb-2 text-center font-bold text-black">
-                        Similarity: {similarityPercentage.toFixed(2)}% (
-                        {Math.round(similarityPercentage)}+)
+                        Pixel Similarity: {pixelSimilarityPercentage.toFixed(2)}
+                        % ({Math.round(pixelSimilarityPercentage)}+)
                       </p>
                     )}
 

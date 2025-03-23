@@ -69,7 +69,7 @@ const PromptDetailSheet = () => {
               <div className="grid grid-cols-3 gap-2 border-b border-red-500/30 pb-2">
                 <span className="font-semibold text-red-500">Similarity:</span>
                 <span className="col-span-2">
-                  {prompt.similarity?.toFixed(2) || 'N/A'}%
+                  {prompt.pixel_similarity?.toFixed(2) || 'N/A'}%
                 </span>
               </div>
 
