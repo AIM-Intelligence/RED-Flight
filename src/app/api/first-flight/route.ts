@@ -409,7 +409,7 @@ export async function POST(request: Request) {
 
       // Convert similarity score to percentage for display
       pixelSimilarityPercentage = Number(
-        (pixelComparisonResult.similarityScore * 100).toFixed(2)
+        (pixelComparisonResult.similarityScore * 100).toFixed(4)
       );
 
       console.log(`Pixel-based similarity: ${pixelSimilarityPercentage}%`);

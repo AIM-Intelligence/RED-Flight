@@ -158,7 +158,7 @@ const FirstFlightPage = () => {
                   <div className="mt-4 flex w-full items-center justify-around text-lg">
                     {pixelSimilarityPercentage && (
                       <p className="mb-2 text-center font-bold text-black">
-                        Pixel Similarity: {pixelSimilarityPercentage.toFixed(2)}
+                        Pixel Similarity: {pixelSimilarityPercentage.toFixed(4)}
                         % ({Math.round(pixelSimilarityPercentage)}+)
                       </p>
                     )}

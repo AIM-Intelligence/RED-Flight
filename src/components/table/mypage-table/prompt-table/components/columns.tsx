@@ -105,7 +105,7 @@ export const columns: ColumnDef<PromptNFT>[] = [
 
       return (
         <div className="w-[100px]">
-          <span className="font-medium">{similarity?.toFixed(2) || 'N/A'}</span>
+          <span className="font-medium">{similarity?.toFixed(4) || 'N/A'}</span>
         </div>
       );
     },
