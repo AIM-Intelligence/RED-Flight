@@ -10,7 +10,9 @@ export async function getUserRank(): Promise<User[]> {
 
   const { data, error } = await supabase
     .from('user')
-    .select('*')
+    .select(
+      'id, created_at, description, email, image_url, name, score, wallet_address'
+    )
     .order('score', { ascending: false });
 
   if (error) {
