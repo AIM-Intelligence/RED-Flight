@@ -43,6 +43,7 @@ export const columns: ColumnDef<ImageRankWithUser>[] = [
               height={130}
               src={imageUrl}
               alt="profile image"
+              className="h-full w-full object-cover"
             />
           ) : (
             <Image
@@ -50,6 +51,7 @@ export const columns: ColumnDef<ImageRankWithUser>[] = [
               height={130}
               src="/asset/1.png"
               alt="default profile"
+              className="h-full w-full object-cover"
             />
           )}
         </div>
@@ -106,7 +108,7 @@ export const columns: ColumnDef<ImageRankWithUser>[] = [
     cell: ({ row }) => {
       const similarity = row.original.pixel_similarity;
       const formattedSimilarity = similarity
-        ? `${similarity.toFixed(2)}%`
+        ? `${similarity.toFixed(4)}%`
         : 'N/A';
 
       return (
