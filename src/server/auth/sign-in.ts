@@ -45,7 +45,22 @@ export async function getOrCreateWeb3User(): Promise<User> {
     return data as User;
   }
 
-  //! Need to check data properly set
+  const profile_imageurl = [
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy1.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy2.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy3.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy4.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy5.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy6.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/boy7.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl1.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl2.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl3.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl4.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl5.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl6.png',
+    'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl7.png',
+  ];
   // If user doesn't exist, create a new one
   const { data: newUser, error: insertError } = await supabase
     .from('user')
@@ -53,45 +68,49 @@ export async function getOrCreateWeb3User(): Promise<User> {
       name: user?.profiles
         ? (() => {
             // Look for Google profile first
-            const googleProfile = user.profiles.find(
-              (p) => p.type === 'google'
-            )?.details;
-            if (googleProfile && 'name' in googleProfile) {
-              return googleProfile.name;
-            }
+            // const googleProfile = user.profiles.find(
+            //   (p) => p.type === 'google'
+            // )?.details;
+            // if (googleProfile && 'name' in googleProfile) {
+            //   return googleProfile.name;
+            // }
 
-            // Then try Discord
-            const discordProfile = user.profiles.find(
-              (p) => p.type === 'discord'
-            )?.details;
-            if (discordProfile && 'username' in discordProfile) {
-              return discordProfile.username;
-            }
+            // // Then try Discord
+            // const discordProfile = user.profiles.find(
+            //   (p) => p.type === 'discord'
+            // )?.details;
+            // if (discordProfile && 'username' in discordProfile) {
+            //   return discordProfile.username;
+            // }
 
-            return null;
+            return 'Anonymous';
           })()
         : null,
       image_url: user?.profiles
         ? (() => {
             // Look for Google profile first
-            const googleProfile = user.profiles.find(
-              (p) => p.type === 'google'
-            )?.details;
-            if (googleProfile && 'picture' in googleProfile) {
-              return googleProfile.picture;
-            }
+            // const googleProfile = user.profiles.find(
+            //   (p) => p.type === 'google'
+            // )?.details;
+            // if (googleProfile && 'picture' in googleProfile) {
+            //   return googleProfile.picture;
+            // }
 
-            // Then try Discord
-            const discordProfile = user.profiles.find(
-              (p) => p.type === 'discord'
-            )?.details;
-            if (discordProfile && 'avatar' in discordProfile) {
-              return discordProfile.avatar;
-            }
+            // // Then try Discord
+            // const discordProfile = user.profiles.find(
+            //   (p) => p.type === 'discord'
+            // )?.details;
+            // if (discordProfile && 'avatar' in discordProfile) {
+            //   return discordProfile.avatar;
+            // }
 
-            return null;
+            // Random profile image selection: 50-50 boy/girl and equal probability within each
+            const isBoy = Math.random() < 0.5;
+            const imageNumber = Math.floor(Math.random() * 7); // 0-6
+            const imageIndex = isBoy ? imageNumber : imageNumber + 7; // Offset by 7 for girls
+            return profile_imageurl[imageIndex];
           })()
-        : null,
+        : profile_imageurl[Math.floor(Math.random() * profile_imageurl.length)], // Random image if no profiles
       login_profiles: user?.profiles ? user.profiles : null,
       wallet_address: walletAddress,
       email: user?.email && user.email.length > 0 ? user.email : null,

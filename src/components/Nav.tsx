@@ -9,7 +9,6 @@ import {
   Trophy,
   User,
 } from 'lucide-react';
-import { useActiveWallet } from 'thirdweb/react';
 
 import {
   Tooltip,
@@ -48,15 +47,14 @@ export const navData = [
 const Nav = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const activeWallet = useActiveWallet();
 
-  const handleButtonClick = async (path: string) => {
-    if (activeWallet) {
-      router.push(path);
-    } else {
-      router.push('/auth');
-    }
-  };
+  // const handleButtonClick = async (path: string) => {
+  //   if (activeWallet) {
+  //     router.push(path);
+  //   } else {
+  //     router.push('/auth');
+  //   }
+  // };
 
   return (
     <nav className="fixed bottom-0 top-0 z-50 mt-auto flex h-max w-full flex-col items-center gap-y-4 text-white xl:right-[2%] xl:h-screen xl:w-16 xl:max-w-md xl:justify-center">
@@ -67,7 +65,7 @@ const Nav = () => {
               <Tooltip key={index} delayDuration={0}>
                 <TooltipTrigger asChild>
                   <button
-                    onClick={() => handleButtonClick(link.path)}
+                    onClick={() => router.push(link.path)}
                     className={`${
                       link.path === pathname && 'text-accent1'
                     } group relative flex items-center transition-all duration-300 hover:text-accent1`}

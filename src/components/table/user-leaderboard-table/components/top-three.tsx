@@ -1,8 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { MediaRenderer } from 'thirdweb/react';
 
-import { client } from '@/lib/supabase/client';
 import { Database } from '@/validation/types/supabase';
 
 type User = Database['public']['Tables']['user']['Row'];
@@ -47,10 +45,12 @@ export const TopThreePlace = ({ user, place }: TopThreeProps) => {
 
       <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-2 border-red-500 bg-black">
         {user.image_url ? (
-          <MediaRenderer
-            client={client}
+          <Image
+            width={130}
+            height={130}
             src={user.image_url}
-            className="rounded-full"
+            alt="profile image"
+            className="h-full w-full object-cover"
           />
         ) : (
           <Image
@@ -58,6 +58,7 @@ export const TopThreePlace = ({ user, place }: TopThreeProps) => {
             height={130}
             src="/asset/1.png"
             alt="default profile"
+            className="h-full w-full object-cover"
           />
         )}
       </div>

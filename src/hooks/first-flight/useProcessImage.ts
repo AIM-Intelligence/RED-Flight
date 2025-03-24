@@ -48,7 +48,9 @@ export function useProcessImage() {
           if (
             retries > 0 &&
             error instanceof Error &&
-            error.message.includes('Unexpected token')
+            (error.message.includes('Unexpected token') ||
+              error.message.includes('JSON') ||
+              error.message.includes('json'))
           ) {
             console.log(
               `Retrying after unexpected token error. Attempts remaining: ${retries - 1}`

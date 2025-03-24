@@ -43,6 +43,7 @@ export const columns: ColumnDef<User>[] = [
               height={130}
               src="/asset/1.png"
               alt="default profile"
+              className="h-full w-full object-cover"
             />
           </div>
         );
@@ -50,7 +51,13 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className="flex h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full bg-black">
           {/* <MediaRenderer client={client} src={url} className="rounded-full" /> */}
-          <Image width={130} height={130} src={url} alt="profile image" />
+          <Image
+            width={130}
+            height={130}
+            src={url}
+            alt="profile image"
+            className="h-full w-full object-cover"
+          />
         </div>
       );
     },

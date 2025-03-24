@@ -28,7 +28,7 @@ export const TopThreePlace = ({ image, place }: TopThreeProps) => {
   const userName = image.user?.name || 'Anonymous';
   const explanation = JSON.parse(image.response).explanation;
   const similarity = image.pixel_similarity
-    ? `${image.pixel_similarity.toFixed(2)}%`
+    ? `${image.pixel_similarity.toFixed(4)}%`
     : 'N/A';
 
   const isFirstPlace = place === 1;
@@ -40,8 +40,9 @@ export const TopThreePlace = ({ image, place }: TopThreeProps) => {
         isFirstPlace ? 'border-red-500 bg-black/50' : 'border-transparent'
       }`}
     >
-      <p className="mb-4 text-lg font-bold text-white">
-        {placeEmoji[place]} {placeText[place]} Place
+      <p className="mb-4 text-2xl font-bold text-white">
+        {placeEmoji[place]} {placeText[place]} Place - $
+        {place === 1 ? '300' : place === 2 ? '200' : '100'}
       </p>
 
       {/* User Profile */}
@@ -52,7 +53,7 @@ export const TopThreePlace = ({ image, place }: TopThreeProps) => {
             height={64}
             src={image.user.image_url}
             alt="profile image"
-            className="object-cover"
+            className="h-full w-full object-cover"
           />
         ) : (
           <Image
@@ -60,6 +61,7 @@ export const TopThreePlace = ({ image, place }: TopThreeProps) => {
             height={64}
             src="/asset/1.png"
             alt="default profile"
+            className="h-full w-full object-cover"
           />
         )}
       </div>
