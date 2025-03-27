@@ -30,7 +30,7 @@ export function useProcessImage() {
       setProcessing(true);
 
       const fetchWithRetry = async (
-        retries = 2
+        retries = 3
       ): Promise<ProcessImageResponse> => {
         try {
           const response = await fetch('/api/first-flight', {
@@ -50,12 +50,13 @@ export function useProcessImage() {
             error instanceof Error &&
             (error.message.includes('Unexpected token') ||
               error.message.includes('JSON') ||
-              error.message.includes('json'))
+              error.message.includes('json') ||
+              error.message.includes('Please try again'))
           ) {
             console.log(
               `Retrying after unexpected token error. Attempts remaining: ${retries - 1}`
             );
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             return fetchWithRetry(retries - 1);
           }
           throw error;
