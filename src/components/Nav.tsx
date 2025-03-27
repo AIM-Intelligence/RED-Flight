@@ -27,11 +27,6 @@ export const navData = [
     path: '/similarity_leaderboard',
     icon: <Trophy />,
   },
-  // {
-  //   name: 'RED Prompt Leaderboard',
-  //   path: '/red-prompt-leaderboard',
-  //   icon: <Award />,
-  // },
   {
     name: 'RED User Leaderboard',
     path: '/red_user_leaderboard',

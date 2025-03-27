@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { RiInstagramLine, RiTwitterXLine, RiYoutubeLine } from 'react-icons/ri';
+import {
+  RiDiscordLine,
+  RiInstagramLine,
+  RiTwitterXLine,
+  RiYoutubeLine,
+} from 'react-icons/ri';
 
 const Socials = () => {
   const [fullTimeRemaining, setFullTimeRemaining] = useState<string>('');
@@ -61,31 +66,31 @@ const Socials = () => {
       <div className="flex items-center gap-x-5 text-white">
         <Link
           href="https://www.youtube.com/@aim-intelligence"
-          className="rounded-full bg-black p-2 transition-all duration-300"
+          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiYoutubeLine className="h-8 w-8" />
         </Link>
         <Link
           href="https://x.com/AIM408191939218"
-          className="rounded-full bg-black p-2 transition-all duration-300"
+          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiTwitterXLine className="h-8 w-8" />
         </Link>
-        {/* <Link
-          href="https://discord.gg/HyuhgvGBu9"
+        <Link
+          href="https://discord.gg/MvJcFmtEMj"
           target="_blank"
-          className="transition-all duration-300"
+          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiDiscordLine className="h-8 w-8" />
-        </Link> */}
+        </Link>
         <Link
           href="https://www.instagram.com/aim_intelligence/"
           target="_blank"
-          className="rounded-full bg-black p-2 transition-all duration-300"
+          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiInstagramLine className="h-8 w-8" />
         </Link>
-        <div className="min-w-[200px] rounded bg-black px-2 py-1 text-center text-xl font-bold text-red-500">
+        <div className="min-w-[200px] rounded bg-black px-2 py-1 text-center text-xl font-bold text-red-600">
           {fullTimeRemaining ? `${fullTimeRemaining}` : 'Loading...'}
         </div>
       </div>
