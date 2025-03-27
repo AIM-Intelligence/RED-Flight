@@ -1,13 +1,18 @@
 'use client';
 
+import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+
 import PromptPageTable from '@/components/table/mypage-table/prompt-table';
-import Error from '@/app/error';
 import Loading from '@/app/loading';
 import { useGetMyFirstRed } from '@/hooks/my-prompt/useGetMyFirstRed';
 import { useGetUser } from '@/hooks/user/useGetUser';
+import { logout } from '@/server/auth/auth';
 import UserInfo from './_components/UserInfo';
 
 const ClientPage = () => {
+  const router = useRouter();
+
   // Get user's first-red prompts
   const {
     data: promptData,
@@ -22,19 +27,16 @@ const ClientPage = () => {
     error: userError,
   } = useGetUser();
 
+  const handleError = useCallback(async () => {
+    await logout();
+    router.replace('/auth');
+  }, [router]);
+
   if (userLoading || promptLoading) return <Loading />;
-  if (userError || promptError)
-    return (
-      <Error
-        message={
-          userError instanceof Error
-            ? userError.message
-            : promptError instanceof Error
-              ? promptError.message
-              : 'Error has occurred'
-        }
-      />
-    );
+  if (userError || promptError) {
+    // Call the error handler
+    handleError();
+  }
 
   // Extract prompts and status from the prompt data
   const prompts = promptData || [];
