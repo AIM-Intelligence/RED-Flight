@@ -65,7 +65,6 @@ export async function POST(request: NextRequest) {
         const { data, error } = await supabase.storage
           .from('user-profile')
           .upload(uniqueFileName, buffer, {
-            cacheControl: '3600',
             upsert: true,
             contentType: mimeType,
           });
@@ -97,10 +96,12 @@ export async function POST(request: NextRequest) {
     const { data, error } = await supabase
       .from('user')
       .update({
-        name,
-        description,
-        email,
-        image_url: finalImageUrl,
+        name: name || null,
+        description: description || null,
+        email: email || null,
+        image_url:
+          finalImageUrl ||
+          'https://mnkjdyduuwruvaokqowr.supabase.co/storage/v1/object/public/red-image/profile-images/girl1.png',
       })
       .eq('wallet_address', walletAddress)
       .select()

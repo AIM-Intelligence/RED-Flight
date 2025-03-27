@@ -16,7 +16,7 @@ type UpdateUserParams = {
   mimeType?: string | null;
 };
 
-export function useUpdateWeb3User() {
+export function useUpdateUser() {
   const queryClient = useQueryClient();
 
   const updateMutation = useMutation({
