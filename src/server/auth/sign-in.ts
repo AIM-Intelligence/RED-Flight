@@ -83,7 +83,7 @@ export async function getOrCreateWeb3User(): Promise<User> {
             //   return discordProfile.username;
             // }
 
-            return 'Anonymous';
+            return null;
           })()
         : null,
       image_url: user?.profiles
