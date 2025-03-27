@@ -507,7 +507,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error in first-flight API:', error);
     return NextResponse.json(
-      { error: 'An error occurred during processing' },
+      { error: 'An error occurred during processing. Please try again.' },
       { status: 500 }
     );
   }
