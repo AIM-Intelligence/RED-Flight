@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/Form';
 import { cn } from '@/lib/utils';
-import { useUpdateWeb3User } from '@/hooks/user/useUpdateUser';
+import { useUpdateUser } from '@/hooks/user/useUpdateUser';
 import { useModal } from '@/store/use-modal-store';
 import { Input } from '../ui/AnimateButton';
 import { Button } from '../ui/Button';
@@ -37,7 +37,7 @@ type FormValues = z.infer<typeof formSchema>;
 
 const UserInfoEditModal: React.FC = () => {
   const { isOpen, onClose, type, data } = useModal();
-  const { updateUser, isUpdating } = useUpdateWeb3User();
+  const { updateUser, isUpdating } = useUpdateUser();
   const isModalOpen = isOpen && type === 'showUserInfoEdit';
 
   const user_info = data?.user_info || null;

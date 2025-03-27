@@ -4,6 +4,8 @@ import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
+import { logout } from '@/server/auth/auth';
+
 interface ErrorProps {
   message?: string;
 }
@@ -35,13 +37,10 @@ const Error = ({ message }: ErrorProps) => {
     },
   };
 
-  const goToHome = useCallback(() => {
+  const goToHome = useCallback(async () => {
+    await logout();
     router.push('/');
   }, [router]);
-
-  const refreshPage = useCallback(() => {
-    window.location.reload();
-  }, []);
 
   return (
     <div className="page flex h-screen flex-col items-center justify-center bg-black">
@@ -77,12 +76,6 @@ const Error = ({ message }: ErrorProps) => {
           className="rounded-md bg-red-500 px-4 py-2 font-medium text-white transition-colors hover:bg-red-600"
         >
           Go to Home
-        </button>
-        <button
-          onClick={refreshPage}
-          className="rounded-md border border-red-500 px-4 py-2 font-medium text-red-500 transition-colors hover:bg-red-500/10"
-        >
-          Refresh
         </button>
       </motion.div>
     </div>
