@@ -69,7 +69,7 @@ const Page = () => {
       style={{ scrollBehavior: 'auto' }}
     >
       <Button
-        className="fixed right-6 top-6 gap-2 bg-transparent px-4 py-2 text-red-600 hover:bg-none"
+        className="fixed right-6 top-6 animate-pulse gap-2 bg-transparent px-4 py-2 text-red-600 hover:bg-none"
         onClick={() => router.push('/')}
       >
         go main page
@@ -92,7 +92,7 @@ const Page = () => {
             className="h-auto w-screen"
           />
           <Button
-            className="absolute bottom-6 right-6 gap-2 bg-transparent px-4 py-2 hover:bg-none"
+            className="absolute bottom-6 right-6 animate-pulse gap-2 bg-transparent px-4 py-2 text-red-600 hover:bg-none"
             onClick={() => router.push('/red_flight_world/member')}
           >
             go next page

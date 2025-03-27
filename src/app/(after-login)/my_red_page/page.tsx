@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useRouter } from 'next/navigation';
 
 import PromptPageTable from '@/components/table/mypage-table/prompt-table';
 import Loading from '@/app/loading';
@@ -11,8 +10,6 @@ import { logout } from '@/server/auth/auth';
 import UserInfo from './_components/UserInfo';
 
 const ClientPage = () => {
-  const router = useRouter();
-
   // Get user's first-red prompts
   const {
     data: promptData,
@@ -29,8 +26,8 @@ const ClientPage = () => {
 
   const handleError = useCallback(async () => {
     await logout();
-    router.replace('/auth');
-  }, [router]);
+    window.location.href = '/auth';
+  }, []);
 
   if (userLoading || promptLoading) return <Loading />;
   if (userError || promptError) {
