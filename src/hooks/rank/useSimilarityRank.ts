@@ -40,7 +40,6 @@ export function useSimilarityRank(limit = 50) {
     },
     staleTime: 0,
     refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 }
 

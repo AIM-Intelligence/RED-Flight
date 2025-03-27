@@ -38,7 +38,6 @@ export function useUserRank() {
     },
     staleTime: 0,
     refetchOnMount: true,
-    refetchOnWindowFocus: true,
   });
 }
 
