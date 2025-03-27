@@ -66,12 +66,14 @@ const Socials = () => {
       <div className="flex items-center gap-x-5 text-white">
         <Link
           href="https://www.youtube.com/@aim-intelligence"
+          target="_blank"
           className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiYoutubeLine className="h-8 w-8" />
         </Link>
         <Link
           href="https://x.com/AIM408191939218"
+          target="_blank"
           className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >
           <RiTwitterXLine className="h-8 w-8" />
