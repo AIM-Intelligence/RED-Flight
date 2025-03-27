@@ -25,7 +25,7 @@ export const TopThreePlace = ({ image, place }: TopThreeProps) => {
     return null;
   }
 
-  const userName = image.user?.name || 'Anonymous';
+  const userName = image.user?.name || 'Unknown';
   const explanation = JSON.parse(image.response).explanation;
   const similarity = image.pixel_similarity
     ? `${image.pixel_similarity.toFixed(4)}%`

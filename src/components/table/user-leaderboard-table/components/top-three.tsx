@@ -27,7 +27,7 @@ export const TopThreePlace = ({ user, place }: TopThreeProps) => {
     return null; // Don't render anything if no user
   }
 
-  const name = user.name || 'Anonymity';
+  const name = user.name || 'Unknown';
   const wallet_address = user.wallet_address.slice(0, 12);
 
   const isFirstPlace = place === 1;
