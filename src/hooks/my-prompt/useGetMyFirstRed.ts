@@ -32,5 +32,7 @@ export function useGetMyFirstRed() {
         throw error;
       }
     },
+    staleTime: 0,
+    refetchOnMount: true,
   });
 }

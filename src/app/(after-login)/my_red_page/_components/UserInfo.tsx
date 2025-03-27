@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
 
 import { Button } from '@/components/ui/Button';
 import { useModal } from '@/store/use-modal-store';
@@ -7,15 +6,10 @@ import { Database } from '@/validation/types/supabase';
 
 type User = Database['public']['Tables']['user']['Row'];
 
-const UserInfo = ({ user: initialUser }: { user: User }) => {
+const UserInfo = ({ user }: { user: User }) => {
   const { onOpen } = useModal();
 
-  // Use React Query to get the latest user data from cache
-  const { data: user } = useQuery({
-    queryKey: ['user'],
-    initialData: initialUser,
-    staleTime: Infinity, // Use provided data until explicitly invalidated
-  });
+  // Remove the unnecessary useQuery call and just use the prop directly
 
   const getTierName = (score: number) => {
     if (score > 0 && score <= 3000) {
@@ -55,7 +49,7 @@ const UserInfo = ({ user: initialUser }: { user: User }) => {
               />
               <div>
                 <p className="text-xl font-semibold text-white">
-                  {user.name ? user.name : 'Anonymous'}
+                  {user.name ? user.name : 'Unknown'}
                 </p>
                 <p>{user.email ? user.email : 'no email'}</p>
                 <p>

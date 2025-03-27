@@ -32,5 +32,7 @@ export function useGetUser() {
         throw error;
       }
     },
+    staleTime: 0,
+    refetchOnMount: true,
   });
 }
