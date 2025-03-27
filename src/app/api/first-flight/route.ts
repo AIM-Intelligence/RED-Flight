@@ -247,7 +247,7 @@ export async function POST(request: Request) {
           'andreasjansson/clip-features:75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a',
           {
             input: {
-              image: imageUrl,
+              inputs: imageUrl,
             },
           }
         );
@@ -311,7 +311,7 @@ export async function POST(request: Request) {
       }
 
       // If we got any similar images back, it means there's at least one image
-      // with similarity >= 0.98 (our threshold)
+      // with similarity >= 0.99 (our threshold)
       if (similarImages && similarImages.length > 0) {
         return NextResponse.json(
           {
