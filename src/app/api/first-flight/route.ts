@@ -247,7 +247,7 @@ export async function POST(request: Request) {
           'andreasjansson/clip-features:75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a',
           {
             input: {
-              inputs: imageUrl,
+              image: imageUrl,
             },
           }
         );
@@ -289,7 +289,7 @@ export async function POST(request: Request) {
           'match_images',
           {
             query_embedding: embeddingString,
-            similarity_threshold: 0.98,
+            similarity_threshold: 0.99,
             match_count: 1,
           }
         );

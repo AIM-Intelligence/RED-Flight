@@ -57,7 +57,7 @@ export const ImageUpload = () => {
     }
 
     if (file.size > 3 * 1024 * 1024) {
-      setError('File size exceeds 10MB limit');
+      setError('File size exceeds 3MB limit');
       return;
     }
 
@@ -231,7 +231,13 @@ export const ImageUpload = () => {
           </div>
 
           <div className="flex flex-col space-y-2">
-            {!selectedFile && !imageUrl && (
+            {displayError && (
+              <div className="flex justify-center">
+                <p className="text-sm text-red-500">{displayError}</p>
+              </div>
+            )}
+
+            {!selectedFile && !imageUrl && !displayError && (
               <div className="flex justify-center">
                 <p className="text-center text-white">Upload an image first</p>
               </div>
@@ -239,11 +245,6 @@ export const ImageUpload = () => {
 
             {selectedFile && !imageUrl && (
               <div className="flex justify-between gap-2">
-                <div>
-                  {displayError && (
-                    <p className="text-sm text-red-500">{displayError}</p>
-                  )}
-                </div>
                 <div className="flex w-full gap-2">
                   <Button
                     onClick={handleUpload}
