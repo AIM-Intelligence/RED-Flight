@@ -156,9 +156,6 @@ const UserInfoEditModal: React.FC = () => {
           <DialogTitle>Edit User Information</DialogTitle>
         </DialogHeader>
         <div className="mt-5 flex w-full flex-col items-center justify-center">
-          {/* <div className="mb-5 text-center">
-            Profile Image NFT Claim coming soon...
-          </div> */}
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleEditUserProfile)}
