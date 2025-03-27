@@ -220,13 +220,13 @@ export async function POST(request: Request) {
       .from('red-image') // Replace with your bucket name
       .upload(filePath, buffer, {
         contentType: file.type,
-        upsert: false,
+        upsert: true,
       });
 
     if (uploadError) {
       console.error('Error uploading to Supabase:', uploadError);
       return NextResponse.json(
-        { error: 'Failed to upload file' },
+        { error: 'Failed to upload file. Please try again.' },
         { status: 500 }
       );
     }
@@ -241,14 +241,24 @@ export async function POST(request: Request) {
     // Generate vector embedding for the image using Replicate
     try {
       // Use Replicate CLIP model to generate embedding
-      const embeddingResponse = await replicate.run(
-        'andreasjansson/clip-features:75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a',
-        {
-          input: {
-            inputs: imageUrl,
-          },
-        }
-      );
+      let embeddingResponse;
+      try {
+        embeddingResponse = await replicate.run(
+          'andreasjansson/clip-features:75b33f253f7714a281ad3e9b28f63e3232d583716ef6718f2e46641077ea040a',
+          {
+            input: {
+              inputs: imageUrl,
+            },
+          }
+        );
+      } catch (replicateError) {
+        console.error('Error calling Replicate API:', replicateError);
+
+        return NextResponse.json(
+          { error: 'Failed to generate image embedding. Please try again.' },
+          { status: 500 }
+        );
+      }
 
       // Extract the actual embedding array from the response
       // The response is an array of objects, we need the embedding from the first object
@@ -257,43 +267,69 @@ export async function POST(request: Request) {
           ? embeddingResponse[0].embedding
           : [];
 
+      if (newImageEmbedding.length === 0) {
+        console.error('Error: Empty embedding returned from Replicate');
+
+        return NextResponse.json(
+          {
+            error:
+              'Failed to extract valid embedding from image. Change the image and try again.',
+          },
+          { status: 500 }
+        );
+      }
+
       // Convert embedding array to string for Supabase pgvector
       const embeddingString = JSON.stringify(newImageEmbedding);
 
       // Query Supabase for similar images using vector similarity
-      const { data: similarImages, error: similarityError } =
-        await supabase.rpc('match_images', {
-          query_embedding: embeddingString,
-          similarity_threshold: 0.98,
-          match_count: 1,
-        });
+      let similarImages;
+      try {
+        const { data, error: similarityError } = await supabase.rpc(
+          'match_images',
+          {
+            query_embedding: embeddingString,
+            similarity_threshold: 0.98,
+            match_count: 1,
+          }
+        );
 
-      if (similarityError) {
-        console.error('Error checking image similarity:', similarityError);
+        if (similarityError) {
+          throw similarityError;
+        }
+        similarImages = data;
+      } catch (dbError) {
+        console.error('Error checking image similarity in database:', dbError);
+
         return NextResponse.json(
-          { error: 'Failed to check image similarity' },
+          {
+            error:
+              'Failed to check image similarity in database. Please try again.',
+          },
           { status: 500 }
         );
       }
 
       // If we got any similar images back, it means there's at least one image
-      // with similarity >= 0.95 (our threshold)
+      // with similarity >= 0.98 (our threshold)
       if (similarImages && similarImages.length > 0) {
-        // Delete the uploaded image since it's too similar to an existing one
-        await supabase.storage.from('red-image').remove([filePath]);
-
         return NextResponse.json(
-          { error: 'This image is too similar to one already uploaded' },
+          {
+            error:
+              'This image is too similar to one already uploaded. Please try again with a different image.',
+          },
           { status: 400 }
         );
       }
-    } catch (embeddingError) {
-      console.error('Error generating image embedding:', embeddingError);
-      // Delete the uploaded image if embedding generation fails
-      await supabase.storage.from('red-image').remove([filePath]);
+    } catch (unexpectedError) {
+      console.error('Unexpected error in image processing:', unexpectedError);
+      // Try to delete the uploaded image on any unexpected error
 
       return NextResponse.json(
-        { error: 'Failed to process image similarity' },
+        {
+          error:
+            'An unexpected error occurred during image processing. Please try again.',
+        },
         { status: 500 }
       );
     }
@@ -353,8 +389,6 @@ export async function POST(request: Request) {
             {
               error:
                 "This image violates Azure OpenAI's content policy. Please use a different image.",
-              details:
-                'The image was blocked due to content filtering policies.',
             },
             { status: 400 }
           );
@@ -397,6 +431,10 @@ export async function POST(request: Request) {
 
       if (insertError) {
         console.error('Error saving to Supabase:', insertError);
+        return NextResponse.json(
+          { error: 'Failed to save to Supabase. Please try again.' },
+          { status: 500 }
+        );
       }
 
       // Initialize similarity data variables
@@ -430,6 +468,14 @@ export async function POST(request: Request) {
           console.error(
             'Error calculating similarity and updating score:',
             similarityError
+          );
+
+          return NextResponse.json(
+            {
+              error:
+                'Failed to calculate similarity and update score. Please try again.',
+            },
+            { status: 500 }
           );
         } else if (similarityResult && similarityResult.length > 0) {
           similarityPercentage = similarityResult[0].similarity_percentage;
