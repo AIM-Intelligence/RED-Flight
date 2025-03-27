@@ -7,13 +7,25 @@ const Socials = () => {
 
   useEffect(() => {
     const calculateTimeRemaining = () => {
+      // Create target date: April 1st at 9 PM Korean time (UTC+9)
+      const currentYear = new Date().getFullYear();
+
+      // Create date in Korean time (UTC+9)
+      // Month is 0-based, so April is 3
       const targetDate = new Date(
-        'March 30, ' +
-          (new Date().getFullYear() +
-            (new Date() > new Date(`March 30, ${new Date().getFullYear()}`)
+        Date.UTC(
+          currentYear +
+            (new Date() > new Date(Date.UTC(currentYear, 3, 1, 12, 0, 0))
               ? 1
-              : 0))
+              : 0), // Next year if date has passed
+          3, // April (0-indexed)
+          1, // 1st day
+          12, // 12 UTC = 9 PM in Korea (UTC+9)
+          0,
+          0
+        )
       );
+
       const currentDate = new Date();
       const difference = targetDate.getTime() - currentDate.getTime();
 
