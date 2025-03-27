@@ -84,7 +84,7 @@ const Socials = () => {
           <RiDiscordLine className="h-8 w-8" />
         </Link>
         <Link
-          href="https://www.instagram.com/aim_intelligence/"
+          href="https://www.instagram.com/icaros__/"
           target="_blank"
           className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
         >

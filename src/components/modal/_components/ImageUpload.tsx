@@ -133,7 +133,13 @@ export const ImageUpload = ({
         )}
       </div>
 
-      {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+      {error ? (
+        <p className="mt-2 text-sm text-red-500">{error}</p>
+      ) : (
+        <p className="mt-2 text-sm text-gray-400">
+          Formats: JPG, PNG, WEBP / Max size: 3MB
+        </p>
+      )}
     </div>
   );
 };
