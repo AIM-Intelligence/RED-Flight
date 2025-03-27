@@ -71,12 +71,12 @@ export const columns: ColumnDef<ImageRankWithUser>[] = [
 
       return (
         <span className="max-w-[500px] truncate font-medium">
-          {name || 'Anonymous'}
+          {name || 'Unknown'}
         </span>
       );
     },
     filterFn: (row, value) => {
-      const name = row.original.user?.name || 'Anonymous';
+      const name = row.original.user?.name || 'Unknown';
       return name.toLowerCase().includes(value.toLowerCase());
     },
     enableSorting: false,
