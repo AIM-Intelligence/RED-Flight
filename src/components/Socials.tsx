@@ -62,37 +62,39 @@ const Socials = () => {
   }, []);
 
   return (
-    <div className="flex translate-x-14 flex-col items-center gap-y-4">
-      <div className="flex items-center gap-x-5 text-white">
-        <Link
-          href="https://www.youtube.com/@aim-intelligence"
-          target="_blank"
-          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
-        >
-          <RiYoutubeLine className="h-8 w-8" />
-        </Link>
-        <Link
-          href="https://x.com/AIM408191939218"
-          target="_blank"
-          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
-        >
-          <RiTwitterXLine className="h-8 w-8" />
-        </Link>
-        <Link
-          href="https://discord.gg/MvJcFmtEMj"
-          target="_blank"
-          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
-        >
-          <RiDiscordLine className="h-8 w-8" />
-        </Link>
-        <Link
-          href="https://www.instagram.com/icaros__/"
-          target="_blank"
-          className="rounded-full bg-black p-2 transition-all duration-300 hover:text-red-600"
-        >
-          <RiInstagramLine className="h-8 w-8" />
-        </Link>
-        <div className="min-w-[200px] rounded bg-black px-2 py-1 text-center text-xl font-bold text-red-600">
+    <div className="flex flex-col items-center gap-y-4">
+      <div className="flex flex-col items-center gap-x-3 gap-y-1 text-white sm:flex-row sm:gap-x-5">
+        <div className="flex items-center gap-x-2 sm:gap-x-5">
+          <Link
+            href="https://www.youtube.com/@aim-intelligence"
+            target="_blank"
+            className="rounded-full bg-black p-1.5 transition-all duration-300 hover:text-red-600 sm:p-2"
+          >
+            <RiYoutubeLine className="h-6 w-6 sm:h-8 sm:w-8" />
+          </Link>
+          <Link
+            href="https://x.com/AIM408191939218"
+            target="_blank"
+            className="rounded-full bg-black p-1.5 transition-all duration-300 hover:text-red-600 sm:p-2"
+          >
+            <RiTwitterXLine className="h-6 w-6 sm:h-8 sm:w-8" />
+          </Link>
+          <Link
+            href="https://discord.gg/MvJcFmtEMj"
+            target="_blank"
+            className="rounded-full bg-black p-1.5 transition-all duration-300 hover:text-red-600 sm:p-2"
+          >
+            <RiDiscordLine className="h-6 w-6 sm:h-8 sm:w-8" />
+          </Link>
+          <Link
+            href="https://www.instagram.com/icaros__/"
+            target="_blank"
+            className="rounded-full bg-black p-1.5 transition-all duration-300 hover:text-red-600 sm:p-2"
+          >
+            <RiInstagramLine className="h-6 w-6 sm:h-8 sm:w-8" />
+          </Link>
+        </div>
+        <div className="w-full rounded bg-black px-2 py-1 text-center text-sm font-bold text-red-600 sm:min-w-[200px] sm:text-xl">
           {fullTimeRemaining ? `${fullTimeRemaining}` : 'Loading...'}
         </div>
       </div>

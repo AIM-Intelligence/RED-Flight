@@ -1,5 +1,7 @@
 'use client';
 
+import { useMediaQuery } from 'react-responsive';
+
 import { Database } from '@/validation/types/supabase';
 import { columns } from './components/columns';
 import { DataTable } from './components/data-table';
@@ -16,6 +18,11 @@ export default function SimilarityLeaderBoardPageTable({
   topThree = [],
   userRanks = [],
 }: UserLeaderBoardPageTableProps) {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  // Determine what data to show in the table based on device
+  const tableData = isMobile ? [...topThree, ...userRanks] : userRanks;
+
   if (topThree.length === 0 && userRanks.length === 0) {
     return (
       <div className="flex items-center justify-between space-y-2 p-8">
@@ -27,20 +34,29 @@ export default function SimilarityLeaderBoardPageTable({
   }
 
   return (
-    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+    <div className="flex h-full flex-1 flex-col space-y-8 p-8">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-2xl font-bold tracking-tight text-red-600">
           RED User Leaderboard
         </h2>
       </div>
-      <div className="flex justify-center gap-4">
-        {/* Only render if we have enough users */}
-        {topThree.length > 1 && <TopThreePlace user={topThree[1]} place={2} />}
-        {topThree.length > 0 && <TopThreePlace user={topThree[0]} place={1} />}
-        {topThree.length > 2 && <TopThreePlace user={topThree[2]} place={3} />}
-      </div>
 
-      <DataTable data={userRanks} columns={columns} />
+      {/* Only show TopThreePlace on non-mobile devices */}
+      {!isMobile && (
+        <div className="flex justify-center gap-4">
+          {topThree.length > 1 && (
+            <TopThreePlace user={topThree[1]} place={2} />
+          )}
+          {topThree.length > 0 && (
+            <TopThreePlace user={topThree[0]} place={1} />
+          )}
+          {topThree.length > 2 && (
+            <TopThreePlace user={topThree[2]} place={3} />
+          )}
+        </div>
+      )}
+
+      <DataTable data={tableData} columns={columns} />
     </div>
   );
 }

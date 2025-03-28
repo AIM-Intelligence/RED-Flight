@@ -3,14 +3,18 @@ import Image from 'next/image';
 const ProjectsBtn = () => {
   return (
     <div className="mx-auto xl:mx-0">
-      <div className="relative flex h-[240px] w-[200px] items-center justify-center max-sm:h-[120px] max-sm:w-[120px]">
-        <Image
-          src="/redflight.png"
-          width={140}
-          height={170}
-          alt=""
-          className="h-full max-h-[240px] w-full max-w-[160px] -translate-y-4 max-sm:max-h-[90px] max-sm:max-w-[90px] max-sm:translate-y-2"
-        />
+      <div className="relative flex w-full items-center justify-center">
+        {/* Container with responsive dimensions */}
+        <div className="relative flex h-[120px] w-[120px] items-center justify-center sm:h-[180px] sm:w-[160px] md:h-[240px] md:w-[200px]">
+          <Image
+            src="/redflight.png"
+            width={140}
+            height={170}
+            alt="Redflight logo"
+            className="h-auto w-[90px] -translate-y-1 object-contain sm:w-[120px] sm:-translate-y-2 md:w-[160px] md:-translate-y-4"
+            priority
+          />
+        </div>
       </div>
     </div>
   );

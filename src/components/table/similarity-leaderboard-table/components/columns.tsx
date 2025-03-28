@@ -18,9 +18,13 @@ export const columns: ColumnDef<ImageRankWithUser>[] = [
       <DataTableColumnHeader column={column} title="Rank" />
     ),
     cell: ({ row }) => {
-      const rank = row.index + 4; // Starts from 4 since top 3 are displayed separately
+      // Get displayRank property that will be set in the parent component
+      const displayRank = (row.original as any).displayRank || row.index + 1;
+
       return (
-        <span className="max-w-[100px] truncate text-xl font-bold">{rank}</span>
+        <span className="max-w-[100px] truncate text-xl font-bold">
+          {displayRank}
+        </span>
       );
     },
     enableSorting: false,

@@ -10,7 +10,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         style={{ objectFit: 'cover' }}
       />
 
-      <div className="relative z-10 pb-20">{children}</div>
+      <div className="relative z-10">{children}</div>
     </main>
   );
 };
