@@ -12,15 +12,13 @@ interface PromptPageTableProps {
 
 export default function PromptPageTable({ prompts }: PromptPageTableProps) {
   return (
-    <>
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <div className="flex items-center justify-between space-y-2">
-          <h2 className="text-2xl font-bold tracking-tight text-red-600">
-            My Red Prompts
-          </h2>
-        </div>
-        <DataTable data={prompts} columns={columns} />
+    <div className="flex h-full flex-1 flex-col space-y-4 p-4 md:space-y-8 md:p-8">
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold tracking-tight text-red-600 md:text-2xl">
+          My Red Prompts
+        </h2>
       </div>
-    </>
+      <DataTable data={prompts} columns={columns} />
+    </div>
   );
 }

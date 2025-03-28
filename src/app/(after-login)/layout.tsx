@@ -16,7 +16,7 @@ export default async function Layout({
   }
 
   return (
-    <main className="page relative bg-black text-white">
+    <main>
       <Nav />
       <HeaderPage />
       {children}

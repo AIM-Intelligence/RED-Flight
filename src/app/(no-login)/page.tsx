@@ -100,36 +100,31 @@ export default function Home() {
             </video>
 
             <div className="relative z-20">
-              <div className="container mx-auto flex h-full flex-col justify-center text-center xl:pt-20 xl:text-left">
-                <div className="mt-10">
-                  <div className="mb-10">
+              <div className="container mx-auto flex h-full flex-col items-center justify-center px-4 text-center md:items-start md:px-6 xl:pt-20 xl:text-left">
+                <div className="mt-10 w-full max-w-[600px] md:mt-16">
+                  <div className="mb-8 md:mb-10">
                     <Image
                       src="/redflightname.png"
                       width={600}
                       height={300}
                       alt="Redflight"
+                      className="mx-auto w-full max-w-[400px] md:mx-0 md:max-w-[600px]"
                     />
                   </div>
-                  {/* <h1 className="h1 bg-gradient-to-b from-sky-500 to-slate-300 bg-clip-text font-black text-transparent">
-                      <span className="text-shadow-inner">
-                        Transforming <br /> Into{" "}
+                  <div className="flex justify-center md:justify-start">
+                    <VideoHoverButton
+                      onClick={handleButtonClick}
+                      className="flex items-center justify-center gap-2 rounded-full bg-primary1 px-4 py-4 text-sm text-white shadow-lg transition-all duration-100 hover:bg-transparent hover:shadow-xl sm:px-6 sm:py-6 sm:text-base md:text-lg"
+                      videoSrc="/videos/logo_main.mp4"
+                    >
+                      <span className="mr-2">AI Jailbreaking Game Start</span>
+                      <span className="z-30 max-w-8 sm:max-w-10">
+                        <ArrowAnimation />
                       </span>
-                      <span className="text-red-600 text-shadow-inner">
-                        RED Flight
-                      </span>
-                    </h1> */}
-                  <VideoHoverButton
-                    onClick={handleButtonClick}
-                    className="flex items-center justify-center gap-2 rounded-full bg-primary1 px-6 py-6 text-white shadow-lg transition-all duration-100 hover:bg-transparent hover:shadow-xl max-sm:-translate-y-4 max-sm:text-sm"
-                    videoSrc="/videos/logo_main.mp4"
-                  >
-                    <span className="mr-2">AI Jailbreaking Game Start</span>
-                    <span className="z-30 max-w-10">
-                      <ArrowAnimation />
-                    </span>
-                  </VideoHoverButton>
+                    </VideoHoverButton>
+                  </div>
 
-                  <div className="mt-4 flex items-center gap-2">
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-3 md:justify-start">
                     <ThirdwebConnectButton />
 
                     <Link href="https://aim-intelligence.com" target="_blank">
@@ -138,13 +133,13 @@ export default function Home() {
                         width={150}
                         height={56}
                         alt="aim intelligence"
-                        className="h-14 rounded-xl object-contain hover:cursor-pointer"
+                        className="h-10 object-contain hover:cursor-pointer md:h-14"
                       />
                     </Link>
                   </div>
                 </div>
 
-                <div className="mt-72">
+                <div className="mt-36 max-sm:hidden md:mt-52 lg:mt-72">
                   <ProjectsBtn />
                 </div>
               </div>
