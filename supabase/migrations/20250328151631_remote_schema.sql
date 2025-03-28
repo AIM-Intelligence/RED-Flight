@@ -72,6 +72,202 @@ CREATE EXTENSION IF NOT EXISTS "vector" WITH SCHEMA "public";
 
 
 
+CREATE OR REPLACE FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text") RETURNS TABLE("similarity_percentage" numeric, "updated_score" integer)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+DECLARE
+  similarity_value double precision;
+  percentage numeric;
+  score_to_add integer;
+  current_score integer;
+  new_total_score integer;
+BEGIN
+  -- Calculate similarity with the target image
+  SELECT (rc.embedding::vector <=> query_embedding::vector) 
+  INTO similarity_value
+  FROM "red-criteria" rc
+  WHERE rc.id = target_id
+  LIMIT 1;
+  
+  -- Convert similarity to percentage (cosine distance to similarity percentage)
+  percentage := ROUND(((1 - similarity_value) * 100)::numeric, 2);
+  
+  -- Convert to integer for score
+  score_to_add := ROUND(percentage);
+  
+  -- Get current user score
+  SELECT score INTO current_score
+  FROM "user"
+  WHERE wallet_address = user_wallet;
+  
+  -- Calculate new total score
+  new_total_score := current_score + score_to_add;
+  
+  -- Update user's score by adding the new score
+  UPDATE "user"
+  SET score = new_total_score
+  WHERE wallet_address = user_wallet;
+  
+  -- Return results
+  RETURN QUERY SELECT 
+    percentage AS similarity_percentage,
+    new_total_score AS updated_score;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid") RETURNS TABLE("similarity_percentage" numeric, "updated_score" integer)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+DECLARE
+  similarity_value double precision;
+  percentage numeric;
+  score_to_add integer;
+  current_score integer;
+  new_total_score integer;
+  target_exists boolean;
+BEGIN
+  -- Check if target exists
+  SELECT EXISTS(SELECT 1 FROM "red-criteria" WHERE id = target_id) INTO target_exists;
+  
+  IF NOT target_exists THEN
+    RAISE EXCEPTION 'Target with ID % not found', target_id;
+  END IF;
+
+  -- Calculate similarity with the target image
+  SELECT (rc.embedding::vector <=> query_embedding::vector) 
+  INTO similarity_value
+  FROM "red-criteria" rc
+  WHERE rc.id = target_id
+  LIMIT 1;
+  
+  -- Handle null similarity value
+  IF similarity_value IS NULL THEN
+    RAISE EXCEPTION 'Could not calculate vector similarity';
+  END IF;
+  
+  -- Convert similarity to percentage (cosine distance to similarity percentage)
+  percentage := ROUND(((1 - similarity_value) * 100)::numeric, 2);
+  
+  -- Convert to integer for score
+  score_to_add := ROUND(percentage);
+  
+  -- Get current user score (handle new users)
+  SELECT COALESCE(score, 0) INTO current_score
+  FROM "user"
+  WHERE wallet_address = user_wallet;
+  
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'User with wallet address % not found', user_wallet;
+  END IF;
+  
+  -- Calculate new total score
+  new_total_score := current_score + score_to_add;
+  
+  -- Update user's score by adding the new score (use locking to prevent race conditions)
+  UPDATE "user"
+  SET score = new_total_score
+  WHERE wallet_address = user_wallet;
+  
+  -- Update the similarity column in first-red table
+  UPDATE "first-red"
+  SET vector_similarity = percentage
+  WHERE id = inserteddata_id;
+  
+  -- Return results
+  RETURN QUERY SELECT 
+    percentage AS similarity_percentage,
+    new_total_score AS updated_score;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    -- Log error and re-raise
+    RAISE;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid") OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid", "pixel_similarity_percentage" numeric) RETURNS TABLE("similarity_percentage" numeric, "updated_score" integer)
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+DECLARE
+  similarity_value double precision;
+  percentage numeric;
+  score_to_add integer;
+  current_score integer;
+  new_total_score integer;
+  target_exists boolean;
+BEGIN
+  -- Check if target exists
+  SELECT EXISTS(SELECT 1 FROM "red-criteria" WHERE id = target_id) INTO target_exists;
+  
+  IF NOT target_exists THEN
+    RAISE EXCEPTION 'Target with ID % not found', target_id;
+  END IF;
+
+  -- Calculate similarity with the target image
+  SELECT (rc.embedding::vector <=> query_embedding::vector) 
+  INTO similarity_value
+  FROM "red-criteria" rc
+  WHERE rc.id = target_id
+  LIMIT 1;
+  
+  -- Handle null similarity value
+  IF similarity_value IS NULL THEN
+    RAISE EXCEPTION 'Could not calculate vector similarity';
+  END IF;
+  
+  -- Convert similarity to percentage (cosine distance to similarity percentage)
+  percentage := ROUND(((1 - similarity_value) * 100)::numeric, 2);
+  
+  -- Convert to integer for score
+  score_to_add := ROUND(pixel_similarity_percentage);
+  
+  -- Get current user score (handle new users)
+  SELECT COALESCE(score, 0) INTO current_score
+  FROM "user"
+  WHERE wallet_address = user_wallet;
+  
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'User with wallet address % not found', user_wallet;
+  END IF;
+  
+  -- Calculate new total score
+  new_total_score := current_score + score_to_add;
+  
+  -- Update user's score by adding the new score (use locking to prevent race conditions)
+  UPDATE "user"
+  SET score = new_total_score
+  WHERE wallet_address = user_wallet;
+  
+  -- Update the similarity columns in first-red table
+  UPDATE "first-red"
+  SET vector_similarity = percentage,
+      pixel_similarity = pixel_similarity_percentage
+  WHERE id = inserteddata_id;
+  
+  -- Return results
+  RETURN QUERY SELECT 
+    percentage AS similarity_percentage,
+    new_total_score AS updated_score;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    -- Log error and re-raise
+    RAISE;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid", "pixel_similarity_percentage" numeric) OWNER TO "postgres";
+
+
 CREATE OR REPLACE FUNCTION "public"."insert_nft_and_update_score"("p_creator" "text", "p_prompt" "jsonb", "p_length" integer, "p_conversation" integer, "p_target" "text", "p_level" integer) RETURNS "void"
     LANGUAGE "plpgsql" SECURITY DEFINER
     SET "search_path" TO ''
@@ -148,9 +344,12 @@ ALTER FUNCTION "public"."insert_nft_and_update_score"("p_creator" "text", "p_pro
 
 
 CREATE OR REPLACE FUNCTION "public"."match_images"("query_embedding" "text", "similarity_threshold" double precision, "match_count" integer) RETURNS TABLE("id" "uuid", "image_url" "text", "creator" "text", "created_at" timestamp with time zone, "similarity" double precision)
-    LANGUAGE "plpgsql"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'public'
     AS $$
 BEGIN
+  -- Add statistics hint to use the index effectively
+  -- Use an approximate distance comparison first
   RETURN QUERY
   SELECT 
     fr.id,
@@ -159,11 +358,12 @@ BEGIN
     fr.created_at,
     (fr.embedding::vector <=> query_embedding::vector) AS similarity
   FROM 
-    "first red" fr
+    "first-red" fr
   WHERE 
+    -- Add a pre-filter if possible to reduce candidates
     (fr.embedding::vector <=> query_embedding::vector) <= (1 - similarity_threshold)
   ORDER BY 
-    (fr.embedding::vector <=> query_embedding::vector)
+    similarity
   LIMIT 
     match_count;
 END;
@@ -172,79 +372,41 @@ $$;
 
 ALTER FUNCTION "public"."match_images"("query_embedding" "text", "similarity_threshold" double precision, "match_count" integer) OWNER TO "postgres";
 
-
-CREATE OR REPLACE FUNCTION "public"."update_vector_statistics"() RETURNS "void"
-    LANGUAGE "plpgsql"
-    AS $$
-BEGIN
-    SET search_path = 'public';  -- Set the desired schema
-    -- Function logic here
-END;
-$$;
-
-
-ALTER FUNCTION "public"."update_vector_statistics"() OWNER TO "postgres";
-
 SET default_tablespace = '';
 
 SET default_table_access_method = "heap";
 
 
-CREATE TABLE IF NOT EXISTS "public"."blue prompt nft" (
-    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "prompt" "text" NOT NULL,
-    "creator" "text" NOT NULL,
-    "length" bigint DEFAULT '0'::bigint NOT NULL,
-    "win" integer DEFAULT 0 NOT NULL,
-    "lose" integer DEFAULT 0 NOT NULL,
-    "name" "text" NOT NULL,
-    "code" "text" NOT NULL,
-    "image_url" "text",
-    "token_id" bigint,
-    CONSTRAINT "blue prompt nft_code_check" CHECK (("length"("code") < 7))
-);
-
-
-ALTER TABLE "public"."blue prompt nft" OWNER TO "postgres";
-
-
-CREATE TABLE IF NOT EXISTS "public"."first red" (
+CREATE TABLE IF NOT EXISTS "public"."first-red" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
     "image_url" "text" NOT NULL,
     "result" boolean NOT NULL,
     "creator" "text",
     "conversation" "jsonb"[] NOT NULL,
-    "embedding" "public"."vector"(768) NOT NULL
+    "embedding" "public"."vector"(768) NOT NULL,
+    "response" "text" NOT NULL,
+    "vector_similarity" real,
+    "pixel_similarity" real
 );
 
 
-ALTER TABLE "public"."first red" OWNER TO "postgres";
+ALTER TABLE "public"."first-red" OWNER TO "postgres";
 
 
-CREATE TABLE IF NOT EXISTS "public"."red prompt nft" (
+CREATE TABLE IF NOT EXISTS "public"."red-criteria" (
     "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "image_url" "text"[],
     "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "nft_address" "text",
-    "creator" "text" NOT NULL,
-    "prompt" "json" NOT NULL,
-    "title" "text",
-    "desc" "text",
-    "length" bigint DEFAULT '0'::bigint NOT NULL,
-    "conversation" smallint DEFAULT '0'::smallint NOT NULL,
-    "target" "text" NOT NULL,
-    "level" smallint NOT NULL,
-    "chain_id" "text" DEFAULT '0'::"text" NOT NULL,
-    "owner" "text",
-    "name" "text",
-    "transaction_hash" "text",
-    "token_id" "text"[]
+    "image_url" "text" NOT NULL,
+    "result" boolean NOT NULL,
+    "creator" "text",
+    "conversation" "jsonb"[] NOT NULL,
+    "embedding" "public"."vector"(768) NOT NULL,
+    "response" "text" NOT NULL
 );
 
 
-ALTER TABLE "public"."red prompt nft" OWNER TO "postgres";
+ALTER TABLE "public"."red-criteria" OWNER TO "postgres";
 
 
 CREATE TABLE IF NOT EXISTS "public"."user" (
@@ -263,78 +425,13 @@ CREATE TABLE IF NOT EXISTS "public"."user" (
 ALTER TABLE "public"."user" OWNER TO "postgres";
 
 
-CREATE TABLE IF NOT EXISTS "public"."user_p" (
-    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
-    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
-    "wallet_address" "text" NOT NULL,
-    "name" "text",
-    "description" "text",
-    "image_url" "text",
-    "email" "text",
-    "score" bigint DEFAULT '0'::bigint NOT NULL,
-    "easy" smallint DEFAULT '0'::smallint NOT NULL,
-    "normal" smallint DEFAULT '0'::smallint NOT NULL,
-    "hard" smallint DEFAULT '0'::smallint NOT NULL,
-    "extreme" smallint DEFAULT '0'::smallint NOT NULL,
-    "login_profiles" "jsonb"[]
-);
-
-
-ALTER TABLE "public"."user_p" OWNER TO "postgres";
-
-
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_code_key" UNIQUE ("code");
-
-
-
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_image_url_key" UNIQUE ("image_url");
-
-
-
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_name_key" UNIQUE ("name");
-
-
-
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_pkey" PRIMARY KEY ("id", "name");
-
-
-
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_token_id_key" UNIQUE ("token_id");
-
-
-
-ALTER TABLE ONLY "public"."first red"
+ALTER TABLE ONLY "public"."first-red"
     ADD CONSTRAINT "first red_pkey" PRIMARY KEY ("id");
 
 
 
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "prompt nft_image_url_key" UNIQUE ("image_url");
-
-
-
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "prompt nft_pkey" PRIMARY KEY ("id");
-
-
-
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "red prompt nft_token_id_key" UNIQUE ("token_id");
-
-
-
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "red prompt nft_transaction_hash_key" UNIQUE ("transaction_hash");
-
-
-
-ALTER TABLE ONLY "public"."user"
-    ADD CONSTRAINT "user_e_name_key" UNIQUE ("name");
+ALTER TABLE ONLY "public"."red-criteria"
+    ADD CONSTRAINT "red-criteria_pkey" PRIMARY KEY ("id");
 
 
 
@@ -348,78 +445,44 @@ ALTER TABLE ONLY "public"."user"
 
 
 
-ALTER TABLE ONLY "public"."user_p"
+ALTER TABLE ONLY "public"."user"
     ADD CONSTRAINT "user_name_key" UNIQUE ("name");
 
 
 
-ALTER TABLE ONLY "public"."user_p"
-    ADD CONSTRAINT "user_pkey" PRIMARY KEY ("id", "wallet_address");
+CREATE INDEX "idx_first_red_embedding" ON "public"."first-red" USING "ivfflat" ("embedding" "public"."vector_cosine_ops") WITH ("lists"='300');
 
 
 
-ALTER TABLE ONLY "public"."user_p"
-    ADD CONSTRAINT "user_wallet_address_key" UNIQUE ("wallet_address");
+CREATE INDEX "red-criteria_embedding_idx" ON "public"."red-criteria" USING "ivfflat" ("embedding" "public"."vector_cosine_ops") WITH ("lists"='300');
 
 
 
-CREATE INDEX "idx_first_red_embedding" ON "public"."first red" USING "ivfflat" ("embedding" "public"."vector_cosine_ops") WITH ("lists"='300');
+ALTER TABLE ONLY "public"."first-red"
+    ADD CONSTRAINT "first-red_creator_fkey" FOREIGN KEY ("creator") REFERENCES "public"."user"("wallet_address") ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 
-ALTER TABLE ONLY "public"."blue prompt nft"
-    ADD CONSTRAINT "blue prompt nft_creator_fkey" FOREIGN KEY ("creator") REFERENCES "public"."user_p"("wallet_address") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY "public"."red-criteria"
+    ADD CONSTRAINT "red-criteria_creator_fkey" FOREIGN KEY ("creator") REFERENCES "public"."user"("wallet_address") ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 
 
-ALTER TABLE ONLY "public"."first red"
-    ADD CONSTRAINT "first red_creator_fkey" FOREIGN KEY ("creator") REFERENCES "public"."user"("wallet_address") ON UPDATE RESTRICT ON DELETE RESTRICT;
+CREATE POLICY "Restrict all operations to service_role" ON "public"."first-red" AS RESTRICTIVE USING (("auth"."role"() = 'service_role'::"text"));
 
 
 
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "prompt nft_creator_fkey" FOREIGN KEY ("creator") REFERENCES "public"."user_p"("wallet_address");
+CREATE POLICY "Restrict all operations to service_role" ON "public"."user" AS RESTRICTIVE USING (("auth"."role"() = 'service_role'::"text"));
 
 
 
-ALTER TABLE ONLY "public"."red prompt nft"
-    ADD CONSTRAINT "prompt nft_owner_fkey" FOREIGN KEY ("owner") REFERENCES "public"."user_p"("wallet_address");
+ALTER TABLE "public"."first-red" ENABLE ROW LEVEL SECURITY;
 
 
-
-CREATE POLICY "Anyone Disable Update" ON "public"."blue prompt nft" AS RESTRICTIVE FOR UPDATE TO "service_role" USING (false) WITH CHECK (false);
-
-
-
-CREATE POLICY "Anyone Disable Update" ON "public"."red prompt nft" AS RESTRICTIVE FOR UPDATE TO "service_role" USING (false) WITH CHECK (false);
-
-
-
-CREATE POLICY "Restrict all operations for non-service roles" ON "public"."blue prompt nft" AS RESTRICTIVE USING (("auth"."role"() = 'service_role'::"text"));
-
-
-
-CREATE POLICY "Restrict all operations for non-service roles" ON "public"."red prompt nft" AS RESTRICTIVE USING (("auth"."role"() = 'service_role'::"text"));
-
-
-
-CREATE POLICY "Restrict all operations for non-service roles" ON "public"."user_p" AS RESTRICTIVE USING (("auth"."role"() = 'service_role'::"text"));
-
-
-
-ALTER TABLE "public"."blue prompt nft" ENABLE ROW LEVEL SECURITY;
-
-
-ALTER TABLE "public"."first red" ENABLE ROW LEVEL SECURITY;
-
-
-ALTER TABLE "public"."red prompt nft" ENABLE ROW LEVEL SECURITY;
+ALTER TABLE "public"."red-criteria" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."user" ENABLE ROW LEVEL SECURITY;
-
-
-ALTER TABLE "public"."user_p" ENABLE ROW LEVEL SECURITY;
 
 
 
@@ -863,6 +926,24 @@ GRANT ALL ON FUNCTION "public"."binary_quantize"("public"."vector") TO "service_
 
 
 
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid") TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid", "pixel_similarity_percentage" numeric) TO "anon";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid", "pixel_similarity_percentage" numeric) TO "authenticated";
+GRANT ALL ON FUNCTION "public"."calculate_similarity_and_add_to_score"("query_embedding" "text", "target_id" "uuid", "user_wallet" "text", "inserteddata_id" "uuid", "pixel_similarity_percentage" numeric) TO "service_role";
+
+
+
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."halfvec", "public"."halfvec") TO "postgres";
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."halfvec", "public"."halfvec") TO "anon";
 GRANT ALL ON FUNCTION "public"."cosine_distance"("public"."halfvec", "public"."halfvec") TO "authenticated";
@@ -1259,12 +1340,6 @@ GRANT ALL ON FUNCTION "public"."subvector"("public"."vector", integer, integer) 
 
 
 
-GRANT ALL ON FUNCTION "public"."update_vector_statistics"() TO "anon";
-GRANT ALL ON FUNCTION "public"."update_vector_statistics"() TO "authenticated";
-GRANT ALL ON FUNCTION "public"."update_vector_statistics"() TO "service_role";
-
-
-
 GRANT ALL ON FUNCTION "public"."vector_accum"(double precision[], "public"."vector") TO "postgres";
 GRANT ALL ON FUNCTION "public"."vector_accum"(double precision[], "public"."vector") TO "anon";
 GRANT ALL ON FUNCTION "public"."vector_accum"(double precision[], "public"."vector") TO "authenticated";
@@ -1448,33 +1523,21 @@ GRANT ALL ON FUNCTION "public"."sum"("public"."vector") TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."blue prompt nft" TO "anon";
-GRANT ALL ON TABLE "public"."blue prompt nft" TO "authenticated";
-GRANT ALL ON TABLE "public"."blue prompt nft" TO "service_role";
+GRANT ALL ON TABLE "public"."first-red" TO "anon";
+GRANT ALL ON TABLE "public"."first-red" TO "authenticated";
+GRANT ALL ON TABLE "public"."first-red" TO "service_role";
 
 
 
-GRANT ALL ON TABLE "public"."first red" TO "anon";
-GRANT ALL ON TABLE "public"."first red" TO "authenticated";
-GRANT ALL ON TABLE "public"."first red" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."red prompt nft" TO "anon";
-GRANT ALL ON TABLE "public"."red prompt nft" TO "authenticated";
-GRANT ALL ON TABLE "public"."red prompt nft" TO "service_role";
+GRANT ALL ON TABLE "public"."red-criteria" TO "anon";
+GRANT ALL ON TABLE "public"."red-criteria" TO "authenticated";
+GRANT ALL ON TABLE "public"."red-criteria" TO "service_role";
 
 
 
 GRANT ALL ON TABLE "public"."user" TO "anon";
 GRANT ALL ON TABLE "public"."user" TO "authenticated";
 GRANT ALL ON TABLE "public"."user" TO "service_role";
-
-
-
-GRANT ALL ON TABLE "public"."user_p" TO "anon";
-GRANT ALL ON TABLE "public"."user_p" TO "authenticated";
-GRANT ALL ON TABLE "public"."user_p" TO "service_role";
 
 
 
