@@ -16,9 +16,6 @@ export function useSimilarityRank(limit = 50) {
     queryFn: async () => {
       try {
         const imageArr = await getTopImagesByPixelSimilarity(limit);
-
-        console.log('imageArr', imageArr);
-
         const topThree = imageArr.slice(0, 3);
         const remain = imageArr.slice(3);
 

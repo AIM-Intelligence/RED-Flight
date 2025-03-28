@@ -19,7 +19,13 @@ export const columns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title="Rank" />
     ),
     cell: ({ row }) => {
-      const rank = row.index + 4;
+      // Get isMobile from react-responsive
+      const isMobile = window.innerWidth <= 768;
+
+      // If on mobile, we're showing all users, so rank is just row index + 1
+      // If on desktop, we're showing users after top 3, so rank is row index + 4
+      const rank = isMobile ? row.index + 1 : row.index + 4;
+
       return (
         <span className="max-w-[100px] truncate text-xl font-bold">{rank}</span>
       );
