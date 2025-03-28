@@ -14,12 +14,12 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     <main className="flex h-screen items-center justify-center bg-black">
       <Image
         src="/background/zaion_city.jpg"
-        className="absolute inset-0 h-full w-full"
+        className="absolute inset-0 h-full w-full object-cover"
         width={1920}
         height={1080}
         alt="zaion city"
       />
-      <div>{children}</div>
+      <div className="relative z-10 w-full max-w-md sm:px-6">{children}</div>
     </main>
   );
 };
