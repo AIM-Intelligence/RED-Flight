@@ -23,7 +23,7 @@ const FirstFlightPage = () => {
   const isMobile = useMediaQuery({ maxWidth: 768 });
 
   return (
-    <div className="custom-scrollbar mx-auto flex h-screen w-screen flex-col justify-start overflow-y-auto px-4 pb-20">
+    <div className="custom-scrollbar mx-auto flex h-screen w-screen flex-col justify-start overflow-y-auto px-4 pb-44">
       <div
         className={`container z-20 mx-auto ${isMobile ? 'mt-[100px]' : 'mt-[150px]'} max-w-6xl p-2 sm:p-6`}
       >
