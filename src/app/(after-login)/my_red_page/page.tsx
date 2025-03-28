@@ -42,7 +42,7 @@ const ClientPage = () => {
   const prompts = promptData || [];
 
   return (
-    <div className="custom-scrollbar mx-auto flex h-screen w-screen flex-col justify-start gap-4 overflow-y-auto px-4 pb-20 md:gap-8">
+    <div className="custom-scrollbar mx-auto flex h-screen w-screen flex-col justify-start gap-4 overflow-y-auto px-4 pb-44 md:gap-8">
       <div
         className={`mx-auto ${isMobile ? 'mt-[100px]' : 'mt-[150px]'} w-full max-w-7xl rounded-lg border border-red-600 bg-gray-800/60`}
       >
