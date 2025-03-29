@@ -30,6 +30,11 @@ export const metadata: Metadata = {
     'AI Safety',
     'AI Prompt Injection Game',
     'cybersecurity',
+    'AI CTF competition',
+    'AI hacking challenge',
+    'AI security training',
+    'Cybersecurity game',
+    'AI penetration testing',
   ],
   authors: [{ name: 'Red Flight Team' }],
   creator: 'Red Flight',
@@ -82,6 +87,21 @@ export const metadata: Metadata = {
       'en-US': 'https://www.redflight.io', // Replace with your actual domain
     },
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png' }],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/safari-pinned-tab.svg',
+      },
+    ],
+  },
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -90,7 +110,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'Red Flight',
+              url: 'https://www.redflight.io',
+              description:
+                'An immersive AI jailbreaking capture the flag game that challenges your skills in manipulating AI systems.',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target:
+                  'https://www.redflight.io/search?q={search_term_string}',
+                'query-input': 'required name=search_term_string',
+              },
+            }),
+          }}
+        />
+      </head>
       <body className={sora.className}>
         <QueryProvider>
           <ThirdwebProvider>
