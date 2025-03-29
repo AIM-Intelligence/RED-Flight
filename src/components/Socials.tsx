@@ -12,19 +12,37 @@ const Socials = () => {
 
   useEffect(() => {
     const calculateTimeRemaining = () => {
-      // Create target date: April 1st at 9 PM Korean time (UTC+9)
       const currentYear = new Date().getFullYear();
 
+      // Get target date from environment variables or default to April 6th
+      const defaultMonth = 3; // April (0-indexed)
+      const defaultDay = 6; // 6th day
+
+      // Check for environment variable in format "MM-DD" (e.g., "04-06")
+      let targetMonth = defaultMonth;
+      let targetDay = defaultDay;
+
+      if (process.env.NEXT_PUBLIC_TARGET_DATE) {
+        const [month, day] = process.env.NEXT_PUBLIC_TARGET_DATE.split('-').map(
+          (num) => parseInt(num, 10)
+        );
+        // Month needs to be 0-indexed (convert from 1-12 to 0-11)
+        if (month && day) {
+          targetMonth = month - 1;
+          targetDay = day;
+        }
+      }
+
       // Create date in Korean time (UTC+9)
-      // Month is 0-based, so April is 3
       const targetDate = new Date(
         Date.UTC(
           currentYear +
-            (new Date() > new Date(Date.UTC(currentYear, 3, 1, 12, 0, 0))
+            (new Date() >
+            new Date(Date.UTC(currentYear, targetMonth, targetDay, 12, 0, 0))
               ? 1
               : 0), // Next year if date has passed
-          3, // April (0-indexed)
-          1, // 1st day
+          targetMonth,
+          targetDay,
           12, // 12 UTC = 9 PM in Korea (UTC+9)
           0,
           0
